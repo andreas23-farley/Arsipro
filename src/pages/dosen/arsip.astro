@@ -1,0 +1,638 @@
+---
+const role = "Dosen";
+const currentPath = Astro.url.pathname;
+---
+
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arsip Surat Dosen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+
+<body>
+
+<button class="menu-toggle" onclick="toggleSidebar()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <img src="/LOGO.jpg" class="logo-img"/>
+    <h2>ARSIPRO</h2>
+    <span>Sistem Arsip Digital</span>
+  </div>
+
+  <nav>
+    <a href="/dosen/dashboard" class={currentPath === "/dosen/dashboard" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Dashboard
+    </a>
+    <a href="/dosen/surat" class={currentPath === "/dosen/surat" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      Surat Masuk
+    </a>
+    <a href="/dosen/permintaan" class={currentPath === "/dosen/permintaan" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+      Request Surat
+    </a>
+    <a href="/dosen/template" class={currentPath === "/dosen/template" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Template Surat
+    </a>
+    <a href="/dosen/arsip" class={currentPath === "/dosen/arsip" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="21 8 21 21 3 21 3 8"/>
+        <rect x="1" y="3" width="22" height="5"/>
+        <line x1="10" y1="12" x2="14" y2="12"/>
+      </svg>
+      Arsip
+    </a>
+    <a href="/dosen/profil" class={currentPath === "/dosen/profil" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Profil
+    </a>
+  </nav>
+
+  <div class="logout">
+    <a href="/login" onclick="localStorage.clear()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div>
+      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
+      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Dosen</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">D</div>
+      <div>
+        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">{role}</div>
+        <div style="font-size:11px;color:#64748b;">Dosen</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- HEADER -->
+    <div style="margin-bottom:24px;">
+      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#8b5cf6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Arsip Surat Saya</h1>
+      <p style="color:#6b7280;font-size:14px;margin:0;">Upload dan kelola arsip surat milik Anda.</p>
+    </div>
+
+    <!-- STATS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;">
+
+      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #8b5cf6;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
+            <polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/>
+          </svg>
+        </div>
+        <div>
+          <div id="statTotal" style="font-size:22px;font-weight:700;color:#111827;">0</div>
+          <div style="font-size:12px;color:#6b7280;">Total Arsip</div>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #4f46e5;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <div>
+          <div id="statKeputusan" style="font-size:22px;font-weight:700;color:#111827;">0</div>
+          <div style="font-size:12px;color:#6b7280;">Keputusan</div>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #06b6d4;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div>
+          <div id="statUndangan" style="font-size:22px;font-weight:700;color:#111827;">0</div>
+          <div style="font-size:12px;color:#6b7280;">Undangan</div>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #ef4444;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fecaca);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <div>
+          <div id="statPenting" style="font-size:22px;font-weight:700;color:#111827;">0</div>
+          <div style="font-size:12px;color:#6b7280;">Penting</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FORM UPLOAD -->
+    <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);margin-bottom:22px;">
+
+      <!-- Form Header -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+        <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;">Upload Arsip Baru</div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Isi semua field yang diperlukan</div>
+        </div>
+      </div>
+
+      <!-- Row 1 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;">
+            <span style="color:#ef4444;">*</span> Nama Surat
+          </label>
+          <input type="text" id="nama_surat" placeholder="Masukkan nama surat / dokumen"
+            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#8b5cf6';this.style.boxShadow='0 0 0 3px rgba(139,92,246,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;">
+            <span style="color:#ef4444;">*</span> Kategori
+          </label>
+          <select id="kategori"
+            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#8b5cf6';this.style.boxShadow='0 0 0 3px rgba(139,92,246,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+            <option value="Keputusan">Surat Keputusan</option>
+            <option value="Undangan">Surat Undangan</option>
+            <option value="Penting">Surat Penting</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Row 2 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;">
+            <span style="color:#ef4444;">*</span> Tanggal Dokumen
+          </label>
+          <input type="date" id="tanggal"
+            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#8b5cf6';this.style.boxShadow='0 0 0 3px rgba(139,92,246,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;">Upload File</label>
+          <label id="dropzone"
+            style="padding:10px 14px;border-radius:10px;border:1.5px dashed #d1d5db;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;color:#6b7280;background:#fafafa;"
+            onmouseover="this.style.borderColor='#8b5cf6';this.style.background='#f5f3ff';"
+            onmouseout="this.style.borderColor='#d1d5db';this.style.background='#fafafa';">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <span id="fileLabel">Klik untuk pilih file</span>
+            <input type="file" id="file_arsip" accept=".pdf,.doc,.docx" style="display:none;"
+              onchange="document.getElementById('fileLabel').textContent = this.files[0]?.name || 'Klik untuk pilih file';">
+          </label>
+          <span style="font-size:11px;color:#9ca3af;">Maks 15MB · PDF, DOC, DOCX</span>
+        </div>
+
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid #f3f4f6;">
+        <button id="btnSimpan"
+          style="padding:11px 26px;border:none;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;"
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(139,92,246,0.35)';"
+          onmouseout="this.style.transform='none';this.style.boxShadow='none';">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          Simpan Arsip
+        </button>
+        <button id="btnResetForm"
+          style="padding:11px 20px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;color:#374151;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;"
+          onmouseover="this.style.background='#f9fafb';"
+          onmouseout="this.style.background='white';">
+          Reset
+        </button>
+        <div id="formMsg" style="display:none;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;"></div>
+      </div>
+
+    </div>
+
+    <!-- FILTER + TOOLBAR -->
+    <div style="background:white;padding:16px 20px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+
+      <div style="flex:2;min-width:180px;position:relative;">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+        <input type="text" id="searchInput" placeholder="Cari nama surat..."
+          style="width:100%;padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#8b5cf6';"
+          onblur="this.style.borderColor='#e5e7eb';">
+      </div>
+
+      <select id="filterKategori"
+        style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;"
+        onfocus="this.style.borderColor='#8b5cf6';"
+        onblur="this.style.borderColor='#e5e7eb';">
+        <option value="all">Semua Kategori</option>
+        <option value="Keputusan">Surat Keputusan</option>
+        <option value="Undangan">Surat Undangan</option>
+        <option value="Penting">Surat Penting</option>
+      </select>
+
+      <select id="filterTahun"
+        style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;"
+        onfocus="this.style.borderColor='#8b5cf6';"
+        onblur="this.style.borderColor='#e5e7eb';">
+        <option value="">Semua Tahun</option>
+      </select>
+
+      <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;white-space:nowrap;">0 arsip</span>
+
+    </div>
+
+    <!-- CARD GRID -->
+    <div id="cardContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
+      <p style="color:#9ca3af;">Loading...</p>
+    </div>
+
+  </main>
+
+  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+    © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
+  </footer>
+
+</div>
+
+<!-- Modal Hapus -->
+<div id="modalHapus" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:white;border-radius:22px;padding:36px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:center;margin-bottom:14px;">
+      <div style="width:60px;height:60px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6"/><path d="M14 11v6"/>
+          <path d="M9 6V4h6v2"/>
+        </svg>
+      </div>
+    </div>
+    <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 8px;">Hapus Arsip?</h3>
+    <p style="font-size:14px;color:#6b7280;margin:0 0 26px;line-height:1.6;">Arsip ini akan dipindahkan ke trash dan bisa direstore jika diperlukan.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="btnBatalHapus"
+        style="padding:11px 24px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">Batal</button>
+      <button id="btnKonfirmHapus"
+        style="padding:11px 24px;border:none;border-radius:12px;background:#dc2626;color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;"
+        onmouseover="this.style.background='#b91c1c';"
+        onmouseout="this.style.background='#dc2626';">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+const userData = JSON.parse(localStorage.getItem("user") || "{}");
+if (userData.nama) {
+  document.getElementById("namaUser").textContent    = userData.nama;
+  document.getElementById("avatarInit").textContent  = userData.nama[0]?.toUpperCase() || "D";
+}
+
+let semuaArsip = [];
+let hapusId    = null;
+
+const KS = {
+  Keputusan: { bg:"#ede9fe", color:"#6d28d9" },
+  Undangan:  { bg:"#e0f2fe", color:"#0369a1" },
+  Penting:   { bg:"#fee2e2", color:"#991b1b" },
+};
+
+async function loadArsip() {
+  try {
+    const res  = await fetch(`${BASE_URL}/api/arsip`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    semuaArsip = Array.isArray(data) ? data : (data.data || []);
+
+    // Stats
+    document.getElementById("statTotal").textContent     = semuaArsip.length;
+    document.getElementById("statKeputusan").textContent = semuaArsip.filter(a => a.kategori === "Keputusan").length;
+    document.getElementById("statUndangan").textContent  = semuaArsip.filter(a => a.kategori === "Undangan").length;
+    document.getElementById("statPenting").textContent   = semuaArsip.filter(a => a.kategori === "Penting").length;
+
+    // Tahun filter
+    const tahunSet = [...new Set(semuaArsip.map(a => a.tahun).filter(Boolean))].sort((a,b) => b-a);
+    const sel = document.getElementById("filterTahun");
+    sel.innerHTML = '<option value="">Semua Tahun</option>';
+    tahunSet.forEach(t => { sel.innerHTML += `<option value="${t}">${t}</option>`; });
+
+    applyFilter();
+  } catch(e) { console.error(e); }
+}
+
+function applyFilter() {
+  const q  = document.getElementById("searchInput").value.toLowerCase();
+  const kt = document.getElementById("filterKategori").value;
+  const th = document.getElementById("filterTahun").value;
+
+  const filtered = semuaArsip.filter(a => {
+    if (kt !== "all" && a.kategori !== kt) return false;
+    if (th && String(a.tahun) !== th) return false;
+    if (q && !a.nama_surat?.toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  document.getElementById("jumlahTampil").textContent = `${filtered.length} arsip`;
+  renderCards(filtered);
+}
+
+function renderCards(data) {
+  const container = document.getElementById("cardContainer");
+
+  if (!data || data.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
+        <div style="display:flex;justify-content:center;margin-bottom:14px;">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.2">
+            <polyline points="21 8 21 21 3 21 3 8"/>
+            <rect x="1" y="3" width="22" height="5"/>
+            <line x1="10" y1="12" x2="14" y2="12"/>
+          </svg>
+        </div>
+        <div style="font-size:15px;font-weight:600;color:#374151;margin-bottom:4px;">Belum ada arsip</div>
+        <div style="font-size:13px;color:#9ca3af;">Upload arsip pertamamu melalui form di atas</div>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = data.map(a => {
+    const s   = KS[a.kategori] || { bg:"#f3f4f6", color:"#374151" };
+    const tgl = new Date(a.tanggal).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"});
+    return `
+      <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:1.5px solid #f3f4f6;display:flex;flex-direction:column;gap:10px;transition:all 0.2s;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(139,92,246,0.12)';this.style.borderColor='#ddd6fe';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <span style="background:${s.bg};color:${s.color};padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">${a.kategori}</span>
+          <span style="font-size:11px;color:#9ca3af;white-space:nowrap;">${a.tahun || ''}</span>
+        </div>
+
+        <div style="font-size:15px;font-weight:700;color:#111827;line-height:1.4;">${a.nama_surat}</div>
+
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#9ca3af;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          ${tgl}
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <button onclick="window.open('${BASE_URL}/uploads/${a.file_arsip}','_blank')"
+            style="flex:1;padding:9px;border:none;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
+            onmouseover="this.style.transform='translateY(-1px)';"
+            onmouseout="this.style.transform='none';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Unduh
+          </button>
+          <button onclick="bukaModalHapus(${a.id_arsip})"
+            style="padding:9px 14px;border:none;border-radius:10px;background:#fee2e2;color:#dc2626;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
+            onmouseover="this.style.background='#dc2626';this.style.color='white';"
+            onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6l-1 14H6L5 6"/>
+              <path d="M10 11v6"/><path d="M14 11v6"/>
+              <path d="M9 6V4h6v2"/>
+            </svg>
+            Hapus
+          </button>
+        </div>
+
+      </div>`;
+  }).join("");
+}
+
+// ── FORM ──
+function showMsg(text, ok) {
+  const el = document.getElementById("formMsg");
+  el.textContent = text;
+  el.style.background = ok ? "#dcfce7" : "#fee2e2";
+  el.style.color      = ok ? "#166534" : "#991b1b";
+  el.style.display    = "block";
+  setTimeout(() => { el.style.display = "none"; }, 3500);
+}
+
+document.getElementById("btnSimpan").addEventListener("click", async () => {
+  const nama_surat = document.getElementById("nama_surat").value.trim();
+  const kategori   = document.getElementById("kategori").value;
+  const tanggal    = document.getElementById("tanggal").value;
+  const file       = document.getElementById("file_arsip").files[0];
+
+  if (!nama_surat || !tanggal || !file) {
+    showMsg("Nama surat, tanggal, dan file wajib diisi.", false);
+    return;
+  }
+
+  const btn = document.getElementById("btnSimpan");
+  btn.disabled = true; btn.textContent = "Menyimpan...";
+
+  const formData = new FormData();
+  formData.append("nama_surat", nama_surat);
+  formData.append("kategori",   kategori);
+  formData.append("tanggal",    tanggal);
+  formData.append("file_arsip", file);
+
+  try {
+    const res  = await fetch(`${BASE_URL}/api/arsip`, {
+      method: "POST", headers: { Authorization: `Bearer ${token}` }, body: formData
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showMsg("Arsip berhasil disimpan!", true);
+      document.getElementById("nama_surat").value = "";
+      document.getElementById("tanggal").value    = "";
+      document.getElementById("file_arsip").value = "";
+      document.getElementById("fileLabel").textContent = "Klik untuk pilih file";
+      loadArsip();
+    } else { showMsg(data.message || "Gagal simpan arsip.", false); }
+  } catch { showMsg("Server error. Coba lagi.", false); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan Arsip`;
+  }
+});
+
+document.getElementById("btnResetForm").addEventListener("click", () => {
+  document.getElementById("nama_surat").value = "";
+  document.getElementById("tanggal").value    = "";
+  document.getElementById("file_arsip").value = "";
+  document.getElementById("fileLabel").textContent = "Klik untuk pilih file";
+  document.getElementById("formMsg").style.display = "none";
+});
+
+// ── FILTER ──
+["searchInput","filterKategori","filterTahun"].forEach(id => {
+  document.getElementById(id).addEventListener("input",  applyFilter);
+  document.getElementById(id).addEventListener("change", applyFilter);
+});
+
+// ── MODAL HAPUS ──
+window.bukaModalHapus = function(id) {
+  hapusId = id;
+  document.getElementById("modalHapus").style.display = "flex";
+};
+
+document.getElementById("btnBatalHapus").addEventListener("click", () => {
+  hapusId = null;
+  document.getElementById("modalHapus").style.display = "none";
+});
+
+document.getElementById("btnKonfirmHapus").addEventListener("click", async () => {
+  if (!hapusId) return;
+  try {
+    const res  = await fetch(`${BASE_URL}/api/arsip/${hapusId}`, {
+      method: "DELETE", headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("modalHapus").style.display = "none";
+      hapusId = null;
+      loadArsip();
+    } else { alert(data.message || "Gagal hapus arsip"); }
+  } catch { alert("Server error"); }
+});
+
+document.getElementById("modalHapus").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalHapus")) {
+    hapusId = null;
+    document.getElementById("modalHapus").style.display = "none";
+  }
+});
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+loadArsip();
+</script>
+
+</body>
+</html>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
+body { display:flex; background:#f1f5f9; min-height:100vh; }
+.menu-toggle {
+  display:none; position:fixed; top:15px; left:15px; z-index:1002;
+  background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
+}
+.sidebar {
+  width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
+  color:white; padding:20px 15px; display:flex; flex-direction:column;
+  position:fixed; top:0; left:0; transition:.3s; z-index:100; overflow-y:auto;
+}
+.logo { text-align:center; margin-bottom:28px; }
+.logo-img { width:68px; height:68px; border-radius:50%; object-fit:cover; border:3px solid rgba(79,70,229,0.4); }
+.logo h2 { font-size:18px; font-weight:800; letter-spacing:1px; margin-top:10px; }
+.logo span { font-size:11px; color:#64748b; }
+.sidebar nav { display:flex; flex-direction:column; gap:4px; flex:1; }
+.sidebar nav a {
+  display:flex; align-items:center; gap:10px; padding:11px 13px;
+  color:#94a3b8; text-decoration:none; border-radius:10px; font-size:14px; font-weight:500; transition:all .2s;
+}
+.sidebar nav a.active, .sidebar nav a:hover {
+  background:linear-gradient(135deg,#4f46e5,#06b6d4); color:white; transform:translateX(2px);
+}
+.logout { margin-top:auto; padding-top:12px; }
+.logout a {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(127,29,29,0.5); border:1px solid #7f1d1d;
+  padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s;
+}
+.logout a:hover { background:#7f1d1d; }
+.main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
+.navbar {
+  background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
+}
+.content { padding:28px; flex:1; }
+@media (max-width:768px) {
+  .menu-toggle { display:block; }
+  .sidebar { left:-260px; }
+  .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
+  .main { margin-left:0; width:100%; }
+  .navbar { padding-left:60px; }
+  .content { padding:20px 16px; }
+}
+</style>

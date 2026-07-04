@@ -1,0 +1,412 @@
+---
+const role = Astro.props.role || "Mahasiswa";
+const currentPath = Astro.url.pathname;
+---
+
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Mahasiswa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+
+<body>
+
+<button class="menu-toggle" onclick="toggleSidebar()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <img src="/LOGO.jpg" class="logo-img" alt="Logo"/>
+    <h2>ARSIPRO</h2>
+    <span>Sistem Arsip Digital</span>
+  </div>
+
+  <nav>
+    <a href="/mahasiswa/dashboard" class={currentPath === "/mahasiswa/dashboard" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Dashboard
+    </a>
+    <a href="/mahasiswa/surat" class={currentPath === "/mahasiswa/surat" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22 6 12 13 2 6"/>
+      </svg>
+      Surat Masuk
+    </a>
+    <a href="/mahasiswa/permintaan" class={currentPath === "/mahasiswa/permintaan" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+      Request Surat
+    </a>
+    <a href="/mahasiswa/template" class={currentPath === "/mahasiswa/template" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Template Surat
+    </a>
+    <a href="/mahasiswa/profil" class={currentPath === "/mahasiswa/profil" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Profil
+    </a>
+  </nav>
+
+  <div class="logout">
+    <a href="/login" onclick="localStorage.clear()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div>
+      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
+      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Mahasiswa</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">M</div>
+      <div>
+        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">Mahasiswa</div>
+        <div style="font-size:11px;color:#64748b;">Mahasiswa</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- WELCOME BANNER -->
+    <div style="background:linear-gradient(135deg,#10b981,#06b6d4);border-radius:20px;padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.08);"></div>
+      <div style="position:absolute;bottom:-40px;right:60px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+
+      <div style="position:relative;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+        <div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.75);font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Dashboard Mahasiswa
+          </div>
+          <h2 style="font-size:22px;font-weight:800;color:white;margin-bottom:6px;">Selamat Datang, <span id="welcomeName">Mahasiswa</span></h2>
+          <p style="font-size:13px;color:rgba(255,255,255,0.8);">Deum Amare Et Amatum Facere — Salam Amare</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.15);padding:12px 16px;border-radius:14px;backdrop-filter:blur(6px);">
+          <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.7);">Akun Aktif</div>
+            <div id="welcomeName2" style="font-size:14px;font-weight:700;color:white;">Mahasiswa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+
+      <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-left:4px solid #4f46e5;display:flex;align-items:center;gap:14px;transition:all 0.2s;"
+        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(79,70,229,0.15)';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div>
+          <div id="statSuratMasuk" style="font-size:28px;font-weight:800;color:#111827;line-height:1;">0</div>
+          <div style="font-size:13px;color:#6b7280;margin-top:2px;">Surat Masuk</div>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-left:4px solid #06b6d4;display:flex;align-items:center;gap:14px;transition:all 0.2s;"
+        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(6,182,212,0.15)';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </div>
+        <div>
+          <div id="statRequest" style="font-size:28px;font-weight:800;color:#111827;line-height:1;">0</div>
+          <div style="font-size:13px;color:#6b7280;margin-top:2px;">Request Surat</div>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-left:4px solid #10b981;display:flex;align-items:center;gap:14px;transition:all 0.2s;"
+        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(16,185,129,0.15)';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div>
+          <div id="statDisetujui" style="font-size:28px;font-weight:800;color:#111827;line-height:1;">0</div>
+          <div style="font-size:13px;color:#6b7280;margin-top:2px;">Request Disetujui</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MENU FITUR -->
+    <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+        <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;">Menu Fitur</div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Akses cepat ke semua fitur</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+
+        <!-- Surat Masuk -->
+        <a href="/mahasiswa/surat"
+          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#c7d2fe';this.style.boxShadow='0 8px 20px rgba(79,70,229,0.12)';"
+          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#111827;">Surat Masuk</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Lihat surat dari admin</div>
+          </div>
+        </a>
+
+        <!-- Request Surat -->
+        <a href="/mahasiswa/permintaan"
+          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#a5f3fc';this.style.boxShadow='0 8px 20px rgba(6,182,212,0.12)';"
+          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#111827;">Request Surat</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Ajukan surat ke admin</div>
+          </div>
+        </a>
+
+        <!-- Template Surat -->
+        <a href="/mahasiswa/template"
+          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#a7f3d0';this.style.boxShadow='0 8px 20px rgba(16,185,129,0.12)';"
+          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#111827;">Template Surat</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Unduh template resmi</div>
+          </div>
+        </a>
+
+        <!-- Profil -->
+        <a href="/mahasiswa/profil"
+          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#fde68a';this.style.boxShadow='0 8px 20px rgba(245,158,11,0.12)';"
+          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#111827;">Profil Saya</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Lihat data akun</div>
+          </div>
+        </a>
+
+        <!-- Status Request -->
+        <a href="/mahasiswa/permintaan"
+          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
+          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#fbcfe8';this.style.boxShadow='0 8px 20px rgba(236,72,153,0.12)';"
+          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fce7f3,#fbcfe8);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#111827;">Status Request</div>
+            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Cek status pengajuan</div>
+          </div>
+        </a>
+
+        <!-- Logout -->
+        <a href="/login" onclick="localStorage.clear()"
+          style="display:flex;align-items:center;gap:14px;padding:18px;background:#fff5f5;border-radius:14px;text-decoration:none;border:1.5px solid #fee2e2;transition:all 0.2s;"
+          onmouseover="this.style.background='#fee2e2';this.style.transform='translateY(-3px)';"
+          onmouseout="this.style.background='#fff5f5';this.style.transform='none';">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fecaca);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#dc2626;">Logout</div>
+            <div style="font-size:12px;color:#f87171;margin-top:2px;">Keluar dari akun</div>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+    © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
+  </footer>
+
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+const userData = JSON.parse(localStorage.getItem("user") || "{}");
+if (userData.nama) {
+  const initial = userData.nama[0]?.toUpperCase() || "M";
+  document.getElementById("namaUser").textContent    = userData.nama;
+  document.getElementById("avatarInit").textContent  = initial;
+  document.getElementById("welcomeName").textContent  = userData.nama;
+  document.getElementById("welcomeName2").textContent = userData.nama;
+}
+
+async function loadStats() {
+  try {
+    const [resSurat, resRequest] = await Promise.all([
+      fetch(`${BASE_URL}/api/surat-dosen/masuk`,                 { headers: { Authorization: `Bearer ${token}` } }),
+      fetch(`${BASE_URL}/api/request-surat/${userData.id_user}`, { headers: { Authorization: `Bearer ${token}` } }),
+    ]);
+
+    const [dataSurat, dataRequest] = await Promise.all([
+      resSurat.json(), resRequest.json()
+    ]);
+
+    const suratList   = Array.isArray(dataSurat)   ? dataSurat   : (dataSurat.data   || []);
+    const requestList = Array.isArray(dataRequest)  ? dataRequest : (dataRequest.data || []);
+    const disetujui   = requestList.filter(r => r.status === "disetujui");
+
+    document.getElementById("statSuratMasuk").textContent = suratList.length;
+    document.getElementById("statRequest").textContent    = requestList.length;
+    document.getElementById("statDisetujui").textContent  = disetujui.length;
+  } catch(e) { console.error(e); }
+}
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+loadStats();
+</script>
+
+</body>
+</html>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
+body { display:flex; background:#f1f5f9; min-height:100vh; }
+
+.menu-toggle {
+  display:none; position:fixed; top:15px; left:15px; z-index:1002;
+  background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
+}
+
+.sidebar {
+  width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
+  color:white; padding:20px 15px; display:flex; flex-direction:column;
+  position:fixed; top:0; left:0; transition:.3s; z-index:100; overflow-y:auto;
+}
+.logo { text-align:center; margin-bottom:28px; }
+.logo-img { width:68px; height:68px; border-radius:50%; object-fit:cover; border:3px solid rgba(16,185,129,0.4); }
+.logo h2 { font-size:18px; font-weight:800; letter-spacing:1px; margin-top:10px; }
+.logo span { font-size:11px; color:#64748b; }
+.sidebar nav { display:flex; flex-direction:column; gap:4px; flex:1; }
+.sidebar nav a {
+  display:flex; align-items:center; gap:10px; padding:11px 13px;
+  color:#94a3b8; text-decoration:none; border-radius:10px; font-size:14px; font-weight:500; transition:all .2s;
+}
+.sidebar nav a.active, .sidebar nav a:hover {
+  background:linear-gradient(135deg,#10b981,#06b6d4); color:white; transform:translateX(2px);
+}
+.logout { margin-top:auto; padding-top:12px; }
+.logout a {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(127,29,29,0.5); border:1px solid #7f1d1d;
+  padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s;
+}
+.logout a:hover { background:#7f1d1d; }
+
+.main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
+.navbar {
+  background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
+}
+.content { padding:28px; flex:1; }
+
+@media (max-width:768px) {
+  .menu-toggle { display:block; }
+  .sidebar { left:-260px; }
+  .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
+  .main { margin-left:0; width:100%; }
+  .navbar { padding-left:60px; }
+  .content { padding:20px 16px; }
+}
+</style>

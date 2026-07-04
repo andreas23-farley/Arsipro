@@ -1,0 +1,392 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Notifikasi</title>
+<div style="display:flex;flex-direction:column;gap:24px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;color:#b45309;text-transform:uppercase;margin-bottom:6px;">Manajemen Surat</div>
+      <h1 style="font-size:26px;font-weight:800;color:#1c0a00;margin:0 0 4px;letter-spacing:-0.5px;">Request Surat</h1>
+      <p style="color:#9ca3af;font-size:14px;margin:0;line-height:1.6;">Daftar permintaan surat yang masuk dari pengguna.</p>
+    </div>
+    <div id="headerStats" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div style="background:white;padding:14px 18px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+    <div style="flex:1;min-width:180px;position:relative;">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;align-items:center;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </span>
+      <input type="text" id="searchInput" placeholder="Cari judul surat atau nama pemohon..."
+        style="width:100%;padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#b45309';"
+        onblur="this.style.borderColor='#e5e7eb';">
+    </div>
+    <div style="display:flex;gap:6px;" id="filterTabs">
+      <button class="ftab active" data-status="all">Semua</button>
+      <button class="ftab" data-status="pending">Menunggu</button>
+      <button class="ftab" data-status="approved">Disetujui</button>
+      <button class="ftab" data-status="rejected">Ditolak</button>
+    </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div style="background:white;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,0.07);overflow:hidden;">
+    <div style="padding:18px 24px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <h3 style="font-size:15px;font-weight:700;color:#111827;margin:0;">Daftar Request</h3>
+      <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;">Memuat data...</span>
+    </div>
+    <div style="padding:12px 24px 24px;">
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;min-width:580px;">
+          <thead>
+            <tr style="background:#fdf8f4;">
+              <th class="th">No</th>
+              <th class="th">Judul Surat</th>
+              <th class="th">Nama Pemohon</th>
+              <th class="th">Status</th>
+              <th class="th">Tanggal</th>
+              <th class="th">Detail</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="6" style="text-align:center;padding:48px;color:#d1d5db;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+                <div class="spin-ring"></div>
+                <span style="font-size:13px;">Memuat data...</span>
+              </div>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL DETAIL -->
+<div id="modalDetail" style="display:none;position:fixed;inset:0;background:rgba(28,10,0,0.5);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:9999;padding:20px;">
+  <div style="background:white;border-radius:24px;max-width:480px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.25);overflow:hidden;animation:popIn .22s cubic-bezier(.22,1,.36,1);">
+
+    <div style="background:linear-gradient(135deg,#3c1a08,#5c2510);padding:22px 24px 20px;position:relative;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:42px;height:42px;border-radius:12px;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;color:rgba(251,191,36,0.6);text-transform:uppercase;margin-bottom:3px;">Detail Request</div>
+          <div id="modalJudul" style="font-size:16px;font-weight:700;color:white;line-height:1.3;max-width:340px;"></div>
+        </div>
+      </div>
+      <button onclick="tutupModal()" style="position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.1);border:none;color:rgba(255,255,255,0.6);cursor:pointer;display:flex;align-items:center;justify-content:center;"
+        onmouseover="this.style.background='rgba(255,255,255,0.18)';"
+        onmouseout="this.style.background='rgba(255,255,255,0.1)';">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div id="modalPulse" style="height:3px;background:linear-gradient(90deg,#92400e,#fbbf24,#92400e);background-size:200% 100%;animation:slideAmber 2s linear infinite;display:none;"></div>
+
+    <div style="padding:24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="modalFields"></div>
+    </div>
+
+    <div style="padding:0 24px 20px;">
+      <button onclick="tutupModal()"
+        style="width:100%;padding:12px;border:1.5px solid #e5e7eb;border-radius:12px;background:white;color:#374151;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">
+        Tutup
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes popIn {
+  from { opacity:0; transform:scale(0.94) translateY(8px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+@keyframes slideAmber {
+  0%   { background-position:100% 0; }
+  100% { background-position:-100% 0; }
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+.th {
+  padding:11px 14px;
+  text-align:left;
+  font-size:12px;
+  font-weight:700;
+  color:#92400e;
+  border-bottom:2px solid #fef3c7;
+  white-space:nowrap;
+  letter-spacing:0.3px;
+}
+.ftab {
+  padding:7px 16px;
+  border-radius:999px;
+  border:1.5px solid #e5e7eb;
+  background:white;
+  color:#6b7280;
+  font-size:12px;
+  font-weight:600;
+  font-family:inherit;
+  cursor:pointer;
+  transition:all 0.15s;
+  white-space:nowrap;
+}
+.ftab:hover { border-color:#b45309; color:#b45309; }
+.ftab.active {
+  background:linear-gradient(135deg,#3c1a08,#7c3520);
+  border-color:transparent;
+  color:white;
+}
+.ftab[data-status="pending"].active  { background:linear-gradient(135deg,#92400e,#d97706); }
+.ftab[data-status="approved"].active { background:linear-gradient(135deg,#14532d,#16a34a); }
+.ftab[data-status="rejected"].active { background:linear-gradient(135deg,#7f1d1d,#dc2626); }
+
+.spin-ring {
+  width:22px; height:22px;
+  border:2.5px solid #fef3c7;
+  border-top-color:#b45309;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.stat-chip {
+  display:flex; align-items:center; gap:8px;
+  padding:9px 14px; border-radius:12px;
+  font-size:12px; font-weight:700; white-space:nowrap;
+}
+.field-box {
+  background:#fdf8f4; border-radius:12px;
+  padding:14px 16px; border:1px solid #fef3c7;
+}
+.field-label {
+  font-size:10px; font-weight:700; letter-spacing:1px;
+  color:#b45309; text-transform:uppercase; margin-bottom:5px;
+}
+.field-val { font-size:14px; font-weight:600; color:#111827; line-height:1.4; }
+
+.badge-pending  { background:#fef3c7; color:#92400e; border:1px solid #fde68a; }
+.badge-approved { background:#dcfce7; color:#166534; border:1px solid #bbf7d0; }
+.badge-rejected { background:#fee2e2; color:#dc2626; border:1px solid #fecaca; }
+.badge-unknown  { background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }
+.badge-base {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:5px 11px; border-radius:99px;
+  font-size:11px; font-weight:700;
+}
+</style>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token    = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let allData      = [];
+let activeStatus = "all";
+
+/* ── Normalisasi status dari DB (handle semua kemungkinan nilai) ── */
+function normalizeStatus(raw) {
+  if (!raw) return "unknown";
+  const s = String(raw).toLowerCase().trim();
+  if (s === "pending"  || s === "menunggu"  || s === "waiting") return "pending";
+  if (s === "approved" || s === "disetujui" || s === "approve" || s === "accept") return "approved";
+  if (s === "rejected" || s === "ditolak"   || s === "reject"  || s === "decline") return "rejected";
+  return s;
+}
+
+/* ── STATUS badge ── */
+function statusBadge(rawStatus) {
+  const s = normalizeStatus(rawStatus);
+  const map = {
+    pending: {
+      cls:   "badge-pending",
+      icon:  `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+      label: "Menunggu"
+    },
+    approved: {
+      cls:   "badge-approved",
+      icon:  `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+      label: "Disetujui"
+    },
+    rejected: {
+      cls:   "badge-rejected",
+      icon:  `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+      label: "Ditolak"
+    },
+  };
+  const d = map[s] || { cls:"badge-unknown", icon:"", label: rawStatus || "–" };
+  return `<span class="badge-base ${d.cls}">${d.icon} ${d.label}</span>`;
+}
+
+function fmtDate(str) {
+  if (!str) return "–";
+  return new Date(str).toLocaleDateString("id-ID", { day:"2-digit", month:"short", year:"numeric" });
+}
+
+/* ── LOAD ── */
+async function loadData() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/request-surat`, { headers:{ Authorization:`Bearer ${token}` } });
+    const raw = await res.json();
+    if (!Array.isArray(raw)) { allData = []; return; }
+
+    // Simpan _status (normalized) di tiap item
+    allData = raw.map(d => ({ ...d, _status: normalizeStatus(d.status) }));
+
+    // Debug log — bisa dihapus setelah konfirmasi fix
+    console.log("Raw status:", raw.map(d => d.status));
+    console.log("Normalized:", allData.map(d => d._status));
+
+    renderStats();
+    applyFilter();
+  } catch(e) {
+    console.error("Load error:", e);
+    document.getElementById("tableBody").innerHTML =
+      `<tr><td colspan="6" style="text-align:center;padding:40px;color:#9ca3af;">Gagal memuat data.</td></tr>`;
+  }
+}
+
+/* ── STATS ── */
+function renderStats() {
+  const total    = allData.length;
+  const pending  = allData.filter(d => d._status === "pending").length;
+  const approved = allData.filter(d => d._status === "approved").length;
+  const rejected = allData.filter(d => d._status === "rejected").length;
+
+  const chips = [
+    { label:"Total",     val:total,    bg:"#fdf8f4", color:"#92400e", border:"#fde68a" },
+    { label:"Menunggu",  val:pending,  bg:"#fffbeb", color:"#b45309", border:"#fde68a" },
+    { label:"Disetujui", val:approved, bg:"#f0fdf4", color:"#166534", border:"#bbf7d0" },
+    { label:"Ditolak",   val:rejected, bg:"#fff5f5", color:"#dc2626", border:"#fecaca" },
+  ];
+
+  document.getElementById("headerStats").innerHTML = chips.map(c => `
+    <div class="stat-chip" style="background:${c.bg};color:${c.color};border:1.5px solid ${c.border};">
+      <span style="font-size:20px;font-weight:800;">${c.val}</span>
+      <span style="font-size:11px;font-weight:600;opacity:0.8;">${c.label}</span>
+    </div>
+  `).join("");
+}
+
+/* ── FILTER ── */
+function applyFilter() {
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = allData.filter(d => {
+    const matchStatus = activeStatus === "all" || d._status === activeStatus;
+    const matchQ = !q ||
+      d.judul_surat?.toLowerCase().includes(q) ||
+      d.nama?.toLowerCase().includes(q);
+    return matchStatus && matchQ;
+  });
+  renderTable(filtered);
+}
+
+/* ── TABLE ── */
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} data`;
+  const tbody = document.getElementById("tableBody");
+
+  if (!data.length) {
+    tbody.innerHTML = `
+      <tr><td colspan="6" style="text-align:center;padding:52px;color:#d1d5db;">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e5e7eb" stroke-width="1.5" style="display:block;margin:0 auto 10px;">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span style="font-size:13px;">Tidak ada request ditemukan</span>
+      </td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map((d, i) => `
+    <tr style="transition:background 0.12s;" onmouseover="this.style.background='#fdf8f4';" onmouseout="this.style.background='white';">
+      <td style="padding:14px;font-size:13px;color:#9ca3af;border-bottom:1px solid #f5f0ec;">${i + 1}</td>
+      <td style="padding:14px;font-size:13px;font-weight:600;color:#111827;border-bottom:1px solid #f5f0ec;max-width:200px;">
+        <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.judul_surat || "–"}</div>
+      </td>
+      <td style="padding:14px;font-size:13px;color:#374151;border-bottom:1px solid #f5f0ec;">${d.nama || "–"}</td>
+      <td style="padding:14px;border-bottom:1px solid #f5f0ec;">${statusBadge(d.status)}</td>
+      <td style="padding:14px;font-size:12px;color:#9ca3af;border-bottom:1px solid #f5f0ec;white-space:nowrap;">${fmtDate(d.created_at)}</td>
+      <td style="padding:14px;border-bottom:1px solid #f5f0ec;">
+        <button onclick='bukaModal(${JSON.stringify(d)})'
+          style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#3c1a08,#7c3520);color:white;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;"
+          onmouseover="this.style.opacity='0.85';"
+          onmouseout="this.style.opacity='1';">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Lihat
+        </button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+/* ── MODAL ── */
+window.bukaModal = function(d) {
+  document.getElementById("modalJudul").textContent = d.judul_surat || "–";
+  const ns = normalizeStatus(d.status);
+  document.getElementById("modalPulse").style.display = ns === "pending" ? "block" : "none";
+
+  const fields = [
+    { label:"Nama Pemohon",    val: d.nama || "–",             html: false },
+    { label:"Status",          val: statusBadge(d.status),     html: true  },
+    { label:"Tanggal Request", val: fmtDate(d.created_at),     html: false },
+    { label:"ID Request",      val: `#${d.id_request || "–"}`, html: false },
+  ];
+
+  document.getElementById("modalFields").innerHTML = fields.map(f => `
+    <div class="field-box">
+      <div class="field-label">${f.label}</div>
+      <div class="field-val">${f.html ? f.val : escHtml(String(f.val))}</div>
+    </div>
+  `).join("");
+
+  document.getElementById("modalDetail").style.display = "flex";
+  document.body.style.overflow = "hidden";
+};
+
+window.tutupModal = function() {
+  document.getElementById("modalDetail").style.display = "none";
+  document.body.style.overflow = "";
+};
+
+function escHtml(s) {
+  return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+document.getElementById("modalDetail").addEventListener("click", function(e) {
+  if (e.target === this) tutupModal();
+});
+
+document.querySelectorAll(".ftab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".ftab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeStatus = btn.dataset.status;
+    applyFilter();
+  });
+});
+
+document.getElementById("searchInput").addEventListener("input", applyFilter);
+
+loadData();
+</script>
+
+</DashboardLayout>

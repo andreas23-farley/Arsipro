@@ -1,0 +1,397 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Request Surat Mahasiswa</title>
+<div style="display:flex;flex-direction:column;gap:22px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div>
+    <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#4f46e5,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Request Surat Mahasiswa</h1>
+    <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Seluruh permintaan surat dari mahasiswa yang masuk ke admin untuk diproses.</p>
+  </div>
+
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #6366f1;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statTotal" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Total Request</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #f59e0b;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statPending" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Menunggu</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <div id="statApprove" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Disetujui</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #ef4444;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fecaca);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <div>
+        <div id="statReject" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Ditolak</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FILTER -->
+  <div style="background:white;padding:18px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;gap:6px;flex:2;min-width:180px;">
+      <label style="font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Cari</label>
+      <div style="position:relative;">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="searchInput" placeholder="Nama mahasiswa, judul surat..."
+          style="padding:9px 14px 9px 34px;border-radius:10px;border:1px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:150px;">
+      <label style="font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Status</label>
+      <select id="filterStatus"
+        style="padding:9px 14px;border-radius:10px;border:1px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;width:100%;box-sizing:border-box;">
+        <option value="">Semua Status</option>
+        <option value="pending">Menunggu</option>
+        <option value="disetujui">Disetujui</option>
+        <option value="ditolak">Ditolak</option>
+      </select>
+    </div>
+    <button id="btnReset"
+      style="padding:9px 18px;border:1px solid #e5e7eb;border-radius:10px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;white-space:nowrap;align-self:flex-end;display:flex;align-items:center;gap:6px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+      Reset
+    </button>
+  </div>
+
+  <!-- TABLE -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0;">Daftar Request Surat Mahasiswa</h3>
+      <span id="jumlahTampil" style="background:#f3f4f6;color:#6b7280;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;">Menampilkan 0 request</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:920px;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Nama Mahasiswa</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Judul Surat</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Deskripsi</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Lampiran</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Tanggal</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Status</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="requestBody">
+          <tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DETAIL PANEL -->
+  <div id="detailCard" style="display:none;background:white;padding:24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0;">Detail Request</h3>
+      <button id="btnCloseDetail" style="padding:7px 14px;border:1px solid #e5e7eb;border-radius:8px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;display:flex;align-items:center;gap:5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Tutup
+      </button>
+    </div>
+    <div id="detailContent" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:0;"></div>
+    <div id="infoBox" style="display:none;margin-top:14px;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;"></div>
+  </div>
+
+</div>
+
+<!-- Modal Konfirmasi -->
+<div id="modalKonfirmasi" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:white;border-radius:22px;padding:36px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:center;margin-bottom:14px;">
+      <div id="modalIconWrap" style="width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;"></div>
+    </div>
+    <h3 id="modalTitle" style="font-size:20px;font-weight:700;color:#111827;margin:0 0 8px;"></h3>
+    <p id="modalDesc" style="font-size:14px;color:#6b7280;margin:0 0 26px;line-height:1.6;"></p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="btnBatal" style="padding:11px 24px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;">Batal</button>
+      <button id="btnKonfirm" style="padding:11px 24px;border:none;border-radius:12px;cursor:pointer;font-size:14px;font-weight:700;color:white;font-family:inherit;"></button>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+@keyframes pulse-yellow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234,179,8,0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(234,179,8,0); }
+}
+.dot-pending { animation: pulse-yellow 1.8s infinite; }
+</style>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let allData = [];
+let pendingAction = null;
+
+function getStatusInfo(statusRaw) {
+  const s = (statusRaw || "").toString().toLowerCase().trim();
+  if (s === "disetujui") return { key: "disetujui", label: "Disetujui" };
+  if (s === "ditolak")   return { key: "ditolak",   label: "Ditolak" };
+  return { key: "pending", label: "Menunggu" };
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+
+const S = {
+  pending:   { bg:"#fef9c3", color:"#854d0e", border:"#fde047", dot:"#eab308" },
+  disetujui: { bg:"#dcfce7", color:"#166534", border:"#86efac", dot:"#22c55e" },
+  ditolak:   { bg:"#fee2e2", color:"#991b1b", border:"#fca5a5", dot:"#ef4444" },
+};
+
+function badge(key, label) {
+  const s = S[key] || S.pending;
+  return `<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;background:${s.bg};color:${s.color};border:1.5px solid ${s.border};white-space:nowrap;">
+    <span class="dot-${key}" style="width:7px;height:7px;border-radius:50%;background:${s.dot};display:inline-block;flex-shrink:0;"></span>
+    ${label}
+  </span>`;
+}
+
+async function loadRequest() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/request-surat`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    let data = await res.json();
+    allData = data.filter(r => (r.role_pengirim || "").toLowerCase() === "mahasiswa");
+    document.getElementById("statTotal").textContent   = allData.length;
+    document.getElementById("statPending").textContent = allData.filter(r => getStatusInfo(r.status).key === "pending").length;
+    document.getElementById("statApprove").textContent = allData.filter(r => getStatusInfo(r.status).key === "disetujui").length;
+    document.getElementById("statReject").textContent  = allData.filter(r => getStatusInfo(r.status).key === "ditolak").length;
+    applyFilter();
+  } catch(e) { console.error(e); }
+}
+
+function applyFilter() {
+  const q  = document.getElementById("searchInput").value.toLowerCase();
+  const st = document.getElementById("filterStatus").value;
+  const filtered = allData.filter(r => {
+    const { key } = getStatusInfo(r.status);
+    if (st && key !== st) return false;
+    if (q && !(
+      r.nama?.toLowerCase().includes(q) ||
+      r.judul_surat?.toLowerCase().includes(q) ||
+      r.deskripsi?.toLowerCase().includes(q)
+    )) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} request`;
+  const tbody = document.getElementById("requestBody");
+  if (!data || data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Tidak ada data yang sesuai</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map(r => {
+    const { key, label } = getStatusInfo(r.status);
+    const isPending = key === "pending";
+    const lampiran = r.file_contoh
+      ? `<a href="${BASE_URL}/uploads/${r.file_contoh}" target="_blank"
+            style="display:inline-flex;align-items:center;gap:5px;background:#ede9fe;color:#4f46e5;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;"
+            onmouseover="this.style.background='#4f46e5';this.style.color='white';"
+            onmouseout="this.style.background='#ede9fe';this.style.color='#4f46e5';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            Lihat
+          </a>`
+      : `<span style="font-size:12px;color:#d1d5db;">-</span>`;
+    return `<tr>
+      <td style="padding:14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:700;color:#111827;white-space:nowrap;">${escapeHtml(r.nama)}</td>
+      <td style="padding:14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:600;color:#1e293b;">${escapeHtml(r.judul_surat)}</td>
+      <td style="padding:14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#64748b;max-width:220px;line-height:1.5;">${escapeHtml(r.deskripsi)}</td>
+      <td style="padding:14px;border-bottom:1px solid #f3f4f6;">${lampiran}</td>
+      <td style="padding:14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#6b7280;white-space:nowrap;">${new Date(r.created_at).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</td>
+      <td style="padding:14px;border-bottom:1px solid #f3f4f6;">${badge(key, label)}</td>
+      <td style="padding:14px;border-bottom:1px solid #f3f4f6;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          <button onclick="lihatDetail(${r.id_request})"
+            style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#ede9fe;color:#4f46e5;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+            onmouseover="this.style.background='#4f46e5';this.style.color='white';"
+            onmouseout="this.style.background='#ede9fe';this.style.color='#4f46e5';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Detail
+          </button>
+          ${isPending ? `
+          <button onclick="konfirmasiAksi(${r.id_request},'disetujui')"
+            style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#dcfce7;color:#166534;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+            onmouseover="this.style.background='#16a34a';this.style.color='white';"
+            onmouseout="this.style.background='#dcfce7';this.style.color='#166534';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Setujui
+          </button>
+          <button onclick="konfirmasiAksi(${r.id_request},'ditolak')"
+            style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#fee2e2;color:#991b1b;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+            onmouseover="this.style.background='#dc2626';this.style.color='white';"
+            onmouseout="this.style.background='#fee2e2';this.style.color='#991b1b';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Tolak
+          </button>` : ""}
+        </div>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+window.lihatDetail = function(id) {
+  const r = allData.find(x => x.id_request === id);
+  if (!r) return;
+  const { key, label } = getStatusInfo(r.status);
+  const s = S[key] || S.pending;
+
+  const rows = [
+    ["Nama Mahasiswa",     escapeHtml(r.nama)],
+    ["Judul Surat",        escapeHtml(r.judul_surat)],
+    ["Keperluan / Tujuan", escapeHtml(r.tujuan || "-")],
+    ["Deskripsi",          escapeHtml(r.deskripsi)],
+    ["Tanggal Pengajuan",  new Date(r.created_at).toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"})],
+    ["Status", `<span style="display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:999px;font-size:13px;font-weight:700;background:${s.bg};color:${s.color};border:1.5px solid ${s.border};">${label}</span>`],
+  ];
+
+  let html = rows.map(([lbl, val], idx) => `
+    <div style="display:flex;flex-direction:column;gap:5px;padding:14px 0;border-bottom:1px solid #e2e8f0;">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;">${lbl}</span>
+      <span style="font-size:15px;color:#1e293b;line-height:1.6;">${val}</span>
+    </div>
+  `).join("");
+
+  // Lampiran
+  html += `
+    <div style="display:flex;flex-direction:column;gap:6px;padding:14px 0 0;">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;">Lampiran / Contoh File</span>
+      ${r.file_contoh
+        ? `<a href="${BASE_URL}/uploads/${r.file_contoh}" target="_blank"
+            style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;width:fit-content;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download Lampiran
+          </a>`
+        : `<span style="font-size:14px;color:#9ca3af;">Tidak ada lampiran</span>`}
+    </div>`;
+
+  document.getElementById("detailContent").innerHTML = html;
+  document.getElementById("infoBox").style.display = "none";
+  document.getElementById("detailCard").style.display = "block";
+  document.getElementById("detailCard").scrollIntoView({ behavior:"smooth", block:"start" });
+};
+
+document.getElementById("btnCloseDetail").addEventListener("click", () => {
+  document.getElementById("detailCard").style.display = "none";
+});
+
+window.konfirmasiAksi = function(id, status) {
+  pendingAction = { id, status };
+  const ok = status === "disetujui";
+  const iconWrap = document.getElementById("modalIconWrap");
+  iconWrap.style.background = ok ? "#dcfce7" : "#fee2e2";
+  iconWrap.innerHTML = ok
+    ? `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`
+    : `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+  document.getElementById("modalTitle").textContent = ok ? "Setujui Request?" : "Tolak Request?";
+  document.getElementById("modalDesc").textContent  = ok
+    ? "Request surat mahasiswa ini akan disetujui."
+    : "Request surat ini akan ditolak. Tindakan ini tidak bisa dibatalkan.";
+  const btn = document.getElementById("btnKonfirm");
+  btn.textContent      = ok ? "Ya, Setujui" : "Ya, Tolak";
+  btn.style.background = ok ? "#16a34a" : "#dc2626";
+  document.getElementById("modalKonfirmasi").style.display = "flex";
+};
+
+document.getElementById("btnBatal").addEventListener("click", () => {
+  pendingAction = null;
+  document.getElementById("modalKonfirmasi").style.display = "none";
+});
+
+document.getElementById("btnKonfirm").addEventListener("click", async () => {
+  if (!pendingAction) return;
+  const { id, status } = pendingAction;
+  try {
+    const res = await fetch(`${BASE_URL}/api/request-surat/${id}`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("modalKonfirmasi").style.display = "none";
+      pendingAction = null;
+      const info = document.getElementById("infoBox");
+      const ok = status === "disetujui";
+      info.textContent      = ok ? "Request berhasil disetujui." : "Request berhasil ditolak.";
+      info.style.background = ok ? "#dcfce7" : "#fee2e2";
+      info.style.color      = ok ? "#166534" : "#991b1b";
+      info.style.display    = "block";
+      document.getElementById("detailCard").style.display = "none";
+      loadRequest();
+    } else { alert(data.message || "Gagal update status"); }
+  } catch { alert("Server error"); }
+});
+
+document.getElementById("modalKonfirmasi").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalKonfirmasi")) {
+    pendingAction = null;
+    document.getElementById("modalKonfirmasi").style.display = "none";
+  }
+});
+
+["searchInput","filterStatus"].forEach(id => {
+  document.getElementById(id).addEventListener("input", applyFilter);
+  document.getElementById(id).addEventListener("change", applyFilter);
+});
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  document.getElementById("searchInput").value = "";
+  document.getElementById("filterStatus").value = "";
+  applyFilter();
+});
+
+loadRequest();
+</script>
+
+</DashboardLayout>

@@ -1,0 +1,436 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Surat Masuk Dalam</title>
+<div style="display:flex;flex-direction:column;gap:22px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div>
+    <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#b45309,#d97706);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Surat Dalam Instansi</h1>
+    <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Kelola surat masuk dari dalam instansi.</p>
+  </div>
+
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #d97706;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statTotal" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Total Surat</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #06b6d4;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statBulanIni" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Bulan Ini</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          <line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statKategori" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Kategori</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FORM -->
+  <div style="background:white;padding:24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#b45309,#d97706);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>
+        </svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#111827;">Tambah Surat Dalam Instansi</div>
+        <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Isi semua field yang diperlukan</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;"><span style="color:#ef4444;">*</span> No Surat</label>
+        <input type="text" id="no_surat" placeholder="Contoh: 001/IN/VI/2025"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#d97706';this.style.boxShadow='0 0 0 3px rgba(180,83,9,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;"><span style="color:#ef4444;">*</span> Nama Pengirim</label>
+        <input type="text" id="nama_pengirim" placeholder="Masukkan nama pengirim"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#d97706';this.style.boxShadow='0 0 0 3px rgba(180,83,9,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;"><span style="color:#ef4444;">*</span> Instansi Pengirim</label>
+        <input type="text" id="instansi" placeholder="Masukkan nama instansi"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#d97706';this.style.boxShadow='0 0 0 3px rgba(180,83,9,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;"><span style="color:#ef4444;">*</span> Kategori</label>
+        <select id="id_kategori"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#d97706';this.style.boxShadow='0 0 0 3px rgba(180,83,9,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+          <option value="">Pilih kategori</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;"><span style="color:#ef4444;">*</span> Tanggal Surat</label>
+        <input type="date" id="tanggal_surat"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#d97706';this.style.boxShadow='0 0 0 3px rgba(180,83,9,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;">Upload Surat</label>
+        <label id="dropzone" style="padding:10px 14px;border-radius:10px;border:1.5px dashed #d1d5db;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;color:#6b7280;background:#fafafa;"
+          onmouseover="this.style.borderColor='#d97706';this.style.background='#fef9f5';"
+          onmouseout="this.style.borderColor='#d1d5db';this.style.background='#fafafa';">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+          </svg>
+          <span id="fileLabel">Klik untuk pilih file</span>
+          <input type="file" id="file_surat" accept=".pdf,.doc,.docx" style="display:none;"
+            onchange="document.getElementById('fileLabel').textContent = this.files[0]?.name || 'Klik untuk pilih file';">
+        </label>
+        <span style="font-size:11px;color:#9ca3af;">Maks 15MB - PDF, DOC, DOCX</span>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;padding-top:16px;border-top:1px solid #f3f4f6;">
+      <button id="btnSimpan"
+        style="padding:11px 26px;border:none;border-radius:10px;background:linear-gradient(135deg,#b45309,#d97706);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;"
+        onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(180,83,9,0.35)';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='none';">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Simpan
+      </button>
+      <button id="btnResetForm"
+        style="padding:11px 20px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;color:#374151;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">
+        Reset
+      </button>
+      <div id="formMsg" style="display:none;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;"></div>
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 2px;">Daftar Surat Dalam Instansi</h3>
+        <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;">Menampilkan 0 surat</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <div style="position:relative;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="Cari surat..."
+            style="padding:8px 14px 8px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:200px;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#d97706';"
+            onblur="this.style.borderColor='#e5e7eb';">
+        </div>
+        <select id="filterKategori"
+          style="padding:8px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;">
+          <option value="">Semua Kategori</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:780px;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">No</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">No Surat</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Nama Pengirim</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Instansi</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Kategori</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Tanggal</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">File</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tableSuratDalam">
+          <tr><td colspan="8" style="text-align:center;padding:40px;color:#9ca3af;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal Hapus -->
+<div id="modalHapus" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:white;border-radius:22px;padding:36px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:center;margin-bottom:14px;">
+      <div style="width:60px;height:60px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+        </svg>
+      </div>
+    </div>
+    <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 8px;">Hapus Surat?</h3>
+    <p style="font-size:14px;color:#6b7280;margin:0 0 26px;line-height:1.6;">Surat ini akan dipindahkan ke trash dan bisa direstore jika diperlukan.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="btnBatalHapus"
+        style="padding:11px 24px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">Batal</button>
+      <button id="btnKonfirmHapus"
+        style="padding:11px 24px;border:none;border-radius:12px;background:#dc2626;color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;"
+        onmouseover="this.style.background='#b91c1c';"
+        onmouseout="this.style.background='#dc2626';">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let allData = [];
+let kategoriList = [];
+let hapusId = null;
+
+async function loadKategori() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/kategori`, { headers: { Authorization: `Bearer ${token}` } });
+    kategoriList = await res.json();
+    const sel  = document.getElementById("id_kategori");
+    const sel2 = document.getElementById("filterKategori");
+    kategoriList.forEach(k => {
+      sel.innerHTML  += `<option value="${k.id_kategori}">${k.nama_kategori}</option>`;
+      sel2.innerHTML += `<option value="${k.id_kategori}">${k.nama_kategori}</option>`;
+    });
+    document.getElementById("statKategori").textContent = kategoriList.length;
+  } catch(e) { console.error(e); }
+}
+
+async function loadSuratDalam() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/surat-masuk?jenis_surat=dalam`, { headers: { Authorization: `Bearer ${token}` } });
+    const result = await res.json();
+    allData = result.data || result;
+    const now = new Date();
+    const bulanIni = allData.filter(s => {
+      const d = new Date(s.tanggal_surat);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+    document.getElementById("statTotal").textContent    = allData.length;
+    document.getElementById("statBulanIni").textContent = bulanIni.length;
+    applyFilter();
+  } catch(e) { console.error(e); }
+}
+
+function applyFilter() {
+  const q  = document.getElementById("searchInput").value.toLowerCase();
+  const kt = document.getElementById("filterKategori").value;
+  const filtered = allData.filter(s => {
+    if (kt && String(s.id_kategori) !== kt) return false;
+    if (q && !(
+      s.no_surat?.toLowerCase().includes(q) ||
+      s.nama_pengirim?.toLowerCase().includes(q) ||
+      s.instansi?.toLowerCase().includes(q) ||
+      s.nama_kategori?.toLowerCase().includes(q)
+    )) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} surat`;
+  const tbody = document.getElementById("tableSuratDalam");
+  if (!data || data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#9ca3af;">Belum ada surat dalam instansi</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map((s, i) => `
+    <tr>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;color:#6b7280;">${i + 1}</td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:#fef3c7;color:#b45309;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">${s.no_surat}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:600;color:#111827;">${s.nama_pengirim}</td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;color:#475569;">${s.instansi}</td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:#e0f2fe;color:#0369a1;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">${s.nama_kategori}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#6b7280;white-space:nowrap;">${new Date(s.tanggal_surat).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <a href="${BASE_URL}/uploads/${s.file_surat}" target="_blank"
+          style="display:inline-flex;align-items:center;gap:5px;background:#f3f4f6;color:#374151;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;"
+          onmouseover="this.style.background='#b45309';this.style.color='white';"
+          onmouseout="this.style.background='#f3f4f6';this.style.color='#374151';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Lihat
+        </a>
+      </td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <button onclick="bukaModalHapus(${s.id_surat})"
+          style="border:none;border-radius:8px;padding:6px 12px;background:#fee2e2;color:#dc2626;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#dc2626';this.style.color='white';"
+          onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Hapus
+        </button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function showMsg(text, ok) {
+  const el = document.getElementById("formMsg");
+  el.textContent = text;
+  el.style.background = ok ? "#dcfce7" : "#fee2e2";
+  el.style.color = ok ? "#166534" : "#991b1b";
+  el.style.display = "block";
+  setTimeout(() => { el.style.display = "none"; }, 3500);
+}
+
+document.getElementById("btnSimpan").addEventListener("click", async () => {
+  const no_surat      = document.getElementById("no_surat").value.trim();
+  const nama_pengirim = document.getElementById("nama_pengirim").value.trim();
+  const instansi      = document.getElementById("instansi").value.trim();
+  const id_kategori   = document.getElementById("id_kategori").value;
+  const tanggal_surat = document.getElementById("tanggal_surat").value;
+  const file          = document.getElementById("file_surat").files[0];
+
+  if (!no_surat || !nama_pengirim || !instansi || !id_kategori || !tanggal_surat) {
+    showMsg("Semua field wajib diisi.", false);
+    return;
+  }
+
+  const btn = document.getElementById("btnSimpan");
+  btn.disabled = true; btn.textContent = "Menyimpan...";
+
+  const formData = new FormData();
+  formData.append("no_surat", no_surat);
+  formData.append("nama_pengirim", nama_pengirim);
+  formData.append("instansi", instansi);
+  formData.append("id_kategori", id_kategori);
+  formData.append("tanggal_surat", tanggal_surat);
+  formData.append("jenis_surat", "dalam");
+  if (file) formData.append("file_surat", file);
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/surat-masuk`, {
+      method: "POST", headers: { Authorization: `Bearer ${token}` }, body: formData
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showMsg("Surat berhasil ditambahkan!", true);
+      ["no_surat","nama_pengirim","instansi","tanggal_surat"].forEach(id => document.getElementById(id).value = "");
+      document.getElementById("id_kategori").value = "";
+      document.getElementById("file_surat").value = "";
+      document.getElementById("fileLabel").textContent = "Klik untuk pilih file";
+      loadSuratDalam();
+    } else { showMsg(data.message || "Gagal menambahkan surat.", false); }
+  } catch { showMsg("Server error. Coba lagi.", false); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Simpan`;
+  }
+});
+
+document.getElementById("btnResetForm").addEventListener("click", () => {
+  ["no_surat","nama_pengirim","instansi","tanggal_surat"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("id_kategori").value = "";
+  document.getElementById("file_surat").value = "";
+  document.getElementById("fileLabel").textContent = "Klik untuk pilih file";
+  document.getElementById("formMsg").style.display = "none";
+});
+
+// ── MODAL HAPUS ──
+window.bukaModalHapus = function(id) {
+  hapusId = id;
+  document.getElementById("modalHapus").style.display = "flex";
+};
+
+document.getElementById("btnBatalHapus").addEventListener("click", () => {
+  hapusId = null;
+  document.getElementById("modalHapus").style.display = "none";
+});
+
+document.getElementById("btnKonfirmHapus").addEventListener("click", async () => {
+  if (!hapusId) return;
+  try {
+    const res  = await fetch(`${BASE_URL}/api/surat-masuk/${hapusId}`, {
+      method: "DELETE", headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("modalHapus").style.display = "none";
+      hapusId = null;
+      loadSuratDalam();
+    } else { alert(data.message || "Gagal hapus surat"); }
+  } catch { alert("Server error"); }
+});
+
+document.getElementById("modalHapus").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalHapus")) {
+    hapusId = null;
+    document.getElementById("modalHapus").style.display = "none";
+  }
+});
+
+["searchInput","filterKategori"].forEach(id => {
+  document.getElementById(id).addEventListener("input", applyFilter);
+  document.getElementById(id).addEventListener("change", applyFilter);
+});
+
+loadKategori();
+loadSuratDalam();
+</script>
+
+</DashboardLayout>

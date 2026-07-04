@@ -1,0 +1,611 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil Dosen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+
+<body>
+
+<button class="menu-toggle" onclick="toggleSidebar()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <img src="/LOGO.jpg" class="logo-img"/>
+    <h2>ARSIPRO</h2>
+    <span>Sistem Arsip Digital</span>
+  </div>
+
+  <nav>
+    <a href="/dosen/dashboard" class={currentPath === "/dosen/dashboard" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Dashboard
+    </a>
+    <a href="/dosen/surat" class={currentPath === "/dosen/surat" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      Surat Masuk
+    </a>
+    <a href="/dosen/permintaan" class={currentPath === "/dosen/permintaan" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+      Request Surat
+    </a>
+    <a href="/dosen/template" class={currentPath === "/dosen/template" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Template Surat
+    </a>
+    <a href="/dosen/arsip" class={currentPath === "/dosen/arsip" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="21 8 21 21 3 21 3 8"/>
+        <rect x="1" y="3" width="22" height="5"/>
+        <line x1="10" y1="12" x2="14" y2="12"/>
+      </svg>
+      Arsip
+    </a>
+    <a href="/dosen/profil" class={currentPath === "/dosen/profil" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Profil
+    </a>
+  </nav>
+
+  <div class="logout">
+    <a href="/login" onclick="localStorage.clear()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+
+  <header class="navbar">
+    <div>
+      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
+      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Dosen</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">D</div>
+      <div>
+        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">Dosen</div>
+        <div style="font-size:11px;color:#64748b;">Dosen</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div style="margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;">
+      <div>
+        <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#4f46e5,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Profil Saya</h1>
+        <p style="color:#6b7280;font-size:14px;margin:0;">Informasi akun dan data dosen Anda.</p>
+      </div>
+      <button onclick="openEditModal()"
+        style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(79,70,229,0.25);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+        Edit Profil
+      </button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;">
+
+      <!-- PROFIL CARD KIRI -->
+      <div style="background:white;border-radius:22px;padding:32px 24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="position:relative;margin-bottom:18px;">
+          <div id="avatarCircle"
+            style="width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:white;border:4px solid #f3f4f6;">D</div>
+          <img id="fotoProfile" src="" alt=""
+            style="display:none;width:110px;height:110px;border-radius:50%;object-fit:cover;border:4px solid #f3f4f6;position:absolute;top:0;left:0;">
+          <div style="position:absolute;bottom:4px;right:4px;width:22px;height:22px;border-radius:50%;background:#10b981;border:3px solid white;"></div>
+        </div>
+
+        <div style="font-size:20px;font-weight:800;color:#111827;margin-bottom:4px;" id="profileNama">—</div>
+        <div style="font-size:13px;color:#6b7280;margin-bottom:4px;" id="profileJabatan">Dosen</div>
+        <div style="font-size:13px;color:#9ca3af;">Institut Shanti Bhuana</div>
+
+        <div style="width:100%;height:1px;background:#f3f4f6;margin:20px 0;"></div>
+
+        <div style="display:inline-flex;align-items:center;gap:6px;background:#dcfce7;color:#166534;padding:6px 16px;border-radius:999px;font-size:13px;font-weight:700;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+          Aktif
+        </div>
+
+        <div style="margin-top:20px;width:100%;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border-radius:12px;">
+            <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div style="text-align:left;">
+              <div style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Role</div>
+              <div id="profileRole" style="font-size:13px;font-weight:700;color:#111827;text-transform:capitalize;">Dosen</div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border-radius:12px;">
+            <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div style="text-align:left;overflow:hidden;">
+              <div style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Email</div>
+              <div id="profileEmail" style="font-size:13px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KANAN -->
+      <div style="display:flex;flex-direction:column;gap:18px;">
+
+        <!-- Info Detail -->
+        <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:#111827;">Informasi Akun</div>
+              <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Data profil Anda di sistem Arsipro</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Nama Lengkap</div>
+              <div id="detail_nama" style="font-size:15px;font-weight:700;color:#111827;">—</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Email</div>
+              <div id="detail_email" style="font-size:15px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">—</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Jabatan</div>
+              <div id="detail_jabatan" style="font-size:15px;font-weight:700;color:#111827;">—</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Role</div>
+              <div id="detail_role" style="font-size:15px;font-weight:700;color:#111827;text-transform:capitalize;">—</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Institusi</div>
+              <div style="font-size:15px;font-weight:700;color:#111827;">Institut Shanti Bhuana</div>
+            </div>
+            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Status Akun</div>
+              <div style="display:inline-flex;align-items:center;gap:6px;background:#dcfce7;color:#166534;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700;">
+                <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+                Aktif
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Akses Cepat -->
+        <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f3f4f6;">
+            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#06b6d4,#4f46e5);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <polyline points="9 11 12 14 22 4"/>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size:15px;font-weight:700;color:#111827;">Akses Cepat</div>
+              <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Navigasi ke fitur utama</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+            <a href="/dosen/surat" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;"
+              onmouseover="this.style.borderColor='#c7d2fe';this.style.background='#f5f3ff';this.style.transform='translateY(-2px)';"
+              onmouseout="this.style.borderColor='#f3f4f6';this.style.background='#f8fafc';this.style.transform='none';">
+              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <span style="font-size:12px;font-weight:600;color:#374151;">Surat Masuk</span>
+            </a>
+            <a href="/dosen/permintaan" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;"
+              onmouseover="this.style.borderColor='#a5f3fc';this.style.background='#f0f9ff';this.style.transform='translateY(-2px)';"
+              onmouseout="this.style.borderColor='#f3f4f6';this.style.background='#f8fafc';this.style.transform='none';">
+              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </div>
+              <span style="font-size:12px;font-weight:600;color:#374151;">Request Surat</span>
+            </a>
+            <a href="/dosen/arsip" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;"
+              onmouseover="this.style.borderColor='#a7f3d0';this.style.background='#f0fdf4';this.style.transform='translateY(-2px)';"
+              onmouseout="this.style.borderColor='#f3f4f6';this.style.background='#f8fafc';this.style.transform='none';">
+              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+                  <polyline points="21 8 21 21 3 21 3 8"/>
+                  <rect x="1" y="3" width="22" height="5"/>
+                  <line x1="10" y1="12" x2="14" y2="12"/>
+                </svg>
+              </div>
+              <span style="font-size:12px;font-weight:600;color:#374151;">Arsip</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Logout Card -->
+        <div style="background:white;border-radius:18px;padding:20px 24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:2px;">Keluar dari Akun</div>
+            <div style="font-size:12px;color:#9ca3af;">Anda akan diarahkan kembali ke halaman login</div>
+          </div>
+          <a href="/login" onclick="localStorage.clear()"
+            style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;background:#fee2e2;color:#dc2626;font-size:13px;font-weight:700;text-decoration:none;"
+            onmouseover="this.style.background='#dc2626';this.style.color='white';"
+            onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            Logout
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+    © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
+  </footer>
+
+</div>
+
+<!-- MODAL EDIT PROFIL -->
+<div id="editModalOverlay" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div style="font-size:17px;font-weight:800;color:#111827;">Edit Profil</div>
+        <div style="font-size:12px;color:#9ca3af;margin-top:2px;">Perbarui informasi akun Anda</div>
+      </div>
+      <button class="modal-close" onclick="closeEditModal()" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <form id="formEditProfil" class="modal-body">
+      <div class="form-photo-row">
+        <div style="position:relative;width:80px;height:80px;flex-shrink:0;">
+          <div id="editAvatarCircle"
+            style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:white;">D</div>
+          <img id="editFotoPreview" src="" alt=""
+            style="display:none;width:80px;height:80px;border-radius:50%;object-fit:cover;position:absolute;top:0;left:0;">
+        </div>
+        <div>
+          <label for="inputFoto" class="btn-upload-foto">Ganti Foto</label>
+          <input type="file" id="inputFoto" name="foto" accept="image/*" style="display:none;" onchange="previewFoto(event)">
+          <div style="font-size:11px;color:#9ca3af;margin-top:6px;">JPG/PNG, maks 2MB</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="inputNama">Nama Lengkap</label>
+        <input type="text" id="inputNama" name="nama" required placeholder="Masukkan nama lengkap">
+      </div>
+
+      <div class="form-group">
+        <label for="inputEmail">Email</label>
+        <input type="email" id="inputEmail" name="email" disabled>
+        <div style="font-size:11px;color:#9ca3af;margin-top:4px;">Email tidak dapat diubah</div>
+      </div>
+
+      <div class="form-group">
+        <label for="inputJabatan">Jabatan</label>
+        <input type="text" id="inputJabatan" name="jabatan" required placeholder="Cth: Dosen Teknik Informatika">
+      </div>
+
+      <div id="editSuccess" style="display:none;background:#f0fdf4;color:#166534;font-size:12px;font-weight:600;padding:10px 14px;border-radius:10px;border:1px solid #bbf7d0;">
+        ✅ Profil berhasil diperbarui!
+      </div>
+      <div id="editError" class="form-error" style="display:none;"></div>
+    </form>
+
+    <div class="modal-footer">
+      <button type="button" class="btn-cancel" onclick="closeEditModal()">Batal</button>
+      <button type="button" id="btnSimpanProfil" class="btn-save" onclick="submitEditProfil()">Simpan Perubahan</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+const API_BASE = "http://100.85.49.78:3000";
+
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let userData = JSON.parse(localStorage.getItem("user") || "{}");
+
+function renderProfil() {
+  if (!userData.nama) return;
+  const initial = userData.nama[0]?.toUpperCase() || "D";
+
+  document.getElementById("namaUser").textContent     = userData.nama;
+  document.getElementById("avatarInit").textContent   = initial;
+  document.getElementById("avatarCircle").textContent = initial;
+
+  document.getElementById("profileNama").textContent    = userData.nama;
+  document.getElementById("profileJabatan").textContent = userData.jabatan || "Dosen";
+  document.getElementById("profileRole").textContent    = userData.role    || "Dosen";
+  document.getElementById("profileEmail").textContent   = userData.email   || "—";
+
+  document.getElementById("detail_nama").textContent    = userData.nama;
+  document.getElementById("detail_email").textContent   = userData.email   || "—";
+  document.getElementById("detail_jabatan").textContent = userData.jabatan || "—";
+  document.getElementById("detail_role").textContent    = userData.role    || "—";
+
+  const fotoEl       = document.getElementById("fotoProfile");
+  const avatarCircle = document.getElementById("avatarCircle");
+  if (userData.foto) {
+    fotoEl.src                 = `${API_BASE}/uploads/${userData.foto}`;
+    fotoEl.style.display       = "block";
+    avatarCircle.style.display = "none";
+  } else {
+    fotoEl.style.display       = "none";
+    avatarCircle.style.display = "flex";
+  }
+}
+renderProfil();
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+function openEditModal() {
+  document.getElementById("inputNama").value    = userData.nama    || "";
+  document.getElementById("inputEmail").value   = userData.email   || "";
+  document.getElementById("inputJabatan").value = userData.jabatan || "";
+
+  const editFoto   = document.getElementById("editFotoPreview");
+  const editCircle = document.getElementById("editAvatarCircle");
+  if (userData.foto) {
+    editFoto.src             = `${API_BASE}/uploads/${userData.foto}`;
+    editFoto.style.display   = "block";
+    editCircle.style.display = "none";
+  } else {
+    editFoto.style.display   = "none";
+    editCircle.style.display = "flex";
+    editCircle.textContent   = (userData.nama?.[0] || "D").toUpperCase();
+  }
+
+  document.getElementById("inputFoto").value        = "";
+  document.getElementById("editError").style.display   = "none";
+  document.getElementById("editSuccess").style.display = "none";
+  document.getElementById("editModalOverlay").classList.add("active");
+}
+
+function closeEditModal() {
+  document.getElementById("editModalOverlay").classList.remove("active");
+}
+
+function previewFoto(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const editFoto         = document.getElementById("editFotoPreview");
+    editFoto.src           = e.target.result;
+    editFoto.style.display = "block";
+    document.getElementById("editAvatarCircle").style.display = "none";
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitEditProfil() {
+  const nama       = document.getElementById("inputNama").value.trim();
+  const jabatan    = document.getElementById("inputJabatan").value.trim();
+  const fotoInput  = document.getElementById("inputFoto");
+  const errorBox   = document.getElementById("editError");
+  const successBox = document.getElementById("editSuccess");
+  const btn        = document.getElementById("btnSimpanProfil");
+
+  errorBox.style.display   = "none";
+  successBox.style.display = "none";
+
+  if (!nama || !jabatan) {
+    errorBox.textContent   = "Nama dan jabatan wajib diisi.";
+    errorBox.style.display = "block";
+    return;
+  }
+
+  btn.disabled    = true;
+  btn.textContent = "Menyimpan...";
+
+  try {
+    const formData = new FormData();
+    formData.append("nama", nama);
+    formData.append("jabatan", jabatan);
+    if (fotoInput.files[0]) formData.append("foto", fotoInput.files[0]);
+
+    // ✅ Pakai endpoint yang sama dengan mahasiswa karena ambil user dari token
+    const res = await fetch(`${API_BASE}/api/mahasiswa/profil/update`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${token}` },
+      body: formData
+    });
+
+    const rawText = await res.text();
+    let result;
+    try {
+      result = JSON.parse(rawText);
+    } catch {
+      throw new Error(`Server error ${res.status}: Response bukan JSON.`);
+    }
+
+    if (!res.ok) throw new Error(result.message || "Gagal menyimpan perubahan.");
+
+    userData = { ...userData, ...result.user };
+    localStorage.setItem("user", JSON.stringify(userData));
+
+    renderProfil();
+    successBox.style.display = "block";
+    setTimeout(() => closeEditModal(), 1500);
+
+  } catch (err) {
+    errorBox.textContent   = err.message || "Terjadi kesalahan saat menyimpan.";
+    errorBox.style.display = "block";
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = "Simpan Perubahan";
+  }
+}
+</script>
+
+</body>
+</html>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
+body { display:flex; background:#f1f5f9; min-height:100vh; }
+.menu-toggle {
+  display:none; position:fixed; top:15px; left:15px; z-index:1002;
+  background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
+}
+.sidebar {
+  width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
+  color:white; padding:20px 15px; display:flex; flex-direction:column;
+  position:fixed; top:0; left:0; transition:.3s; z-index:100; overflow-y:auto;
+}
+.logo { text-align:center; margin-bottom:28px; }
+.logo-img { width:68px; height:68px; border-radius:50%; object-fit:cover; border:3px solid rgba(79,70,229,0.4); }
+.logo h2 { font-size:18px; font-weight:800; letter-spacing:1px; margin-top:10px; }
+.logo span { font-size:11px; color:#64748b; }
+.sidebar nav { display:flex; flex-direction:column; gap:4px; flex:1; }
+.sidebar nav a {
+  display:flex; align-items:center; gap:10px; padding:11px 13px;
+  color:#94a3b8; text-decoration:none; border-radius:10px; font-size:14px; font-weight:500; transition:all .2s;
+}
+.sidebar nav a.active, .sidebar nav a:hover {
+  background:linear-gradient(135deg,#4f46e5,#06b6d4); color:white; transform:translateX(2px);
+}
+.logout { margin-top:auto; padding-top:12px; }
+.logout a {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(127,29,29,0.5); border:1px solid #7f1d1d;
+  padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s;
+}
+.logout a:hover { background:#7f1d1d; }
+.main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
+.navbar {
+  background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
+}
+.content { padding:28px; flex:1; }
+@media (max-width:900px) {
+  .content > div:last-of-type { grid-template-columns: 1fr !important; }
+}
+@media (max-width:768px) {
+  .menu-toggle { display:block; }
+  .sidebar { left:-260px; }
+  .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
+  .main { margin-left:0; width:100%; }
+  .navbar { padding-left:60px; }
+  .content { padding:20px 16px; }
+}
+.modal-overlay {
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,0.55);
+  z-index:2000; align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.active { display:flex; }
+.modal-box {
+  background:white; border-radius:20px; width:100%; max-width:440px;
+  max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-header {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding:22px 24px 16px; border-bottom:1px solid #f3f4f6;
+}
+.modal-close {
+  background:#f3f4f6; border:none; width:32px; height:32px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center; color:#6b7280; cursor:pointer; flex-shrink:0;
+}
+.modal-close:hover { background:#e5e7eb; color:#111827; }
+.modal-body { padding:20px 24px; display:flex; flex-direction:column; gap:16px; }
+.form-photo-row { display:flex; align-items:center; gap:16px; }
+.btn-upload-foto {
+  display:inline-block; padding:8px 14px; border-radius:8px; background:#f5f3ff;
+  color:#4f46e5; font-size:12px; font-weight:700; cursor:pointer; border:1.5px solid #ddd6fe;
+}
+.btn-upload-foto:hover { background:#ede9fe; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group label { font-size:12px; font-weight:700; color:#374151; }
+.form-group input {
+  padding:10px 14px; border-radius:10px; border:1.5px solid #e5e7eb;
+  font-size:14px; font-family:'Plus Jakarta Sans', sans-serif; color:#111827;
+}
+.form-group input:focus { outline:none; border-color:#4f46e5; }
+.form-group input:disabled { background:#f8fafc; color:#9ca3af; }
+.form-error {
+  background:#fef2f2; color:#dc2626; font-size:12px; font-weight:600;
+  padding:10px 14px; border-radius:10px;
+}
+.modal-footer {
+  display:flex; justify-content:flex-end; gap:10px;
+  padding:16px 24px 22px; border-top:1px solid #f3f4f6;
+}
+.btn-cancel {
+  padding:10px 18px; border-radius:10px; border:1.5px solid #e5e7eb;
+  background:white; color:#374151; font-size:13px; font-weight:700; cursor:pointer;
+}
+.btn-cancel:hover { background:#f8fafc; }
+.btn-save {
+  padding:10px 18px; border-radius:10px; border:none;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4); color:white;
+  font-size:13px; font-weight:700; cursor:pointer;
+}
+.btn-save:hover { opacity:0.9; }
+.btn-save:disabled { opacity:0.6; cursor:not-allowed; }
+</style>

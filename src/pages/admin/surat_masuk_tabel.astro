@@ -1,0 +1,290 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Tabel Surat</title>
+<div style="display:flex;flex-direction:column;gap:22px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div>
+    <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#7c3aed,#db2777);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Tabel Surat</h1>
+    <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Rekap seluruh surat masuk - dalam dan luar instansi.</p>
+  </div>
+
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #7c3aed;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statTotal" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Total Surat</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #4f46e5;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+          <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
+          <line x1="9" y1="9" x2="9" y2="9"/><line x1="9" y1="12" x2="9" y2="12"/><line x1="9" y1="15" x2="9" y2="15"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statDalam" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Dalam Instansi</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #0ea5e9;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statLuar" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Luar Instansi</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FILTER BAR -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #f3f4f6;">
+      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#7c3aed,#db2777);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:#111827;">Filter & Pencarian</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;">
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Jenis Surat</label>
+        <select id="filterJenis"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#7c3aed';this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+          <option value="">Semua Jenis</option>
+          <option value="dalam">Dalam Instansi</option>
+          <option value="luar">Luar Instansi</option>
+        </select>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Kategori</label>
+        <select id="filterKategori"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#7c3aed';this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+          <option value="">Semua Kategori</option>
+        </select>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Cari</label>
+        <div style="position:relative;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="No surat, pengirim, instansi..."
+            style="padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#7c3aed';this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        </div>
+      </div>
+
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:flex-end;">
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Dari Tanggal</label>
+        <input type="date" id="filterDari"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#7c3aed';this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Sampai Tanggal</label>
+        <input type="date" id="filterSampai"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#7c3aed';this.style.boxShadow='0 0 0 3px rgba(124,58,237,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+
+      <button id="btnReset"
+        style="padding:9px 20px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;white-space:nowrap;align-self:flex-end;display:flex;align-items:center;gap:6px;"
+        onmouseover="this.style.background='#f9fafb';this.style.borderColor='#d1d5db';"
+        onmouseout="this.style.background='white';this.style.borderColor='#e5e7eb';">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+        Reset Filter
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 2px;">Semua Surat Masuk</h3>
+        <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;">Menampilkan 0 surat</span>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:800px;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">No</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">No Surat</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Nama Pengirim</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Instansi</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Jenis</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Kategori</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Tanggal</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">File</th>
+          </tr>
+        </thead>
+        <tbody id="tableSurat">
+          <tr><td colspan="8" style="text-align:center;padding:40px;color:#9ca3af;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let allData = [];
+
+async function loadKategori() {
+  try {
+    const res  = await fetch(`${BASE_URL}/api/kategori`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    const sel  = document.getElementById("filterKategori");
+    data.forEach(k => { sel.innerHTML += `<option value="${k.id_kategori}">${k.nama_kategori}</option>`; });
+  } catch(e) { console.error(e); }
+}
+
+async function loadAllSurat() {
+  try {
+    const res    = await fetch(`${BASE_URL}/api/surat-masuk`, { headers: { Authorization: `Bearer ${token}` } });
+    const result = await res.json();
+    allData = result.data || result;
+    document.getElementById("statTotal").textContent = allData.length;
+    document.getElementById("statDalam").textContent = allData.filter(s => s.jenis_surat === "dalam" || s.jenis === "dalam").length;
+    document.getElementById("statLuar").textContent  = allData.filter(s => s.jenis_surat === "luar"  || s.jenis === "luar").length;
+    applyFilter();
+  } catch(e) { console.error(e); }
+}
+
+function applyFilter() {
+  const jenis    = document.getElementById("filterJenis").value;
+  const kategori = document.getElementById("filterKategori").value;
+  const dari     = document.getElementById("filterDari").value;
+  const sampai   = document.getElementById("filterSampai").value;
+  const q        = document.getElementById("searchInput").value.toLowerCase();
+
+  const filtered = allData.filter(s => {
+    const jenisSurat = s.jenis_surat || s.jenis || "";
+    const tgl = new Date(s.tanggal_surat);
+    if (jenis    && jenisSurat !== jenis) return false;
+    if (kategori && String(s.id_kategori) !== kategori) return false;
+    if (dari     && tgl < new Date(dari)) return false;
+    if (sampai   && tgl > new Date(sampai + "T23:59:59")) return false;
+    if (q && !(
+      s.no_surat?.toLowerCase().includes(q) ||
+      s.nama_pengirim?.toLowerCase().includes(q) ||
+      s.instansi?.toLowerCase().includes(q) ||
+      s.nama_kategori?.toLowerCase().includes(q)
+    )) return false;
+    return true;
+  });
+
+  renderTable(filtered);
+}
+
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} surat`;
+  const tbody = document.getElementById("tableSurat");
+  if (!data || data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#9ca3af;">Tidak ada data yang sesuai filter</td></tr>`;
+    return;
+  }
+
+  const iconDalam = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>`;
+  const iconLuar  = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`;
+
+  tbody.innerHTML = data.map((s, i) => {
+    const jenis = s.jenis_surat || s.jenis || "";
+    const isDalam = jenis === "dalam";
+    return `<tr>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;color:#6b7280;">${i + 1}</td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:#ede9fe;color:#6d28d9;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">${s.no_surat}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:600;color:#111827;">${s.nama_pengirim}</td>
+      <td style="padding:13px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#475569;">${s.instansi}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;background:${isDalam ? '#ede9fe' : '#e0f2fe'};color:${isDalam ? '#4f46e5' : '#0369a1'};">
+          ${isDalam ? iconDalam + ' Dalam' : iconLuar + ' Luar'}
+        </span>
+      </td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:#fce7f3;color:#9d174d;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">${s.nama_kategori}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#6b7280;white-space:nowrap;">${new Date(s.tanggal_surat).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <a href="${BASE_URL}/uploads/${s.file_surat}" target="_blank"
+          style="display:inline-flex;align-items:center;gap:5px;background:#f5f3ff;color:#7c3aed;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;"
+          onmouseover="this.style.background='#7c3aed';this.style.color='white';"
+          onmouseout="this.style.background='#f5f3ff';this.style.color='#7c3aed';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Lihat
+        </a>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+["filterJenis","filterKategori","filterDari","filterSampai","searchInput"].forEach(id => {
+  document.getElementById(id).addEventListener("input",  applyFilter);
+  document.getElementById(id).addEventListener("change", applyFilter);
+});
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  ["filterJenis","filterKategori","filterDari","filterSampai","searchInput"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  applyFilter();
+});
+
+loadKategori();
+loadAllSurat();
+</script>
+
+</DashboardLayout>

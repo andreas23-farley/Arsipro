@@ -1,0 +1,698 @@
+---
+// Navbar.astro
+---
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<nav class="navbar">
+
+  <!-- LEFT: Brand + Label -->
+  <div class="navbar-left">
+    <div class="nav-brand">
+      <div class="nav-titles">
+        <span class="nav-label">PANEL ADMIN</span>
+        <span class="nav-system">ARSIPRO | Institut Shanti Bhuana</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="navbar-right">
+
+    <!-- Tanggal & Waktu -->
+    <div class="datetime-chip">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      <span id="datetimeText">–</span>
+    </div>
+
+    <!-- NOTIFIKASI -->
+    <div class="notif-wrapper">
+      <button class="icon-btn" id="notifToggle" type="button" title="Notifikasi">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <span class="badge hidden" id="notifBadge">0</span>
+      </button>
+
+      <!-- Dropdown Notifikasi -->
+      <div class="notif-dropdown" id="notifDropdown">
+
+        <!-- Header gelap menyambung dari navbar -->
+        <div class="notif-head">
+          <div class="notif-head-left">
+            <div class="notif-head-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2">
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </div>
+            <div>
+              <div class="notif-head-title">Notifikasi</div>
+              <div class="notif-head-sub" id="notifSubtitle">Request Pending</div>
+            </div>
+          </div>
+          <button id="markAllRead" class="mark-all-btn">Tandai dibaca</button>
+        </div>
+
+        <!-- Pulse bar jika ada unread -->
+        <div class="notif-pulse-bar" id="notifPulseBar" style="display:none;"></div>
+
+        <!-- List -->
+        <div class="notif-list" id="notifList">
+          <div class="notif-loading">
+            <div class="spin-ring"></div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="notif-footer">
+          <a href="/admin/request-surat" class="notif-footer-link">
+            Lihat semua request
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="profile-wrapper">
+      <button class="profile-btn" id="profileToggle" type="button">
+        <div class="avatar-ring">
+          <img id="navbarFoto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Admin"/>
+        </div>
+        <div class="profile-text">
+          <span class="profile-name" id="navbarNama">Admin</span>
+          <span class="profile-role" id="navbarJabatan">Administrator</span>
+        </div>
+        <svg class="chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+      <!-- Dropdown Profil -->
+      <div class="profile-dropdown" id="dropdownMenu">
+
+        <!-- Kartu -->
+        <div class="profile-card">
+          <div class="card-avatar">
+            <img id="dropdownFoto" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Foto"/>
+          </div>
+          <div class="card-info">
+            <div class="card-name" id="dropdownNama">–</div>
+            <div class="card-role" id="dropdownRole">–</div>
+            <div class="card-email" id="dropdownEmail">–</div>
+          </div>
+        </div>
+
+        <div class="menu-divider"></div>
+
+        <a href="../admin/profil" class="menu-item">
+          <span class="menu-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21a8 8 0 0 0-16 0"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          Profil Saya
+        </a>
+
+        <a href="../login" id="logoutBtn" class="menu-item menu-item--danger">
+          <span class="menu-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </span>
+          Logout
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+* { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+.navbar {
+  height: 72px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: linear-gradient(135deg, #3c1a08, #5c2510, #7c3520);
+  border-bottom: 1px solid rgba(251,191,36,0.12);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25), 0 1px 0 rgba(251,191,36,0.08) inset;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(251,191,36,0.35) 40%, rgba(251,191,36,0.35) 60%, transparent);
+}
+
+/* ── LEFT ── */
+.navbar-left { display:flex; align-items:center; }
+.nav-brand { display:flex; align-items:center; gap:12px; }
+.nav-titles { display:flex; flex-direction:column; gap:2px; }
+.nav-label { font-size:10px; font-weight:700; letter-spacing:1.8px; color:rgba(251,191,36,0.6); text-transform:uppercase; }
+.nav-system { font-size:14px; font-weight:700; color:white; letter-spacing:-0.2px; }
+
+/* ── RIGHT ── */
+.navbar-right { display:flex; align-items:center; gap:10px; }
+
+.datetime-chip {
+  display:flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;
+  padding:6px 12px;
+  font-size:12px; font-weight:600;
+  color:rgba(255,255,255,0.55);
+  white-space:nowrap;
+}
+
+.icon-btn {
+  position:relative;
+  width:42px; height:42px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.75);
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s;
+  outline:none;
+}
+.icon-btn:hover {
+  background:rgba(251,191,36,0.15);
+  border-color:rgba(251,191,36,0.25);
+  color:#fbbf24;
+}
+
+.badge {
+  position:absolute;
+  top:-5px; right:-5px;
+  min-width:18px; height:18px;
+  padding:0 4px;
+  border-radius:18px;
+  background:#ef4444;
+  color:white;
+  font-size:10px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  border:2px solid #5c2510;
+  transition:all 0.2s;
+}
+.badge.hidden { opacity:0; transform:scale(0); pointer-events:none; }
+
+/* ── DROPDOWN BASE ── */
+.notif-dropdown,
+.profile-dropdown {
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  background:white;
+  border-radius:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.07);
+  opacity:0; visibility:hidden;
+  transform:translateY(8px) scale(0.97);
+  transform-origin:top right;
+  transition:all 0.22s cubic-bezier(.22,1,.36,1);
+  z-index:999;
+}
+.notif-dropdown.show,
+.profile-dropdown.show {
+  opacity:1; visibility:visible;
+  transform:translateY(0) scale(1);
+}
+
+/* ══════════════════════════════
+   NOTIF DROPDOWN — REDESIGN
+══════════════════════════════ */
+.notif-wrapper { position:relative; }
+.notif-dropdown { width:360px; overflow:hidden; }
+
+/* Header — dark, extends navbar palette */
+.notif-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 18px 15px;
+  background:linear-gradient(135deg, #3c1a08, #5c2510);
+  border-radius:18px 18px 0 0;
+}
+
+.notif-head-left {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.notif-head-icon {
+  width:34px; height:34px;
+  border-radius:10px;
+  background:rgba(251,191,36,0.12);
+  border:1px solid rgba(251,191,36,0.2);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+
+.notif-head-title {
+  font-size:13px;
+  font-weight:700;
+  color:white;
+  line-height:1.2;
+}
+
+.notif-head-sub {
+  font-size:10px;
+  font-weight:600;
+  color:rgba(251,191,36,0.6);
+  margin-top:1px;
+  letter-spacing:0.3px;
+}
+
+.mark-all-btn {
+  background:rgba(251,191,36,0.12);
+  border:1px solid rgba(251,191,36,0.2);
+  border-radius:8px;
+  padding:5px 10px;
+  font-size:11px;
+  font-weight:600;
+  color:rgba(251,191,36,0.85);
+  cursor:pointer;
+  font-family:inherit;
+  transition:all 0.15s;
+  white-space:nowrap;
+}
+.mark-all-btn:hover {
+  background:rgba(251,191,36,0.22);
+  color:#fbbf24;
+}
+
+/* Amber pulse bar — appears when unread exist */
+.notif-pulse-bar {
+  height:3px;
+  background:linear-gradient(90deg, #92400e, #fbbf24, #92400e);
+  background-size:200% 100%;
+  animation:slideAmber 2s linear infinite;
+}
+@keyframes slideAmber {
+  0%   { background-position:100% 0; }
+  100% { background-position:-100% 0; }
+}
+
+/* List area */
+.notif-list {
+  max-height:300px;
+  overflow-y:auto;
+  background:#fff;
+}
+.notif-list::-webkit-scrollbar { width:3px; }
+.notif-list::-webkit-scrollbar-thumb { background:#ede8e3; border-radius:99px; }
+
+/* Notif item */
+.notif-item {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:13px 18px;
+  border-bottom:1px solid #f5f0ec;
+  cursor:pointer;
+  transition:background 0.15s, padding-left 0.15s;
+  position:relative;
+}
+.notif-item:last-child { border-bottom:none; }
+.notif-item:hover { background:#fdf8f4; padding-left:22px; }
+
+/* Unread: left accent bar */
+.notif-item.unread {
+  background:#fffaf6;
+}
+.notif-item.unread::before {
+  content:'';
+  position:absolute;
+  left:0; top:10px; bottom:10px;
+  width:3px;
+  border-radius:0 3px 3px 0;
+  background:linear-gradient(180deg, #fbbf24, #b45309);
+}
+
+/* Icon inside item */
+.notif-icon {
+  width:38px; height:38px;
+  border-radius:11px;
+  background:linear-gradient(135deg,#fef3c7,#fde68a);
+  color:#92400e;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+  border:1px solid rgba(180,83,9,0.1);
+}
+
+.notif-text { flex:1; min-width:0; padding-top:1px; }
+.notif-title {
+  font-size:13px; font-weight:700; color:#111827;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.notif-meta {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:4px;
+}
+.notif-sender {
+  font-size:11px; color:#6b7280; font-weight:500;
+}
+.notif-time-pill {
+  font-size:10px; font-weight:700;
+  background:#f5f0ec;
+  color:#92400e;
+  padding:1px 7px;
+  border-radius:99px;
+}
+
+/* Unread dot */
+.notif-dot {
+  width:8px; height:8px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fbbf24, #b45309);
+  margin-top:4px;
+  flex-shrink:0;
+  box-shadow:0 0 6px rgba(251,191,36,0.5);
+}
+
+/* Empty state */
+.notif-empty {
+  padding:36px 20px;
+  text-align:center;
+  font-size:13px;
+  color:#9ca3af;
+}
+.notif-empty-icon {
+  width:52px; height:52px;
+  border-radius:16px;
+  background:#f9f5f2;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 12px;
+}
+
+/* Loading */
+.notif-loading { padding:28px; display:flex; justify-content:center; }
+.spin-ring {
+  width:22px; height:22px;
+  border:2.5px solid #f5ebe6;
+  border-top-color:#b45309;
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* Footer */
+.notif-footer {
+  border-top:1px solid #f0ebe6;
+  padding:11px 18px;
+  background:#fdfaf8;
+  border-radius:0 0 18px 18px;
+}
+.notif-footer-link {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font-size:12px;
+  font-weight:700;
+  color:#92400e;
+  text-decoration:none;
+  transition:gap 0.15s;
+}
+.notif-footer-link:hover { gap:10px; color:#b45309; }
+
+/* ══════════════════════════════
+   PROFILE (unchanged)
+══════════════════════════════ */
+.profile-wrapper { position:relative; }
+
+.profile-btn {
+  display:flex; align-items:center; gap:10px;
+  padding:6px 12px 6px 6px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.10);
+  color:white;
+  cursor:pointer; outline:none;
+  transition:all 0.2s;
+}
+.profile-btn:hover {
+  background:rgba(251,191,36,0.12);
+  border-color:rgba(251,191,36,0.2);
+}
+.avatar-ring { position:relative; width:36px; height:36px; }
+.avatar-ring img {
+  width:36px; height:36px;
+  border-radius:10px; object-fit:cover;
+  border:1.5px solid rgba(251,191,36,0.25);
+}
+.profile-text { display:flex; flex-direction:column; align-items:flex-start; }
+.profile-name { font-size:13px; font-weight:700; color:white; line-height:1.2; }
+.profile-role { font-size:11px; color:rgba(255,255,255,0.45); }
+.chevron { color:rgba(255,255,255,0.45); transition:transform 0.2s; flex-shrink:0; }
+.profile-btn:hover .chevron { transform:rotate(180deg); }
+
+.profile-dropdown { width:268px; padding-bottom:6px; }
+.profile-card {
+  display:flex; align-items:center; gap:12px;
+  padding:16px 16px 14px;
+  background:linear-gradient(135deg,#fef9f5,#fff7f0);
+  border-radius:18px 18px 0 0;
+}
+.card-avatar img {
+  width:46px; height:46px; border-radius:12px; object-fit:cover;
+  border:2px solid rgba(180,83,9,0.15);
+}
+.card-info { min-width:0; }
+.card-name  { font-size:14px; font-weight:700; color:#111827; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.card-role  { font-size:11px; color:#6b7280; margin-top:1px; }
+.card-email { font-size:10px; color:#9ca3af; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+.menu-divider { height:1px; background:#f3f4f6; margin:0; }
+
+.menu-item {
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px;
+  text-decoration:none; color:#374151;
+  font-size:13.5px; font-weight:600;
+  font-family:'Plus Jakarta Sans', sans-serif;
+  transition:all 0.15s;
+  cursor:pointer;
+}
+.menu-item:hover { background:#f9fafb; padding-left:20px; }
+.menu-item--danger { color:#dc2626; }
+.menu-item--danger:hover { background:#fff5f5; }
+
+.menu-icon {
+  width:30px; height:30px; border-radius:8px;
+  background:#f3f4f6;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:background 0.15s;
+}
+.menu-item:hover .menu-icon { background:#e5e7eb; }
+.menu-item--danger .menu-icon { background:#fee2e2; color:#dc2626; }
+.menu-item--danger:hover .menu-icon { background:#fecaca; }
+
+/* ── MOBILE ── */
+@media (max-width:768px) {
+  .navbar { padding:0 16px; }
+  .nav-system, .datetime-chip, .profile-text, .chevron { display:none; }
+  .profile-btn { padding:6px; }
+  .notif-dropdown { width:300px; right:-20px; }
+}
+</style>
+
+<script is:inline>
+window.addEventListener("load", () => {
+  const BASE_URL = "http://100.85.49.78:3000";
+  const token    = localStorage.getItem("token");
+  if (!token) { window.location.href = "/login"; return; }
+
+  // ── Profil dari localStorage ──
+  const userData = JSON.parse(localStorage.getItem("user") || "{}");
+  if (userData.nama) {
+    document.getElementById("navbarNama").textContent    = userData.nama;
+    document.getElementById("navbarJabatan").textContent = userData.jabatan || userData.role || "-";
+    document.getElementById("dropdownNama").textContent  = userData.nama;
+    document.getElementById("dropdownRole").textContent  = userData.jabatan || userData.role || "-";
+    document.getElementById("dropdownEmail").textContent = userData.email || "-";
+  }
+  if (userData.foto) {
+    const url = `http://100.85.49.78:3000/uploads/${userData.foto}`;
+    document.getElementById("navbarFoto").src   = url;
+    document.getElementById("dropdownFoto").src = url;
+  }
+
+  // ── Datetime ──
+  function updateDatetime() {
+    const now = new Date();
+    const opt = { weekday:"short", day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" };
+    document.getElementById("datetimeText").textContent = now.toLocaleString("id-ID", opt);
+  }
+  updateDatetime();
+  setInterval(updateDatetime, 30000);
+
+  // ── Logout ──
+  document.getElementById("logoutBtn").addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("readNotifIds");
+    window.location.href = "/login";
+  });
+
+  // ── Notifikasi ──
+  let pendingItems = [];
+  let readIds = new Set(JSON.parse(sessionStorage.getItem("readNotifIds") || "[]"));
+
+  const notifToggle   = document.getElementById("notifToggle");
+  const notifDropdown = document.getElementById("notifDropdown");
+  const notifBadge    = document.getElementById("notifBadge");
+  const notifList     = document.getElementById("notifList");
+  const notifSubtitle = document.getElementById("notifSubtitle");
+  const notifPulseBar = document.getElementById("notifPulseBar");
+  const markAllBtn    = document.getElementById("markAllRead");
+  const profileToggle = document.getElementById("profileToggle");
+  const dropdownMenu  = document.getElementById("dropdownMenu");
+
+  function timeAgo(dateStr) {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 1)  return "Baru saja";
+    if (m < 60) return `${m} mnt lalu`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h} jam lalu`;
+    return `${Math.floor(h/24)} hari lalu`;
+  }
+
+  function renderNotif() {
+    const unreadCount = pendingItems.filter(r => !readIds.has(r.id_request)).length;
+
+    // Badge
+    if (unreadCount > 0) {
+      notifBadge.textContent = unreadCount > 9 ? "9+" : unreadCount;
+      notifBadge.classList.remove("hidden");
+    } else {
+      notifBadge.classList.add("hidden");
+    }
+
+    // Subtitle & pulse bar
+    if (unreadCount > 0) {
+      notifSubtitle.textContent = `${unreadCount} belum dibaca`;
+      notifPulseBar.style.display = "block";
+    } else {
+      notifSubtitle.textContent = "Semua sudah dibaca";
+      notifPulseBar.style.display = "none";
+    }
+
+    // Empty state
+    if (pendingItems.length === 0) {
+      notifList.innerHTML = `
+        <div class="notif-empty">
+          <div class="notif-empty-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c4a882" stroke-width="1.8">
+              <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+          </div>
+          Tidak ada request pending
+        </div>`;
+      return;
+    }
+
+    notifList.innerHTML = pendingItems.map(r => {
+      const isUnread = !readIds.has(r.id_request);
+      return `
+        <div class="notif-item ${isUnread ? "unread" : ""}" onclick="handleNotifClick(${r.id_request})">
+          <div class="notif-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div class="notif-text">
+            <div class="notif-title">${r.judul_surat}</div>
+            <div class="notif-meta">
+              <span class="notif-sender">${r.nama || "Pengguna"}</span>
+              <span class="notif-time-pill">${timeAgo(r.created_at)}</span>
+            </div>
+          </div>
+          ${isUnread ? '<div class="notif-dot"></div>' : ""}
+        </div>`;
+    }).join("");
+  }
+
+  window.handleNotifClick = function(id) {
+    readIds.add(id);
+    sessionStorage.setItem("readNotifIds", JSON.stringify([...readIds]));
+    window.location.href = "/admin/request-surat";
+  };
+
+  markAllBtn.addEventListener("click", () => {
+    pendingItems.forEach(r => readIds.add(r.id_request));
+    sessionStorage.setItem("readNotifIds", JSON.stringify([...readIds]));
+    renderNotif();
+  });
+
+  async function loadNotifications() {
+    try {
+      const res  = await fetch(`${BASE_URL}/api/request-surat`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const data = await res.json();
+      pendingItems = Array.isArray(data) ? data.filter(r => r.status === "pending") : [];
+    } catch { pendingItems = []; }
+    renderNotif();
+  }
+
+  // Toggle
+  notifToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    notifDropdown.classList.toggle("show");
+    dropdownMenu.classList.remove("show");
+  });
+
+  profileToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdownMenu.classList.toggle("show");
+    notifDropdown.classList.remove("show");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!notifToggle.contains(e.target) && !notifDropdown.contains(e.target))
+      notifDropdown.classList.remove("show");
+    if (!profileToggle.contains(e.target) && !dropdownMenu.contains(e.target))
+      dropdownMenu.classList.remove("show");
+  });
+
+  loadNotifications();
+  setInterval(loadNotifications, 60000);
+});
+</script>

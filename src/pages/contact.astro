@@ -1,0 +1,165 @@
+---
+import Header from "../components/Header.astro"
+---
+
+<!-- FONT GLOBAL -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<Header />
+
+<section id="contact" class="contact">
+  <div class="container">
+
+    <h2 class="title">Butuh Bantuan?</h2>
+    <p class="subtitle">
+      Jika Anda mengalami kendala dalam penggunaan sistem SIPROA, 
+      silakan hubungi tim PROA yang siap membantu Anda.
+    </p>
+
+    <div class="contact-grid">
+
+      <!-- ADMIN 1 -->
+      <div class="contact-card">
+        <div class="avatar">A</div>
+        <h3>PROA 1</h3>
+        <p class="role">Pengelola Sistem</p>
+
+        <div class="info">
+          <p>📧 admin1@arsipro.com</p>
+          <p>📞 +62 812-xxxx-1111</p>
+        </div>
+      </div>
+
+      <!-- ADMIN 2 -->
+      <div class="contact-card">
+        <div class="avatar">B</div>
+        <h3>PROA 2</h3>
+        <p class="role">Teknis & Bantuan</p>
+
+        <div class="info">
+          <p>📧 admin2@arsipro.com</p>
+          <p>📞 +62 812-xxxx-2222</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+/* ===== KONTAK (NYAMBUNG HEADER) ===== */
+.contact {
+  margin-top: 80px; /* penting biar tidak ketiban header */
+  padding: 80px 20px;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.7),
+    #505458
+  );
+
+  text-align: center;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* TITLE */
+.title {
+  font-size: 34px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.subtitle {
+  margin-top: 12px;
+  color: #6b7280;
+  font-size: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* GRID */
+.contact-grid {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* CARD */
+.contact-card {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  width: 260px;
+
+  box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+}
+
+/* AVATAR */
+.avatar {
+  width: 65px;
+  height: 65px;
+  margin: auto;
+
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* TEXT */
+.contact-card h3 {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #111827;
+}
+
+.role {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* INFO */
+.info {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .contact-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+</style>

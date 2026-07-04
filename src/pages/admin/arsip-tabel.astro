@@ -1,0 +1,358 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Tabel Arsip</title>
+<div style="display:flex;flex-direction:column;gap:22px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#8b5cf6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Tabel Arsip</h1>
+      <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Rekap seluruh dokumen arsip yang tersimpan.</p>
+    </div>
+    <a href="/admin/arsip-input"
+      style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:white;font-size:13px;font-weight:700;text-decoration:none;"
+      onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(139,92,246,0.35)';"
+      onmouseout="this.style.transform='none';this.style.boxShadow='none';">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Upload Arsip
+    </a>
+  </div>
+
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;">
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #8b5cf6;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2">
+          <polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statTotal" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Total Arsip</div>
+      </div>
+    </div>
+
+    <!-- Kartu per kategori di-generate otomatis di sini -->
+    <div id="statsKategori" style="display:contents;"></div>
+
+  </div>
+
+  <!-- FILTER BAR -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #f3f4f6;">
+      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:#111827;">Filter & Pencarian</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:14px;align-items:flex-end;">
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Cari</label>
+        <div style="position:relative;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="Nama surat..."
+            style="padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#8b5cf6';this.style.boxShadow='0 0 0 3px rgba(139,92,246,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Kategori</label>
+        <select id="filterKategori"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#8b5cf6';"
+          onblur="this.style.borderColor='#e5e7eb';">
+          <option value="">Semua Kategori</option>
+        </select>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Tahun</label>
+        <select id="filterTahun"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#8b5cf6';"
+          onblur="this.style.borderColor='#e5e7eb';">
+          <option value="">Semua Tahun</option>
+        </select>
+      </div>
+
+      <button id="btnReset"
+        style="padding:9px 18px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;white-space:nowrap;align-self:flex-end;display:flex;align-items:center;gap:6px;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+        Reset
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 2px;">Daftar Arsip Dokumen</h3>
+        <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;">Menampilkan 0 arsip</span>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:680px;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;width:40px;">No</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Nama Surat</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Kategori</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Tanggal</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Tahun</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">File</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tableArsip">
+          <tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal Hapus -->
+<div id="modalHapus" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:white;border-radius:22px;padding:36px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:center;margin-bottom:14px;">
+      <div style="width:60px;height:60px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+        </svg>
+      </div>
+    </div>
+    <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 8px;">Hapus Arsip?</h3>
+    <p style="font-size:14px;color:#6b7280;margin:0 0 26px;line-height:1.6;">Dokumen ini akan dihapus permanen dari arsip dan tidak bisa dikembalikan.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="btnBatalHapus"
+        style="padding:11px 24px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">Batal</button>
+      <button id="btnKonfirmHapus"
+        style="padding:11px 24px;border:none;border-radius:12px;background:#dc2626;color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;"
+        onmouseover="this.style.background='#b91c1c';"
+        onmouseout="this.style.background='#dc2626';">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let allData = [];
+let hapusId = null;
+
+// Palet warna yang dirotasi otomatis untuk tiap kategori,
+// jadi berapa pun jumlah kategorinya tetap kebagian style.
+const colorPalette = [
+  { bg:"#ede9fe", color:"#6d28d9" }, // violet
+  { bg:"#e0f2fe", color:"#0369a1" }, // sky
+  { bg:"#fee2e2", color:"#991b1b" }, // red
+  { bg:"#dcfce7", color:"#166534" }, // green
+  { bg:"#fef3c7", color:"#92400e" }, // amber
+  { bg:"#fce7f3", color:"#9d174d" }, // pink
+  { bg:"#e0e7ff", color:"#3730a3" }, // indigo
+  { bg:"#ccfbf1", color:"#0f766e" }, // teal
+];
+
+let kategoriList  = [];   // hasil fetch dari /api/kategori
+let kategoriStyle = {};   // map nama_kategori -> {bg,color}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+
+// ── Ambil daftar kategori dari API kategori: isi filter dropdown + siapkan style ──
+async function loadKategoriOptions() {
+  const select = document.getElementById("filterKategori");
+  try {
+    const res  = await fetch(`${BASE_URL}/api/kategori`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    kategoriList = Array.isArray(data) ? data : (data.data || []);
+
+    kategoriStyle = {};
+    kategoriList.forEach((k, i) => {
+      kategoriStyle[k.nama_kategori] = colorPalette[i % colorPalette.length];
+    });
+
+    select.innerHTML = '<option value="">Semua Kategori</option>' +
+      kategoriList.map(k => `<option value="${escapeHtml(k.nama_kategori)}">${escapeHtml(k.nama_kategori)}</option>`).join("");
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// ── Stats: total + 1 kartu per kategori, otomatis sebanyak apapun kategorinya ──
+function renderStatsKategori(list) {
+  const container = document.getElementById("statsKategori");
+  if (kategoriList.length === 0) {
+    container.innerHTML = "";
+    return;
+  }
+  container.innerHTML = kategoriList.map(k => {
+    const s     = kategoriStyle[k.nama_kategori] || { bg:"#f3f4f6", color:"#374151" };
+    const count = list.filter(a => a.kategori === k.nama_kategori).length;
+    return `
+      <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid ${s.color};">
+        <div style="width:42px;height:42px;border-radius:12px;background:${s.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${s.color}" stroke-width="2">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+            <line x1="7" y1="7" x2="7.01" y2="7"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:24px;font-weight:700;color:#111827;">${count}</div>
+          <div style="font-size:12px;color:#6b7280;margin-top:2px;">${escapeHtml(k.nama_kategori)}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+async function loadArsip() {
+  try {
+    const res  = await fetch(`${BASE_URL}/api/arsip`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    allData = Array.isArray(data) ? data : (data.data || []);
+
+    document.getElementById("statTotal").textContent = allData.length;
+    renderStatsKategori(allData);
+
+    const tahunSet = [...new Set(allData.map(a => a.tahun).filter(Boolean))].sort((a,b) => b-a);
+    const sel = document.getElementById("filterTahun");
+    const currentTahun = sel.value;
+    sel.innerHTML = '<option value="">Semua Tahun</option>';
+    tahunSet.forEach(t => { sel.innerHTML += `<option value="${t}">${t}</option>`; });
+    sel.value = currentTahun;
+
+    applyFilter();
+  } catch(e) { console.error(e); }
+}
+
+function applyFilter() {
+  const q  = document.getElementById("searchInput").value.toLowerCase();
+  const kt = document.getElementById("filterKategori").value;
+  const th = document.getElementById("filterTahun").value;
+  const filtered = allData.filter(a => {
+    if (kt && a.kategori !== kt) return false;
+    if (th && String(a.tahun) !== th) return false;
+    if (q && !a.nama_surat?.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} arsip`;
+  const tbody = document.getElementById("tableArsip");
+  if (!data || data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Tidak ada arsip yang sesuai filter</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map((a, i) => {
+    const s = kategoriStyle[a.kategori] || { bg:"#f3f4f6", color:"#374151" };
+    return `<tr>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;color:#6b7280;">${i + 1}</td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:600;color:#111827;">${escapeHtml(a.nama_surat)}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:${s.bg};color:${s.color};padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">${escapeHtml(a.kategori)}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#6b7280;white-space:nowrap;">${new Date(a.tanggal).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</td>
+      <td style="padding:13px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#6b7280;">${a.tahun || '-'}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <a href="${BASE_URL}/uploads/${a.file_arsip}" target="_blank"
+          style="display:inline-flex;align-items:center;gap:5px;background:#f5f3ff;color:#7c3aed;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;"
+          onmouseover="this.style.background='#8b5cf6';this.style.color='white';"
+          onmouseout="this.style.background='#f5f3ff';this.style.color='#7c3aed';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Lihat
+        </a>
+      </td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <button onclick="bukaModalHapus(${a.id_arsip})"
+          style="border:none;border-radius:8px;padding:6px 12px;background:#fee2e2;color:#dc2626;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#dc2626';this.style.color='white';"
+          onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Hapus
+        </button>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+window.bukaModalHapus = function(id) {
+  hapusId = id;
+  document.getElementById("modalHapus").style.display = "flex";
+};
+
+document.getElementById("btnBatalHapus").addEventListener("click", () => {
+  hapusId = null;
+  document.getElementById("modalHapus").style.display = "none";
+});
+
+document.getElementById("btnKonfirmHapus").addEventListener("click", async () => {
+  if (!hapusId) return;
+  try {
+    const res  = await fetch(`${BASE_URL}/api/arsip/${hapusId}`, {
+      method: "DELETE", headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("modalHapus").style.display = "none";
+      hapusId = null;
+      loadArsip();
+    } else { alert(data.message || "Gagal hapus arsip"); }
+  } catch { alert("Server error"); }
+});
+
+document.getElementById("modalHapus").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalHapus")) {
+    hapusId = null;
+    document.getElementById("modalHapus").style.display = "none";
+  }
+});
+
+["searchInput","filterKategori","filterTahun"].forEach(id => {
+  document.getElementById(id).addEventListener("input",  applyFilter);
+  document.getElementById(id).addEventListener("change", applyFilter);
+});
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  ["searchInput","filterKategori","filterTahun"].forEach(id => document.getElementById(id).value = "");
+  applyFilter();
+});
+
+// Urutan penting: kategori dulu (biar filter dropdown + style siap), baru data arsip.
+(async function init() {
+  await loadKategoriOptions();
+  await loadArsip();
+})();
+</script>
+
+</DashboardLayout>

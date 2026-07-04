@@ -1,0 +1,341 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Tabel Surat Keluar</title>
+<div style="display:flex;flex-direction:column;gap:22px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#4f46e5,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Tabel Surat Keluar</h1>
+      <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Rekap seluruh surat keluar yang telah dikirim.</p>
+    </div>
+    <a href="/admin/surat-keluar/input"
+      style="display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;font-size:13px;font-weight:700;text-decoration:none;"
+      onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(79,70,229,0.35)';"
+      onmouseout="this.style.transform='none';this.style.boxShadow='none';">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Tambah Surat
+    </a>
+  </div>
+
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #4f46e5;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statTotal" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Total Surat Keluar</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #06b6d4;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statBulan" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Bulan Ini</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          <line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+      </div>
+      <div>
+        <div id="statKategori" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Kategori</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FILTER BAR -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #f3f4f6;">
+      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+      </div>
+      <div style="font-size:14px;font-weight:700;color:#111827;">Filter & Pencarian</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;">
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Kategori</label>
+        <select id="filterKategori"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+          <option value="">Semua Kategori</option>
+        </select>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Dari Tanggal</label>
+        <input type="date" id="filterDari"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Sampai Tanggal</label>
+        <input type="date" id="filterSampai"
+          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:flex-end;">
+
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Cari</label>
+        <div style="position:relative;">
+          <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input type="text" id="searchInput" placeholder="No surat, nama penerima..."
+            style="padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        </div>
+      </div>
+
+      <button id="btnReset"
+        style="padding:9px 20px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;white-space:nowrap;align-self:flex-end;display:flex;align-items:center;gap:6px;"
+        onmouseover="this.style.background='#f9fafb';this.style.borderColor='#d1d5db';"
+        onmouseout="this.style.background='white';this.style.borderColor='#e5e7eb';">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+        Reset Filter
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 2px;">Daftar Surat Keluar</h3>
+        <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;">Menampilkan 0 surat</span>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:700px;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">No</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">No Surat</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Nama Penerima</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Kategori</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Tanggal</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">File</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tableSuratKeluar">
+          <tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Modal Hapus -->
+<div id="modalHapus" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:white;border-radius:22px;padding:36px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:center;margin-bottom:14px;">
+      <div style="width:60px;height:60px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14H6L5 6"/>
+          <path d="M10 11v6"/><path d="M14 11v6"/>
+          <path d="M9 6V4h6v2"/>
+        </svg>
+      </div>
+    </div>
+    <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 8px;">Hapus Surat?</h3>
+    <p style="font-size:14px;color:#6b7280;margin:0 0 26px;line-height:1.6;">Surat ini akan dihapus permanen dan tidak bisa dikembalikan.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="btnBatalHapus"
+        style="padding:11px 24px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">Batal</button>
+      <button id="btnKonfirmHapus"
+        style="padding:11px 24px;border:none;border-radius:12px;background:#dc2626;color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;"
+        onmouseover="this.style.background='#b91c1c';"
+        onmouseout="this.style.background='#dc2626';">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let allData = [];
+let hapusId = null;
+
+async function loadKategori() {
+  try {
+    const res  = await fetch(`${BASE_URL}/api/kategori`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    const sel  = document.getElementById("filterKategori");
+    data.forEach(k => { sel.innerHTML += `<option value="${k.id_kategori}">${k.nama_kategori}</option>`; });
+    document.getElementById("statKategori").textContent = data.length;
+  } catch(e) { console.error(e); }
+}
+
+async function loadSuratKeluar() {
+  try {
+    const res  = await fetch(`${BASE_URL}/api/surat-keluar`, { headers: { Authorization: `Bearer ${token}` } });
+    const json = await res.json();
+    allData = json.data || json;
+    const now = new Date();
+    const bulanIni = allData.filter(s => {
+      const d = new Date(s.created_at);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+    document.getElementById("statTotal").textContent = allData.length;
+    document.getElementById("statBulan").textContent = bulanIni.length;
+    applyFilter();
+  } catch(e) { console.error(e); }
+}
+
+function applyFilter() {
+  const kategori = document.getElementById("filterKategori").value;
+  const dari     = document.getElementById("filterDari").value;
+  const sampai   = document.getElementById("filterSampai").value;
+  const q        = document.getElementById("searchInput").value.toLowerCase();
+
+  const filtered = allData.filter(s => {
+    const tgl = new Date(s.created_at);
+    if (kategori && String(s.id_kategori) !== kategori) return false;
+    if (dari     && tgl < new Date(dari)) return false;
+    if (sampai   && tgl > new Date(sampai + "T23:59:59")) return false;
+    if (q && !(
+      s.no_surat?.toLowerCase().includes(q) ||
+      s.nama_penerima?.toLowerCase().includes(q)
+    )) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} surat`;
+  const tbody = document.getElementById("tableSuratKeluar");
+  if (!data || data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Tidak ada data yang sesuai</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map((s, i) => `
+    <tr>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;color:#6b7280;">${i + 1}</td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:#ede9fe;color:#4f46e5;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">${s.no_surat}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:600;color:#111827;">${s.nama_penerima}</td>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:#e0f2fe;color:#0369a1;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;">${s.nama_kategori ?? s.id_kategori}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#6b7280;white-space:nowrap;">${new Date(s.created_at).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <a href="${BASE_URL}/uploads/${s.file_surat}" target="_blank"
+          style="display:inline-flex;align-items:center;gap:5px;background:#f3f4f6;color:#374151;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;"
+          onmouseover="this.style.background='#4f46e5';this.style.color='white';"
+          onmouseout="this.style.background='#f3f4f6';this.style.color='#374151';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Lihat
+        </a>
+      </td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <button onclick="konfirmasiHapus(${s.id_surat})"
+          style="border:none;border-radius:8px;padding:6px 12px;background:#fee2e2;color:#dc2626;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#dc2626';this.style.color='white';"
+          onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          Hapus
+        </button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+window.konfirmasiHapus = function(id) {
+  hapusId = id;
+  document.getElementById("modalHapus").style.display = "flex";
+};
+
+document.getElementById("btnBatalHapus").addEventListener("click", () => {
+  hapusId = null;
+  document.getElementById("modalHapus").style.display = "none";
+});
+
+document.getElementById("btnKonfirmHapus").addEventListener("click", async () => {
+  if (!hapusId) return;
+  try {
+    const res  = await fetch(`${BASE_URL}/api/surat-keluar/${hapusId}`, {
+      method: "DELETE", headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("modalHapus").style.display = "none";
+      hapusId = null;
+      loadSuratKeluar();
+    } else { alert(data.message || "Gagal hapus surat"); }
+  } catch { alert("Server error"); }
+});
+
+document.getElementById("modalHapus").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalHapus")) {
+    hapusId = null;
+    document.getElementById("modalHapus").style.display = "none";
+  }
+});
+
+["filterKategori","filterDari","filterSampai","searchInput"].forEach(id => {
+  document.getElementById(id).addEventListener("input",  applyFilter);
+  document.getElementById(id).addEventListener("change", applyFilter);
+});
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  ["filterKategori","filterDari","filterSampai","searchInput"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  applyFilter();
+});
+
+loadKategori();
+loadSuratKeluar();
+</script>
+
+</DashboardLayout>

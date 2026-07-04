@@ -1,0 +1,677 @@
+---
+const role = "Dosen";
+const currentPath = Astro.url.pathname;
+---
+
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Surat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+
+<body>
+
+<button class="menu-toggle" onclick="toggleSidebar()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <img src="/LOGO.jpg" class="logo-img"/>
+    <h2>ARSIPRO</h2>
+    <span>Sistem Arsip Digital</span>
+  </div>
+  <nav>
+    <a href="/dosen/dashboard" class={currentPath === "/dosen/dashboard" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Dashboard
+    </a>
+    <a href="/dosen/surat" class={currentPath === "/dosen/surat" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Surat Masuk
+    </a>
+    <a href="/dosen/permintaan" class={currentPath === "/dosen/permintaan" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Request Surat
+    </a>
+    <a href="/dosen/template" class={currentPath === "/dosen/template" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Template Surat
+    </a>
+    <a href="/dosen/arsip" class={currentPath === "/dosen/arsip" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+      Arsip
+    </a>
+    <a href="/dosen/profil" class={currentPath === "/dosen/profil" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profil
+    </a>
+  </nav>
+  <div class="logout">
+    <a href="/login" onclick="localStorage.clear()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="navbar">
+    <div>
+      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
+      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Dosen</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">D</div>
+      <div>
+        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">{role}</div>
+        <div style="font-size:11px;color:#64748b;">Dosen</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <div style="margin-bottom:24px;">
+      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#4f46e5,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Request Surat ke Admin</h1>
+      <p style="color:#6b7280;font-size:14px;margin:0;">Ajukan permintaan surat dan pantau status pengajuanmu.</p>
+    </div>
+
+    <!-- STATS -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;">
+      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #6366f1;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div>
+          <div id="statTotal" style="font-size:22px;font-weight:700;color:#111827;">0</div>
+          <div style="font-size:12px;color:#6b7280;">Total Request</div>
+        </div>
+      </div>
+      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #f59e0b;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <div id="statPending" style="font-size:22px;font-weight:700;color:#111827;">0</div>
+          <div style="font-size:12px;color:#6b7280;">Menunggu</div>
+        </div>
+      </div>
+      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <div id="statDisetujui" style="font-size:22px;font-weight:700;color:#111827;">0</div>
+          <div style="font-size:12px;color:#6b7280;">Disetujui</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;">
+
+      <!-- FORM -->
+      <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#111827;">Ajukan Request Surat</div>
+            <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Isi form berikut dengan lengkap</div>
+          </div>
+        </div>
+
+        <div id="alertSuccess" style="display:none;padding:12px 16px;border-radius:10px;background:#dcfce7;color:#166534;font-size:13px;font-weight:600;margin-bottom:16px;align-items:center;gap:8px;">
+          Request berhasil dikirim!
+        </div>
+        <div id="alertError" style="display:none;padding:12px 16px;border-radius:10px;background:#fee2e2;color:#991b1b;font-size:13px;font-weight:600;margin-bottom:16px;align-items:center;gap:8px;">
+          Gagal mengirim request. Coba lagi.
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;">Nama Dosen</label>
+          <input type="text" id="namaDosen" readonly style="padding:10px 14px;border-radius:10px;border:1.5px solid #f3f4f6;background:#f9fafb;outline:none;font-size:14px;font-family:inherit;color:#6b7280;width:100%;box-sizing:border-box;">
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Judul Surat</label>
+          <input type="text" id="judul_surat" placeholder="Contoh: Permohonan Surat Tugas Seminar"
+            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Deskripsi / Keperluan</label>
+          <textarea id="deskripsi" rows="4" placeholder="Jelaskan kebutuhan surat secara singkat..."
+            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;resize:vertical;width:100%;box-sizing:border-box;line-height:1.6;"
+            onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';"></textarea>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Tanggal Request</label>
+          <input type="date" id="tanggal_request"
+            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        </div>
+
+        <!-- UPLOAD FILE CONTOH -->
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
+          <label style="font-size:12px;font-weight:600;color:#374151;">Lampiran / Contoh File <span style="color:#9ca3af;font-weight:400;">(opsional)</span></label>
+          <label id="dropzone"
+            style="padding:10px 14px;border-radius:10px;border:1.5px dashed #d1d5db;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:8px;color:#6b7280;background:#fafafa;"
+            onmouseover="this.style.borderColor='#4f46e5';this.style.background='#f5f3ff';"
+            onmouseout="this.style.borderColor='#d1d5db';this.style.background='#fafafa';">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            </svg>
+            <span id="fileLabel">Klik untuk pilih file contoh</span>
+            <input type="file" id="file_contoh" accept=".pdf,.doc,.docx" style="display:none;"
+              onchange="document.getElementById('fileLabel').textContent = this.files[0]?.name || 'Klik untuk pilih file contoh';">
+          </label>
+          <span style="font-size:11px;color:#9ca3af;">Maks 15MB - PDF, DOC, DOCX. Lampirkan contoh format surat bila ada.</span>
+        </div>
+
+        <button id="btnKirim"
+          style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;"
+          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(79,70,229,0.35)';"
+          onmouseout="this.style.transform='none';this.style.boxShadow='none';">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Kirim Request
+        </button>
+      </div>
+
+      <!-- RIWAYAT -->
+      <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#111827;">Riwayat Request</div>
+            <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Status pengajuan surat Anda</div>
+          </div>
+        </div>
+        <div id="riwayatRequest" style="display:flex;flex-direction:column;gap:10px;">
+          <p style="color:#9ca3af;font-size:13px;">Loading...</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+    © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
+  </footer>
+</div>
+
+<!-- ================= MODAL CHAT ADMIN ================= -->
+<div id="chatOverlay" class="chat-overlay">
+  <div class="chat-box">
+    <div class="chat-header">
+      <div>
+        <div class="chat-title" id="chatTitle">Chat dengan Admin</div>
+        <div class="chat-subtitle" id="chatSubtitle">-</div>
+      </div>
+      <button class="chat-close" id="chatCloseBtn" title="Tutup">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <p style="color:#9ca3af;font-size:13px;text-align:center;">Memuat percakapan...</p>
+    </div>
+
+    <div class="chat-input-row">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Tulis pesan..." autocomplete="off"/>
+      <button id="chatSendBtn" class="chat-send-btn" title="Kirim">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+
+    <button id="chatSelesaiBtn" class="chat-selesai-btn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+      Selesai Chat &amp; Tutup Request
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+/* ====================================================================
+   KONFIGURASI API — ganti hanya baris ini kalau IP/alamat backend beda
+   ==================================================================== */
+const BASE_URL = "http://100.85.49.78:3000";
+// Kalau dibuka dari device LAIN (bukan komputer server backend), ganti:
+// const BASE_URL = "http://10.183.105.115:3000";
+
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+const userData = JSON.parse(localStorage.getItem("user") || "{}");
+if (userData.nama) {
+  document.getElementById("namaDosen").value      = userData.nama;
+  document.getElementById("namaUser").textContent = userData.nama;
+  document.getElementById("avatarInit").textContent = userData.nama[0]?.toUpperCase() || "D";
+}
+
+const today = new Date().toISOString().split("T")[0];
+document.getElementById("tanggal_request").value = today;
+
+const statusInfo = {
+  pending:   { bg:"#fef9c3", color:"#854d0e", border:"#fde047", label:"Menunggu",  dotColor:"#eab308" },
+  disetujui: { bg:"#dcfce7", color:"#166534", border:"#86efac", label:"Disetujui", dotColor:"#22c55e" },
+  ditolak:   { bg:"#fee2e2", color:"#991b1b", border:"#fca5a5", label:"Ditolak",   dotColor:"#ef4444" },
+};
+
+function statusBadge(status) {
+  const s = statusInfo[status] || statusInfo.pending;
+  return `<span style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;background:${s.bg};color:${s.color};border:1.5px solid ${s.border};">
+    <span style="width:6px;height:6px;border-radius:50%;background:${s.dotColor};display:inline-block;flex-shrink:0;"></span>
+    ${s.label}
+  </span>`;
+}
+
+/* ================= RIWAYAT REQUEST ================= */
+async function loadRiwayat() {
+  try {
+    const res  = await fetch(`${BASE_URL}/api/request-surat/${userData.id_user}`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    const raw = await res.json();
+
+    // Request yang sudah "selesai" (chat ditutup) disembunyikan dari daftar aktif
+    const data = raw.filter(r => r.status !== "selesai");
+
+    document.getElementById("statTotal").textContent     = data.length;
+    document.getElementById("statPending").textContent   = data.filter(r => r.status === "pending").length;
+    document.getElementById("statDisetujui").textContent = data.filter(r => r.status === "disetujui").length;
+
+    const container = document.getElementById("riwayatRequest");
+
+    if (data.length === 0) {
+      container.innerHTML = `
+        <div style="text-align:center;padding:40px 20px;">
+          <div style="font-size:14px;font-weight:600;color:#374151;margin-bottom:4px;">Belum ada request</div>
+          <div style="font-size:12px;color:#9ca3af;">Ajukan request surat melalui form di sebelah kiri</div>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = data.map(r => {
+      const idReq = r.id_request ?? r.id;
+      return `
+      <div class="riwayat-card" data-id="${idReq}" style="background:#f8fafc;border:1.5px solid #f3f4f6;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
+          <div style="font-size:14px;font-weight:700;color:#111827;line-height:1.4;flex:1;">${r.judul_surat}</div>
+          ${statusBadge(r.status)}
+        </div>
+        <div style="font-size:13px;color:#6b7280;line-height:1.5;">${r.deskripsi}</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="font-size:11px;color:#9ca3af;">${new Date(r.created_at).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</div>
+          ${r.file_contoh ? `
+          <a href="${BASE_URL}/uploads/${r.file_contoh}" target="_blank"
+            style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#4f46e5;text-decoration:none;font-weight:600;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            Lihat lampiran
+          </a>` : ""}
+        </div>
+        ${r.file_balasan ? `
+        <button onclick="window.open('${BASE_URL}/uploads/${r.file_balasan}','_blank')"
+          style="margin-top:2px;padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:6px;width:fit-content;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Balasan
+        </button>` : ""}
+        <button class="btn-chat-open" data-id="${idReq}" data-judul="${r.judul_surat.replace(/"/g,'&quot;')}"
+          style="margin-top:2px;padding:8px 14px;border:1.5px solid #4f46e5;border-radius:8px;background:white;color:#4f46e5;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:6px;width:fit-content;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          Chat dengan Admin
+        </button>
+      </div>
+    `;
+    }).join("");
+
+    // pasang listener tombol chat setiap kali riwayat di-render ulang
+    container.querySelectorAll(".btn-chat-open").forEach(btn => {
+      btn.addEventListener("click", () => openChat(btn.dataset.id, btn.dataset.judul));
+    });
+
+  } catch(e) { console.error(e); }
+}
+
+/* ================= KIRIM REQUEST BARU ================= */
+document.getElementById("btnKirim").addEventListener("click", async () => {
+  const judul_surat     = document.getElementById("judul_surat").value.trim();
+  const deskripsi       = document.getElementById("deskripsi").value.trim();
+  const tanggal_request = document.getElementById("tanggal_request").value;
+  const file            = document.getElementById("file_contoh").files[0];
+
+  if (!judul_surat || !deskripsi || !tanggal_request) {
+    showAlert(false);
+    return;
+  }
+
+  const btn = document.getElementById("btnKirim");
+  btn.disabled    = true;
+  btn.textContent = "Mengirim...";
+
+  try {
+    const formData = new FormData();
+    formData.append("id_user", userData.id_user);
+    formData.append("judul_surat", judul_surat);
+    formData.append("deskripsi", deskripsi);
+    formData.append("tanggal_request", tanggal_request);
+    formData.append("role_pengirim", "dosen");
+    if (file) formData.append("file_contoh", file);
+
+    const res = await fetch(`${BASE_URL}/api/request-surat`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token}` },
+      body: formData
+    });
+
+    if (res.ok) {
+      showAlert(true);
+      document.getElementById("judul_surat").value = "";
+      document.getElementById("deskripsi").value   = "";
+      document.getElementById("tanggal_request").value = today;
+      document.getElementById("file_contoh").value = "";
+      document.getElementById("fileLabel").textContent = "Klik untuk pilih file contoh";
+      loadRiwayat();
+    } else {
+      showAlert(false);
+    }
+  } catch { showAlert(false); }
+  finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Kirim Request`;
+  }
+});
+
+function showAlert(ok) {
+  const elOk  = document.getElementById("alertSuccess");
+  const elErr = document.getElementById("alertError");
+  if (ok) { elOk.style.display = "flex"; elErr.style.display = "none"; }
+  else    { elErr.style.display = "flex"; elOk.style.display = "none"; }
+  setTimeout(() => { elOk.style.display = "none"; elErr.style.display = "none"; }, 3500);
+}
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+/* ================= CHAT DENGAN ADMIN ================= */
+let currentChatId   = null;
+let chatPollTimer   = null;
+
+const chatOverlay   = document.getElementById("chatOverlay");
+const chatMessagesEl= document.getElementById("chatMessages");
+const chatTitleEl   = document.getElementById("chatTitle");
+const chatSubtitleEl= document.getElementById("chatSubtitle");
+const chatInput     = document.getElementById("chatInput");
+
+function openChat(idRequest, judul) {
+  currentChatId = idRequest;
+  chatTitleEl.textContent    = "Chat dengan Admin";
+  chatSubtitleEl.textContent = judul || "-";
+  chatOverlay.classList.add("show");
+  chatMessagesEl.innerHTML = `<p style="color:#9ca3af;font-size:13px;text-align:center;">Memuat percakapan...</p>`;
+  loadChatMessages();
+
+  if (chatPollTimer) clearInterval(chatPollTimer);
+  chatPollTimer = setInterval(loadChatMessages, 4000); // polling ringan tiap 4 detik
+  chatInput.focus();
+}
+
+function closeChat() {
+  chatOverlay.classList.remove("show");
+  currentChatId = null;
+  if (chatPollTimer) { clearInterval(chatPollTimer); chatPollTimer = null; }
+}
+
+async function loadChatMessages() {
+  if (!currentChatId) return;
+  try {
+    const res  = await fetch(`${BASE_URL}/api/chat/${currentChatId}`, {
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    const list = await res.json();
+
+    if (!Array.isArray(list) || list.length === 0) {
+      chatMessagesEl.innerHTML = `<p style="color:#9ca3af;font-size:13px;text-align:center;">Belum ada pesan. Mulai percakapan dengan admin.</p>`;
+      return;
+    }
+
+    const wasNearBottom = chatMessagesEl.scrollTop + chatMessagesEl.clientHeight >= chatMessagesEl.scrollHeight - 40;
+
+    chatMessagesEl.innerHTML = list.map(m => {
+      const mine = m.pengirim === "dosen";
+      const namaTampil = m.nama_pengirim || (m.pengirim === "admin" ? "Admin" : m.pengirim);
+      const waktu = new Date(m.created_at).toLocaleTimeString("id-ID", { hour:"2-digit", minute:"2-digit" });
+      return `
+        <div class="chat-bubble-row ${mine ? "mine" : "theirs"}">
+          <div class="chat-bubble ${mine ? "mine" : "theirs"}">
+            ${!mine ? `<div class="chat-sender">${namaTampil}</div>` : ""}
+            <div class="chat-text">${renderIsiPesan(m.isi, mine)}</div>
+            <div class="chat-time">${waktu}</div>
+          </div>
+        </div>`;
+    }).join("");
+
+    if (wasNearBottom) {
+      chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str ?? "";
+  return div.innerHTML;
+}
+
+/* ubah nama file (xxxx.docx / .pdf / .xlsx / .pptx) di dalam teks pesan jadi tombol download */
+function renderIsiPesan(isi, mine) {
+  const escaped = escapeHtml(isi ?? "");
+  const warna   = mine ? "rgba(255,255,255,0.25)" : "#eef2ff";
+  const teks    = mine ? "#ffffff" : "#4f46e5";
+  const border  = mine ? "rgba(255,255,255,0.35)" : "#c7d2fe";
+  return escaped.replace(/([\w.\-]+\.(?:docx?|pdf|xlsx?|pptx?))/gi, (namaFile) => {
+    const url = `${BASE_URL}/uploads/${namaFile}`;
+    return `<a href="${url}" target="_blank" download
+      style="display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:6px 12px;border-radius:8px;background:${warna};color:${teks};text-decoration:none;font-weight:700;font-size:12px;border:1px solid ${border};">
+      &#8595; ${namaFile}
+    </a>`;
+  });
+}
+
+async function sendChatMessage() {
+  const pesan = chatInput.value.trim();
+  if (!pesan || !currentChatId) return;
+
+  chatInput.value = "";
+  chatInput.disabled = true;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/chat/${currentChatId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        pengirim: "dosen",
+        isi: pesan
+      })
+    });
+
+    if (res.ok) {
+      await loadChatMessages();
+      chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+    } else {
+      alert("Gagal mengirim pesan. Coba lagi.");
+      chatInput.value = pesan;
+    }
+  } catch (e) {
+    console.error(e);
+    alert("Tidak dapat terhubung ke server.");
+    chatInput.value = pesan;
+  } finally {
+    chatInput.disabled = false;
+    chatInput.focus();
+  }
+}
+
+async function selesaikanChat() {
+  if (!currentChatId) return;
+  const ok = confirm("Yakin ingin mengakhiri chat ini? Request akan ditandai selesai dan hilang dari daftar.");
+  if (!ok) return;
+
+  const idSelesai = currentChatId;
+
+  try {
+    await fetch(`${BASE_URL}/api/request-surat/${idSelesai}/selesai`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+  } catch (e) {
+    console.error(e);
+    // tetap lanjut menutup dari sisi UI walau request ke server gagal,
+    // supaya user tidak macet. Sinkronisasi status ulang lewat loadRiwayat().
+  }
+
+  // Hapus kartu dari tampilan secara langsung
+  const card = document.querySelector(`.riwayat-card[data-id="${idSelesai}"]`);
+  if (card) card.remove();
+
+  closeChat();
+  loadRiwayat();
+}
+
+document.getElementById("chatCloseBtn").addEventListener("click", closeChat);
+document.getElementById("chatSendBtn").addEventListener("click", sendChatMessage);
+document.getElementById("chatSelesaiBtn").addEventListener("click", selesaikanChat);
+chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") sendChatMessage();
+});
+chatOverlay.addEventListener("click", (e) => {
+  if (e.target === chatOverlay) closeChat();
+});
+
+loadRiwayat();
+</script>
+
+</body>
+</html>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
+body { display:flex; background:#f1f5f9; min-height:100vh; }
+.menu-toggle { display:none; position:fixed; top:15px; left:15px; z-index:1002; background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer; }
+.sidebar { width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b); color:white; padding:20px 15px; display:flex; flex-direction:column; position:fixed; top:0; left:0; transition:.3s; z-index:100; overflow-y:auto; }
+.logo { text-align:center; margin-bottom:28px; }
+.logo-img { width:68px; height:68px; border-radius:50%; object-fit:cover; border:3px solid rgba(79,70,229,0.4); }
+.logo h2 { font-size:18px; font-weight:800; letter-spacing:1px; margin-top:10px; }
+.logo span { font-size:11px; color:#64748b; }
+.sidebar nav { display:flex; flex-direction:column; gap:4px; flex:1; }
+.sidebar nav a { display:flex; align-items:center; gap:10px; padding:11px 13px; color:#94a3b8; text-decoration:none; border-radius:10px; font-size:14px; font-weight:500; transition:all .2s; }
+.sidebar nav a.active, .sidebar nav a:hover { background:linear-gradient(135deg,#4f46e5,#06b6d4); color:white; transform:translateX(2px); }
+.logout { margin-top:auto; padding-top:12px; }
+.logout a { display:flex; align-items:center; gap:10px; background:rgba(127,29,29,0.5); border:1px solid #7f1d1d; padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s; }
+.logout a:hover { background:#7f1d1d; }
+.main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
+.navbar { background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50; }
+.content { padding:28px; flex:1; }
+@keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+@media (max-width:1024px) { .content > div:last-of-type { grid-template-columns: 1fr !important; } }
+@media (max-width:768px) {
+  .menu-toggle { display:block; }
+  .sidebar { left:-260px; }
+  .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
+  .main { margin-left:0; width:100%; }
+  .navbar { padding-left:60px; }
+  .content { padding:20px 16px; }
+}
+
+/* ===== Chat Modal ===== */
+.chat-overlay {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(15,23,42,0.55);
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.chat-overlay.show { display:flex; }
+.chat-box {
+  width:100%; max-width:420px; height:min(560px, 80vh);
+  background:white; border-radius:20px; overflow:hidden;
+  display:flex; flex-direction:column;
+  box-shadow:0 30px 70px rgba(0,0,0,0.35);
+}
+.chat-header {
+  padding:16px 18px; background:linear-gradient(135deg,#4f46e5,#06b6d4);
+  color:white; display:flex; align-items:center; justify-content:space-between;
+  flex-shrink:0;
+}
+.chat-title { font-size:15px; font-weight:700; }
+.chat-subtitle { font-size:12px; opacity:0.85; margin-top:2px; max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.chat-close { background:rgba(255,255,255,0.15); border:none; color:white; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.chat-close:hover { background:rgba(255,255,255,0.28); }
+
+.chat-messages {
+  flex:1; overflow-y:auto; padding:16px; background:#f8fafc;
+  display:flex; flex-direction:column; gap:10px;
+}
+.chat-bubble-row { display:flex; }
+.chat-bubble-row.mine   { justify-content:flex-end; }
+.chat-bubble-row.theirs { justify-content:flex-start; }
+
+.chat-bubble {
+  max-width:75%; padding:9px 13px; border-radius:14px; font-size:13.5px; line-height:1.45;
+}
+.chat-bubble.mine   { background:linear-gradient(135deg,#4f46e5,#06b6d4); color:white; border-bottom-right-radius:4px; }
+.chat-bubble.theirs { background:white; color:#111827; border:1px solid #e5e7eb; border-bottom-left-radius:4px; }
+.chat-sender { font-size:11px; font-weight:700; color:#4f46e5; margin-bottom:2px; }
+.chat-time   { font-size:10px; opacity:0.7; margin-top:4px; text-align:right; }
+
+.chat-input-row {
+  display:flex; gap:8px; padding:12px 14px; border-top:1px solid #f1f5f9; flex-shrink:0;
+}
+.chat-input {
+  flex:1; padding:10px 14px; border-radius:999px; border:1.5px solid #e5e7eb;
+  outline:none; font-size:13.5px; font-family:inherit;
+}
+.chat-input:focus { border-color:#4f46e5; box-shadow:0 0 0 3px rgba(79,70,229,0.12); }
+.chat-send-btn {
+  width:40px; height:40px; border-radius:50%; border:none; flex-shrink:0;
+  background:linear-gradient(135deg,#4f46e5,#06b6d4); color:white; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+}
+.chat-send-btn:hover { opacity:0.9; }
+
+.chat-selesai-btn {
+  margin:0 14px 14px; padding:11px; border:none; border-radius:10px;
+  background:#059669; color:white; font-size:13px; font-weight:700; font-family:inherit;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;
+  flex-shrink:0;
+}
+.chat-selesai-btn:hover { background:#047857; }
+
+/* link/tombol download di dalam bubble chat */
+.chat-text a { word-break:break-all; }
+</style>

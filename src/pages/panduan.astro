@@ -1,0 +1,169 @@
+---
+import Header from "../components/Header.astro"
+---
+<Header />
+
+<!-- FONT (WAJIB BIAR GA TIMES NEW ROMAN) -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<section id="panduan" class="panduan">
+  <div class="container">
+
+    <h2 class="title">Panduan Penggunaan SIPROA</h2>
+    <p class="subtitle">
+      Kelola arsip surat dengan lebih cepat, rapi, dan terintegrasi dalam satu sistem digital modern.
+    </p>
+
+    <div class="panduan-grid">
+
+      <div class="card">
+        <span class="step">01</span>
+        <h3>Login ke Sistem</h3>
+        <p>Akses sistem menggunakan akun resmi untuk membuka seluruh fitur yang tersedia.</p>
+      </div>
+
+      <div class="card">
+        <span class="step">02</span>
+        <h3>Dashboard Utama</h3>
+        <p>Pantau ringkasan data dan aktivitas terbaru secara real-time dalam satu tampilan.</p>
+      </div>
+
+      <div class="card">
+        <span class="step">03</span>
+        <h3>Surat Masuk</h3>
+        <p>Lihat dan unduh surat masuk dengan mudah untuk kebutuhan administrasi.</p>
+      </div>
+
+      <div class="card">
+        <span class="step">04</span>
+        <h3>Request Surat</h3>
+        <p>Kelola dan request surat secara terstruktur dan rapi.</p>
+      </div>
+
+      <div class="card">
+        <span class="step">05</span>
+        <h3>Pencarian Arsip</h3>
+        <p>Temukan dokumen dengan cepat melalui fitur pencarian yang efisien.</p>
+      </div>
+
+      <div class="card">
+        <span class="step">06</span>
+        <h3>Logout Aman</h3>
+        <p>Akhiri sesi penggunaan untuk menjaga keamanan akun dan data.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+
+/* ===== GLOBAL FONT FIX ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+/* ===== PANDUAN (NYAMBUNG HEADER) ===== */
+.panduan {
+  margin-top: -60px; /* ini biar naik ke header */
+  padding: 120px 20px 80px;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(170, 160, 160, 0.6),
+    #353a3f
+  );
+
+  backdrop-filter: blur(10px);
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+}
+
+/* TITLE */
+.title {
+  font-size: 34px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.subtitle {
+  margin-top: 12px;
+  color: #0f1013;
+  font-size: 15px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* GRID */
+.panduan-grid {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 25px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 18px;
+  text-align: left;
+
+  box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+/* STEP */
+.step {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+
+  background: linear-gradient(135deg, #4f46e5, #06b6d4);
+  padding: 5px 12px;
+  border-radius: 999px;
+
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+/* TEXT */
+.card h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.card p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .panduan-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .panduan-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+</style>

@@ -1,0 +1,583 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Pengguna</title>
+<div style="display:flex;flex-direction:column;gap:22px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#4f46e5,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">User Management</h1>
+      <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Kelola akun admin, staff, dosen, mahasiswa dan pimpinan.</p>
+    </div>
+    <button id="btnOpenModal"
+      style="display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;"
+      onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(79,70,229,0.35)';"
+      onmouseout="this.style.transform='none';this.style.boxShadow='none';">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Tambah User
+    </button>
+  </div>
+
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #6366f1;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <div id="statTotal" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Total User</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <div id="statAdmin" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Admin</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #f59e0b;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div>
+        <div id="statDosen" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Dosen</div>
+      </div>
+    </div>
+
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #06b6d4;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <div>
+        <div id="statMahasiswa" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Mahasiswa</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FILTER BAR -->
+  <div style="background:white;padding:16px 20px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+    <div style="flex:2;min-width:200px;position:relative;display:inline-flex;align-items:center;">
+      <span style="position:absolute;left:12px;pointer-events:none;display:flex;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input type="text" id="searchInput" placeholder="Cari nama atau email..." oninput="filterUser()"
+        style="width:100%;padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+        onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+    </div>
+    <select id="filterRole" onchange="filterUser()"
+      style="padding:9px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;min-width:160px;"
+      onfocus="this.style.borderColor='#4f46e5';"
+      onblur="this.style.borderColor='#e5e7eb';">
+      <option value="">Semua Role</option>
+      <option value="admin">Admin</option>
+      <option value="dosen">Dosen</option>
+      <option value="mahasiswa">Mahasiswa</option>
+    </select>
+    <button onclick="document.getElementById('searchInput').value='';document.getElementById('filterRole').value='';filterUser();"
+      style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;white-space:nowrap;"
+      onmouseover="this.style.background='#f9fafb';"
+      onmouseout="this.style.background='white';">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+        <path d="M3 3v5h5"/>
+      </svg>
+      Reset
+    </button>
+  </div>
+
+  <!-- TABLE -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0 0 2px;">Daftar User</h3>
+        <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;">Menampilkan 0 user</span>
+      </div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:600px;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;width:40px;">#</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">User</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Role</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Jabatan/Prodi</th>
+            <th style="padding:12px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="tabelUser">
+          <tr><td colspan="5" style="text-align:center;padding:40px;color:#9ca3af;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal Tambah User -->
+<div id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;padding:20px;">
+  <div style="background:white;border-radius:22px;padding:28px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#111827;">Tambah User Baru</div>
+        <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Isi semua data dengan benar</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Nama Lengkap</label>
+        <input id="inputNama" placeholder="Masukkan nama lengkap"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Email</label>
+        <input id="inputEmail" type="email" placeholder="email@domain.com"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Password</label>
+        <input id="inputPassword" type="password" placeholder="Min. 6 karakter"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Role</label>
+        <select id="inputRole"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+          <option value="mahasiswa">Mahasiswa</option>
+          <option value="dosen">Dosen</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:22px;">
+      <label style="font-size:12px;font-weight:600;color:#374151;">Jabatan</label>
+      <input id="inputJabatan" placeholder="Contoh: Kepala Bagian, Sekretaris..."
+        style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+        onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+    </div>
+    <div id="modalMsg" style="display:none;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:14px;"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:16px;border-top:1px solid #f3f4f6;">
+      <button onclick="closeModal()"
+        style="padding:10px 22px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">Batal</button>
+      <button id="btnSubmitUser"
+        style="display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border:none;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;"
+        onclick="submitUser()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Simpan User
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit User -->
+<div id="modalEdit" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;padding:20px;">
+  <div style="background:white;border-radius:22px;padding:28px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#111827;">Edit Profil User</div>
+        <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Perbarui data akun yang dipilih</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Nama Lengkap</label>
+        <input id="editNama" placeholder="Masukkan nama lengkap"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Email</label>
+        <input id="editEmail" type="email" placeholder="email@domain.com"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;">Password Baru</label>
+        <input id="editPassword" type="password" placeholder="Kosongkan jika tidak diubah"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;"><span style="color:#ef4444;">*</span> Role</label>
+        <select id="editRole"
+          style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;background:white;width:100%;box-sizing:border-box;"
+          onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+          onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+          <option value="mahasiswa">Mahasiswa</option>
+          <option value="dosen">Dosen</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:22px;">
+      <label style="font-size:12px;font-weight:600;color:#374151;">Jabatan</label>
+      <input id="editJabatan" placeholder="Contoh: Kepala Bagian, Sekretaris..."
+        style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
+        onfocus="this.style.borderColor='#4f46e5';this.style.boxShadow='0 0 0 3px rgba(79,70,229,0.1)';"
+        onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+    </div>
+    <div id="editModalMsg" style="display:none;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:14px;"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:16px;border-top:1px solid #f3f4f6;">
+      <button onclick="closeModalEdit()"
+        style="padding:10px 22px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;"
+        onmouseover="this.style.background='#f9fafb';"
+        onmouseout="this.style.background='white';">Batal</button>
+      <button id="btnSubmitEdit"
+        style="display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border:none;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;"
+        onclick="submitEditUser()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+          <polyline points="17 21 17 13 7 13 7 21"/>
+          <polyline points="7 3 7 8 15 8"/>
+        </svg>
+        Simpan Perubahan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Hapus -->
+<div id="modalHapus" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:white;border-radius:22px;padding:36px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:center;margin-bottom:16px;">
+      <div style="width:64px;height:64px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+      </div>
+    </div>
+    <h3 style="font-size:20px;font-weight:700;color:#111827;margin:0 0 8px;">Hapus User?</h3>
+    <p style="font-size:14px;color:#6b7280;margin:0 0 26px;line-height:1.6;">Akun user ini akan dihapus permanen dan tidak bisa dikembalikan.</p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="btnBatalHapus" style="padding:11px 24px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;">Batal</button>
+      <button id="btnKonfirmHapus" style="display:inline-flex;align-items:center;gap:7px;padding:11px 24px;border:none;border-radius:12px;background:#dc2626;color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+          <polyline points="3 6 5 6 21 6"/>
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+          <path d="M10 11v6"/><path d="M14 11v6"/>
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+        </svg>
+        Ya, Hapus
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+let users = [];
+let hapusId = null;
+let editId = null;
+
+const roleStyle = {
+  admin:     { bg:"#dcfce7", color:"#166534" },
+  staff:     { bg:"#dbeafe", color:"#1d4ed8" },
+  pimpinan:  { bg:"#fee2e2", color:"#991b1b" },
+  dosen:     { bg:"#ede9fe", color:"#4f46e5" },
+  mahasiswa: { bg:"#e0f2fe", color:"#0369a1" },
+};
+
+const avatarColor = [
+  ["#ede9fe","#4f46e5"], ["#d1fae5","#059669"],
+  ["#fef9c3","#a16207"], ["#fee2e2","#dc2626"],
+  ["#e0f2fe","#0369a1"], ["#fce7f3","#be185d"],
+];
+
+const SVG_TRASH = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
+
+const SVG_EDIT = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+
+const SVG_SAVE = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>`;
+
+function getAvatar(nama, idx) {
+  const [bg, color] = avatarColor[idx % avatarColor.length];
+  return `<div style="width:40px;height:40px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:${color};flex-shrink:0;">${(nama?.[0] || "U").toUpperCase()}</div>`;
+}
+
+async function loadUsers() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/users`, { headers: { Authorization: `Bearer ${token}` } });
+    users = await res.json();
+    updateStats();
+    filterUser();
+  } catch(e) { console.error(e); }
+}
+
+function updateStats() {
+  const c = r => users.filter(u => u.role === r).length;
+  document.getElementById("statTotal").textContent     = users.length;
+  document.getElementById("statAdmin").textContent     = c("admin");
+  document.getElementById("statDosen").textContent     = c("dosen");
+  document.getElementById("statMahasiswa").textContent = c("mahasiswa");
+}
+
+window.filterUser = function() {
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const r = document.getElementById("filterRole").value;
+  const filtered = users.filter(u =>
+    (u.nama?.toLowerCase().includes(q) || u.email?.toLowerCase().includes(q)) &&
+    (r === "" || u.role === r)
+  );
+  renderTable(filtered);
+};
+
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} user`;
+  const tbody = document.getElementById("tabelUser");
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:40px;color:#9ca3af;">Tidak ada user yang sesuai</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = data.map((u, i) => {
+    const rs = roleStyle[u.role] || { bg:"#f3f4f6", color:"#374151" };
+    return `<tr>
+      <td style="padding:13px 14px;font-size:14px;border-bottom:1px solid #f3f4f6;color:#6b7280;">${i + 1}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          ${getAvatar(u.nama, i)}
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#111827;">${u.nama}</div>
+            <div style="font-size:12px;color:#6b7280;">${u.email}</div>
+          </div>
+        </div>
+      </td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <span style="background:${rs.bg};color:${rs.color};padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;">${u.role}</span>
+      </td>
+      <td style="padding:13px 14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#475569;">${u.jabatan || '<span style="color:#d1d5db;">—</span>'}</td>
+      <td style="padding:13px 14px;border-bottom:1px solid #f3f4f6;">
+        <div style="display:flex;gap:6px;">
+          <button onclick="bukaModalEdit(${u.id_user})"
+            style="border:none;border-radius:8px;padding:7px 12px;background:#e0e7ff;color:#4f46e5;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+            onmouseover="this.style.background='#4f46e5';this.style.color='white';"
+            onmouseout="this.style.background='#e0e7ff';this.style.color='#4f46e5';">
+            ${SVG_EDIT} Edit
+          </button>
+          <button onclick="bukaModalHapus(${u.id_user})"
+            style="border:none;border-radius:8px;padding:7px 12px;background:#fee2e2;color:#dc2626;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+            onmouseover="this.style.background='#dc2626';this.style.color='white';"
+            onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+            ${SVG_TRASH} Hapus
+          </button>
+        </div>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+window.openModal = function() {
+  document.getElementById("modalOverlay").style.display = "flex";
+};
+window.closeModal = function() {
+  document.getElementById("modalOverlay").style.display = "none";
+  document.getElementById("modalMsg").style.display = "none";
+  ["inputNama","inputEmail","inputPassword","inputJabatan"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("inputRole").value = "mahasiswa";
+};
+
+document.getElementById("modalOverlay").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalOverlay")) closeModal();
+});
+document.getElementById("btnOpenModal").addEventListener("click", openModal);
+
+window.submitUser = async function() {
+  const nama     = document.getElementById("inputNama").value.trim();
+  const email    = document.getElementById("inputEmail").value.trim();
+  const password = document.getElementById("inputPassword").value.trim();
+  const role     = document.getElementById("inputRole").value;
+  const jabatan  = document.getElementById("inputJabatan").value.trim();
+
+  if (!nama || !email || !password) {
+    const msg = document.getElementById("modalMsg");
+    msg.textContent = "Nama, email, dan password wajib diisi.";
+    msg.style.background = "#fee2e2";
+    msg.style.color = "#991b1b";
+    msg.style.display = "block";
+    return;
+  }
+
+  const btn = document.getElementById("btnSubmitUser");
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Menyimpan...`;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/auth/register`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ nama, email, password, role, jabatan })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      closeModal();
+      loadUsers();
+    } else {
+      const msg = document.getElementById("modalMsg");
+      msg.textContent = data.message || "Gagal menambahkan user.";
+      msg.style.background = "#fee2e2";
+      msg.style.color = "#991b1b";
+      msg.style.display = "block";
+    }
+  } catch {
+    const msg = document.getElementById("modalMsg");
+    msg.textContent = "Server error. Coba lagi.";
+    msg.style.background = "#fee2e2";
+    msg.style.color = "#991b1b";
+    msg.style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `${SVG_SAVE} Simpan User`;
+  }
+};
+
+window.bukaModalHapus = function(id) {
+  hapusId = id;
+  document.getElementById("modalHapus").style.display = "flex";
+};
+
+window.bukaModalEdit = function(id) {
+  const u = users.find(x => x.id_user === id);
+  if (!u) return;
+  editId = id;
+  document.getElementById("editNama").value     = u.nama || "";
+  document.getElementById("editEmail").value    = u.email || "";
+  document.getElementById("editPassword").value = "";
+  document.getElementById("editRole").value     = u.role || "mahasiswa";
+  document.getElementById("editJabatan").value  = u.jabatan || "";
+  document.getElementById("editModalMsg").style.display = "none";
+  document.getElementById("modalEdit").style.display = "flex";
+};
+
+window.closeModalEdit = function() {
+  document.getElementById("modalEdit").style.display = "none";
+  document.getElementById("editModalMsg").style.display = "none";
+  editId = null;
+};
+
+document.getElementById("modalEdit").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalEdit")) closeModalEdit();
+});
+
+window.submitEditUser = async function() {
+  if (!editId) return;
+
+  const nama     = document.getElementById("editNama").value.trim();
+  const email    = document.getElementById("editEmail").value.trim();
+  const password = document.getElementById("editPassword").value.trim();
+  const role     = document.getElementById("editRole").value;
+  const jabatan  = document.getElementById("editJabatan").value.trim();
+
+  if (!nama || !email) {
+    const msg = document.getElementById("editModalMsg");
+    msg.textContent = "Nama dan email wajib diisi.";
+    msg.style.background = "#fee2e2";
+    msg.style.color = "#991b1b";
+    msg.style.display = "block";
+    return;
+  }
+
+  const payload = { nama, email, role, jabatan };
+  if (password) payload.password = password;
+
+  const btn = document.getElementById("btnSubmitEdit");
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Menyimpan...`;
+
+  try {
+    const res = await fetch(`${BASE_URL}/api/users/${editId}`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok) {
+      closeModalEdit();
+      loadUsers();
+    } else {
+      const msg = document.getElementById("editModalMsg");
+      msg.textContent = data.message || "Gagal memperbarui user.";
+      msg.style.background = "#fee2e2";
+      msg.style.color = "#991b1b";
+      msg.style.display = "block";
+    }
+  } catch {
+    const msg = document.getElementById("editModalMsg");
+    msg.textContent = "Server error. Coba lagi.";
+    msg.style.background = "#fee2e2";
+    msg.style.color = "#991b1b";
+    msg.style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `${SVG_SAVE} Simpan Perubahan`;
+  }
+};
+
+document.getElementById("btnBatalHapus").addEventListener("click", () => {
+  hapusId = null;
+  document.getElementById("modalHapus").style.display = "none";
+});
+
+document.getElementById("btnKonfirmHapus").addEventListener("click", async () => {
+  if (!hapusId) return;
+  try {
+    const res = await fetch(`${BASE_URL}/api/users/${hapusId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.ok) {
+      document.getElementById("modalHapus").style.display = "none";
+      hapusId = null;
+      loadUsers();
+    } else { alert("Gagal hapus user"); }
+  } catch { alert("Server error"); }
+});
+
+document.getElementById("modalHapus").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalHapus")) {
+    hapusId = null;
+    document.getElementById("modalHapus").style.display = "none";
+  }
+});
+
+loadUsers();
+</script>
+
+</DashboardLayout>

@@ -1,0 +1,572 @@
+---
+const role = "Mahasiswa";
+const currentPath = Astro.url.pathname;
+---
+
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Surat Mahasiswa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+
+<body>
+
+<button class="menu-toggle" onclick="toggleSidebar()">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <img src="/LOGO.jpg" class="logo-img"/>
+    <h2>ARSIPRO</h2>
+    <span>Sistem Arsip Digital</span>
+  </div>
+
+  <nav>
+    <a href="/mahasiswa/dashboard" class={currentPath === "/mahasiswa/dashboard" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Dashboard
+    </a>
+    <a href="/mahasiswa/surat" class={currentPath === "/mahasiswa/surat" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22 6 12 13 2 6"/>
+      </svg>
+      Surat Masuk
+    </a>
+    <a href="/mahasiswa/permintaan" class={currentPath === "/mahasiswa/permintaan" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+      Request Surat
+    </a>
+    <a href="/mahasiswa/template" class={currentPath === "/mahasiswa/template" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+      </svg>
+      Template Surat
+    </a>
+    <a href="/mahasiswa/profil" class={currentPath === "/mahasiswa/profil" ? "active" : ""}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      Profil
+    </a>
+  </nav>
+
+  <div class="logout">
+    <a href="/login" onclick="localStorage.clear()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Logout
+    </a>
+  </div>
+</aside>
+
+<div class="main">
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div>
+      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
+      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Mahasiswa</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">M</div>
+      <div>
+        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">{role}</div>
+        <div style="font-size:11px;color:#64748b;">Mahasiswa</div>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- HEADER -->
+    <div style="margin-bottom:24px;">
+      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Template Surat</h1>
+      <p style="color:#6b7280;font-size:14px;margin:0;">Pilih template surat akademik, lihat preview, lalu unduh file Word (.docx).</p>
+    </div>
+
+    <!-- TEMPLATE CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:28px;">
+
+      <!-- Pengantar Magang -->
+      <div class="tmpl-card" onclick="showTemplate('magang')" id="card-magang"
+        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
+        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Pengantar Magang</div>
+          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat pengantar untuk mahasiswa yang akan melaksanakan magang atau PKL.</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:auto;">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('magang')"
+            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
+            onmouseover="this.style.borderColor='#10b981';this.style.color='#059669';"
+            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview
+          </button>
+          <a href="/templates/template-surat-pengantar-magang.docx" download
+            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
+            onclick="event.stopPropagation();"
+            onmouseover="this.style.transform='translateY(-1px)';"
+            onmouseout="this.style.transform='none';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh .docx
+          </a>
+        </div>
+      </div>
+
+      <!-- Pengantar Skripsi -->
+      <div class="tmpl-card" onclick="showTemplate('skripsi')" id="card-skripsi"
+        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
+        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Pengantar Skripsi</div>
+          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat pengantar penelitian atau pengajuan skripsi mahasiswa.</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:auto;">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('skripsi')"
+            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
+            onmouseover="this.style.borderColor='#4f46e5';this.style.color='#4f46e5';"
+            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview
+          </button>
+          <a href="/templates/template-surat-pengantar-skripsi.docx" download
+            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
+            onclick="event.stopPropagation();"
+            onmouseover="this.style.transform='translateY(-1px)';"
+            onmouseout="this.style.transform='none';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh .docx
+          </a>
+        </div>
+      </div>
+
+      <!-- Mahasiswa Aktif -->
+      <div class="tmpl-card" onclick="showTemplate('aktif')" id="card-aktif"
+        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
+        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Mahasiswa Aktif</div>
+          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat keterangan mahasiswa masih aktif kuliah di kampus.</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:auto;">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('aktif')"
+            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
+            onmouseover="this.style.borderColor='#0369a1';this.style.color='#0369a1';"
+            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview
+          </button>
+          <a href="/templates/template-surat-keterangan-aktif.docx" download
+            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#0369a1,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
+            onclick="event.stopPropagation();"
+            onmouseover="this.style.transform='translateY(-1px)';"
+            onmouseout="this.style.transform='none';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh .docx
+          </a>
+        </div>
+      </div>
+
+      <!-- Beasiswa -->
+      <div class="tmpl-card" onclick="showTemplate('beasiswa')" id="card-beasiswa"
+        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
+        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
+            <circle cx="12" cy="8" r="6"/>
+            <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Pengajuan Beasiswa</div>
+          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat permohonan beasiswa untuk kebutuhan pendidikan mahasiswa.</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:auto;">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('beasiswa')"
+            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
+            onmouseover="this.style.borderColor='#d97706';this.style.color='#d97706';"
+            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Preview
+          </button>
+          <a href="/templates/template-surat-pengajuan-beasiswa.docx" download
+            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#d97706,#f59e0b);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
+            onclick="event.stopPropagation();"
+            onmouseover="this.style.transform='translateY(-1px)';"
+            onmouseout="this.style.transform='none';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Unduh .docx
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div id="previewPanel" style="display:none;background:white;border-radius:18px;padding:28px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div id="previewIcon" style="width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"></div>
+          <div>
+            <div id="previewTitle" style="font-size:15px;font-weight:700;color:#111827;"></div>
+            <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Preview teks template</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <a id="downloadBtn" href="#" download
+            style="padding:9px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;text-decoration:none;"
+            onmouseover="this.style.transform='translateY(-1px)';"
+            onmouseout="this.style.transform='none';">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Unduh File .docx
+          </a>
+          <button onclick="document.getElementById('previewPanel').style.display='none'"
+            style="padding:9px 14px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;color:#6b7280;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;"
+            onmouseover="this.style.background='#f9fafb';"
+            onmouseout="this.style.background='white';">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Tutup
+          </button>
+        </div>
+      </div>
+
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:32px 36px;font-family:'Times New Roman',serif;">
+        <div id="previewContent" style="white-space:pre-line;line-height:1.9;font-size:14px;color:#1e293b;"></div>
+      </div>
+
+    </div>
+
+    <!-- EMPTY HINT -->
+    <div id="emptyHint" style="background:white;border-radius:18px;padding:48px 28px;box-shadow:0 8px 25px rgba(0,0,0,0.07);text-align:center;">
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <line x1="10" y1="9" x2="8" y2="9"/>
+        </svg>
+      </div>
+      <div style="font-size:16px;font-weight:600;color:#374151;margin-bottom:6px;">Pilih template untuk melihat preview</div>
+      <div style="font-size:13px;color:#9ca3af;">Klik salah satu kartu template di atas, lalu unduh file Word (.docx)</div>
+    </div>
+
+  </main>
+
+  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+    © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
+  </footer>
+
+</div>
+
+<script is:inline>
+const userData = JSON.parse(localStorage.getItem("user") || "{}");
+if (userData.nama) {
+  document.getElementById("namaUser").textContent   = userData.nama;
+  document.getElementById("avatarInit").textContent = userData.nama[0]?.toUpperCase() || "M";
+}
+
+const templates = {
+  magang: {
+    title: "Surat Pengantar Magang / PKL",
+    file: "/templates/template-surat-pengantar-magang.docx",
+    iconBg: "linear-gradient(135deg,#d1fae5,#a7f3d0)",
+    iconColor: "#059669",
+    iconPath: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+    content: `INSTITUT SHANTI BHUANA
+Jl. Bukit Karmel No. 1, Bengkayang, Kalimantan Barat
+______________________________________________________
+
+SURAT PENGANTAR MAGANG / PKL
+Nomor: 001/SPM/ISB/2026
+
+Yang bertanda tangan di bawah ini:
+
+Nama        :  ......................................................................
+NIP/NIK     :  ......................................................................
+Jabatan     :  Kepala Program Studi
+
+Dengan ini menerangkan bahwa mahasiswa berikut:
+
+Nama          :  ......................................................................
+NIM           :  ......................................................................
+Program Studi :  ......................................................................
+Semester      :  ......................................................................
+
+Adalah benar mahasiswa aktif di Institut Shanti Bhuana yang akan
+melaksanakan kegiatan Magang / Praktik Kerja Lapangan (PKL) di:
+
+Nama Instansi :  ......................................................................
+Alamat        :  ......................................................................
+Periode       :  ......................................................................
+
+Demikian surat pengantar ini dibuat untuk dipergunakan sebagaimana mestinya.
+
+                                         Bengkayang, .......................
+
+                                         Kepala Program Studi
+
+                                         (................................................)
+                                         NIP/NIK: ............................`
+  },
+  skripsi: {
+    title: "Surat Pengantar Penelitian Skripsi",
+    file: "/templates/template-surat-pengantar-skripsi.docx",
+    iconBg: "linear-gradient(135deg,#ede9fe,#ddd6fe)",
+    iconColor: "#4f46e5",
+    iconPath: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
+    content: `INSTITUT SHANTI BHUANA
+Jl. Bukit Karmel No. 1, Bengkayang, Kalimantan Barat
+______________________________________________________
+
+SURAT PENGANTAR PENELITIAN SKRIPSI
+Nomor: 002/SPS/ISB/2026
+
+Yang bertanda tangan di bawah ini:
+
+Nama        :  ......................................................................
+NIP/NIK     :  ......................................................................
+Jabatan     :  Dosen Pembimbing / Kepala Program Studi
+
+Dengan ini menerangkan bahwa mahasiswa berikut:
+
+Nama          :  ......................................................................
+NIM           :  ......................................................................
+Program Studi :  ......................................................................
+Semester      :  ......................................................................
+
+Sedang melaksanakan penelitian skripsi dengan judul:
+
+"......................................................................
+  ......................................................................"
+
+Lokasi Penelitian  :  ..............................................................
+Periode Penelitian :  ..............................................................
+
+Demikian surat pengantar ini dibuat untuk dipergunakan sebagaimana mestinya.
+
+                                         Bengkayang, .......................
+
+                                         Dosen Pembimbing
+
+                                         (................................................)
+                                         NIP/NIK: ............................`
+  },
+  aktif: {
+    title: "Surat Keterangan Mahasiswa Aktif",
+    file: "/templates/template-surat-keterangan-aktif.docx",
+    iconBg: "linear-gradient(135deg,#e0f2fe,#bae6fd)",
+    iconColor: "#0369a1",
+    iconPath: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+    content: `INSTITUT SHANTI BHUANA
+Jl. Bukit Karmel No. 1, Bengkayang, Kalimantan Barat
+______________________________________________________
+
+SURAT KETERANGAN MAHASISWA AKTIF
+Nomor: 003/SKMA/ISB/2026
+
+Yang bertanda tangan di bawah ini:
+
+Nama        :  ......................................................................
+NIP/NIK     :  ......................................................................
+Jabatan     :  Kepala Bagian Akademik
+
+Dengan ini menerangkan bahwa:
+
+Nama          :  ......................................................................
+NIM           :  ......................................................................
+Program Studi :  ......................................................................
+Angkatan      :  ......................................................................
+Semester      :  ......................................................................
+
+Adalah benar merupakan mahasiswa aktif terdaftar di Institut Shanti Bhuana
+pada tahun akademik 2026/2027.
+
+Surat keterangan ini dibuat atas permintaan yang bersangkutan untuk
+digunakan sebagai kelengkapan administrasi yang diperlukan.
+
+Demikian surat keterangan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.
+
+                                         Bengkayang, .......................
+
+                                         Kepala Bagian Akademik
+
+                                         (................................................)
+                                         NIP/NIK: ............................`
+  },
+  beasiswa: {
+    title: "Surat Pengajuan Beasiswa",
+    file: "/templates/template-surat-pengajuan-beasiswa.docx",
+    iconBg: "linear-gradient(135deg,#fef9c3,#fde68a)",
+    iconColor: "#d97706",
+    iconPath: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>`,
+    content: `INSTITUT SHANTI BHUANA
+Jl. Bukit Karmel No. 1, Bengkayang, Kalimantan Barat
+______________________________________________________
+
+SURAT PENGAJUAN BEASISWA
+Nomor: 004/SPB/ISB/2026
+
+Kepada Yth.
+Pimpinan / Panitia Seleksi Beasiswa
+......................................................................
+di Tempat
+
+Dengan hormat,
+
+Yang bertanda tangan di bawah ini:
+
+Nama          :  ......................................................................
+NIM           :  ......................................................................
+Program Studi :  ......................................................................
+Semester      :  ......................................................................
+IPK           :  ......................................................................
+Alamat        :  ......................................................................
+
+Mengajukan permohonan beasiswa pendidikan program
+......................................................................
+untuk tahun akademik 2026/2027.
+
+Sebagai bahan pertimbangan, bersama surat ini saya lampirkan:
+1. Fotokopi Kartu Tanda Mahasiswa (KTM)
+2. Transkrip nilai terakhir
+3. Surat keterangan mahasiswa aktif
+4. Dokumen pendukung lainnya
+
+Besar harapan saya agar permohonan ini dapat dipertimbangkan.
+Atas perhatian dan kebijaksanaan Bapak/Ibu, saya ucapkan terima kasih.
+
+                                    Bengkayang, .......................
+
+                                    Hormat Saya,
+
+
+
+
+                                    (............................................)
+                                    NIM: .............................`
+  }
+};
+
+window.showTemplate = function(type) {
+  const t = templates[type];
+  if (!t) return;
+
+  ["magang","skripsi","aktif","beasiswa"].forEach(k => {
+    const c = document.getElementById(`card-${k}`);
+    if (c) { c.style.borderColor = "#f3f4f6"; c.style.transform = "none"; }
+  });
+
+  const card = document.getElementById(`card-${type}`);
+  if (card) { card.style.borderColor = t.iconColor; card.style.transform = "translateY(-3px)"; }
+
+  document.getElementById("previewTitle").textContent = t.title;
+  document.getElementById("previewContent").textContent = t.content;
+  document.getElementById("downloadBtn").href = t.file;
+  document.getElementById("downloadBtn").setAttribute("download", `${t.title}.docx`);
+  document.getElementById("previewIcon").style.background = t.iconBg;
+  document.getElementById("previewIcon").innerHTML = t.iconPath;
+
+  document.getElementById("emptyHint").style.display   = "none";
+  document.getElementById("previewPanel").style.display = "block";
+  document.getElementById("previewPanel").scrollIntoView({ behavior:"smooth", block:"start" });
+};
+
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
+body { display:flex; background:#f1f5f9; min-height:100vh; }
+.menu-toggle {
+  display:none; position:fixed; top:15px; left:15px; z-index:1002;
+  background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
+}
+.sidebar {
+  width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
+  color:white; padding:20px 15px; display:flex; flex-direction:column;
+  position:fixed; top:0; left:0; transition:.3s; z-index:100; overflow-y:auto;
+}
+.logo { text-align:center; margin-bottom:28px; }
+.logo-img { width:68px; height:68px; border-radius:50%; object-fit:cover; border:3px solid rgba(16,185,129,0.4); }
+.logo h2 { font-size:18px; font-weight:800; letter-spacing:1px; margin-top:10px; }
+.logo span { font-size:11px; color:#64748b; }
+.sidebar nav { display:flex; flex-direction:column; gap:4px; flex:1; }
+.sidebar nav a {
+  display:flex; align-items:center; gap:10px; padding:11px 13px;
+  color:#94a3b8; text-decoration:none; border-radius:10px; font-size:14px; font-weight:500; transition:all .2s;
+}
+.sidebar nav a.active, .sidebar nav a:hover {
+  background:linear-gradient(135deg,#10b981,#06b6d4); color:white; transform:translateX(2px);
+}
+.logout { margin-top:auto; padding-top:12px; }
+.logout a {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(127,29,29,0.5); border:1px solid #7f1d1d;
+  padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s;
+}
+.logout a:hover { background:#7f1d1d; }
+.main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
+.navbar {
+  background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
+}
+.content { padding:28px; flex:1; }
+.tmpl-card:hover { transform:translateY(-4px) !important; box-shadow:0 12px 30px rgba(0,0,0,0.12) !important; }
+@media (max-width:768px) {
+  .menu-toggle { display:block; }
+  .sidebar { left:-260px; }
+  .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
+  .main { margin-left:0; width:100%; }
+  .navbar { padding-left:60px; }
+  .content { padding:20px 16px; }
+}
+</style>

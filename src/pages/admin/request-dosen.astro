@@ -1,0 +1,1070 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+<title>Dashboard Request Surat Dosen</title>
+<div style="display:flex;flex-direction:column;gap:22px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div>
+    <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#0ea5e9,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Request Surat Dosen</h1>
+    <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Seluruh permintaan surat dari dosen yang masuk ke admin untuk diproses.</p>
+  </div>
+
+  <!-- STATS -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;">
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #0ea5e9;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      </div>
+      <div>
+        <div id="statTotal" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Total Request</div>
+      </div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #f59e0b;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div>
+        <div id="statPending" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Menunggu</div>
+      </div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <div id="statApprove" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Disetujui</div>
+      </div>
+    </div>
+    <div style="background:white;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #ef4444;">
+      <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fecaca);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+      <div>
+        <div id="statReject" style="font-size:24px;font-weight:700;color:#111827;">0</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">Ditolak</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;gap:15px;align-items:flex-end;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;gap:6px;flex:2;min-width:200px;">
+      <label style="font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Cari</label>
+      <div style="position:relative;">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </span>
+        <input type="text" id="searchInput" placeholder="Nama dosen, judul surat..."
+          style="padding:10px 14px 10px 34px;border-radius:10px;border:1px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:100%;box-sizing:border-box;">
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:160px;">
+      <label style="font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Status</label>
+      <select id="filterStatus"
+        style="padding:10px 14px;border-radius:10px;border:1px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;width:100%;box-sizing:border-box;">
+        <option value="">Semua Status</option>
+        <option value="pending">Menunggu</option>
+        <option value="diproses">Sedang Diproses</option>
+        <option value="disetujui">Disetujui</option>
+        <option value="selesai">Sudah Selesai</option>
+        <option value="ditolak">Ditolak</option>
+      </select>
+    </div>
+    <button id="btnReset"
+      style="padding:10px 20px;border:1px solid #e5e7eb;border-radius:10px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;white-space:nowrap;align-self:flex-end;display:flex;align-items:center;gap:6px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+      Reset
+    </button>
+  </div>
+
+  <!-- TABLE -->
+  <div style="background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0;">Daftar Request Surat Dosen</h3>
+      <span id="jumlahTampil" style="background:#f3f4f6;color:#6b7280;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:600;">Menampilkan 0 request</span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:960px;">
+        <thead>
+          <tr style="background:#f9fafb;">
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Nama Dosen</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Judul Surat</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Deskripsi</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Lampiran</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;white-space:nowrap;">Tanggal</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Status</th>
+            <th style="padding:13px 14px;text-align:left;font-size:13px;font-weight:700;color:#374151;border-bottom:2px solid #f0f0f0;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="requestBody">
+          <tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div id="previewCard" style="display:none;background:white;padding:20px 24px;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="font-size:16px;font-weight:700;color:#111827;margin:0;">Preview Request Surat</h3>
+      <button id="btnClosePreview" style="padding:7px 14px;border:1px solid #e5e7eb;border-radius:8px;background:white;cursor:pointer;font-size:13px;color:#6b7280;font-weight:600;font-family:inherit;display:flex;align-items:center;gap:5px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Tutup
+      </button>
+    </div>
+    <div id="previewContent" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px;"></div>
+    <div id="infoBox" style="display:none;margin-top:14px;padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;align-items:center;gap:8px;"></div>
+  </div>
+
+  <!-- ===================== CHAT PANEL ===================== -->
+  <div id="chatPanel" style="display:none;background:white;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.07);overflow:hidden;">
+
+    <!-- Chat Header -->
+    <div style="padding:18px 24px;background:linear-gradient(135deg,#0ea5e9,#10b981);display:flex;justify-content:space-between;align-items:center;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div>
+          <div id="chatTitle" style="font-size:15px;font-weight:700;color:white;">Chat Request</div>
+          <div id="chatSubtitle" style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:1px;">Komunikasi dengan dosen</div>
+        </div>
+      </div>
+      <button id="btnCloseChat"
+        style="padding:7px 14px;border:1.5px solid rgba(255,255,255,0.4);border-radius:8px;background:rgba(255,255,255,0.15);cursor:pointer;font-size:13px;color:white;font-weight:600;font-family:inherit;display:flex;align-items:center;gap:5px;backdrop-filter:blur(4px);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Tutup
+      </button>
+    </div>
+
+    <!-- Chat Body -->
+    <div id="chatBody"
+      style="height:340px;overflow-y:auto;padding:20px 24px;display:flex;flex-direction:column;gap:10px;background:#f8fafc;">
+      <div style="text-align:center;padding:30px;color:#9ca3af;font-size:13px;">Memuat percakapan...</div>
+    </div>
+
+    <!-- Chat Input -->
+    <div style="padding:16px 24px;border-top:1px solid #f0f0f0;background:white;">
+
+      <!-- Quick reply chips -->
+      <div id="quickReplies" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+        <span style="font-size:11px;font-weight:600;color:#9ca3af;align-self:center;text-transform:uppercase;letter-spacing:0.4px;">Balas cepat:</span>
+        <button onclick="setQuickReply('File yang dikirim sudah kami terima dan sedang diproses.')"
+          style="padding:5px 12px;border-radius:999px;border:1.5px solid #e5e7eb;background:white;font-size:12px;color:#374151;cursor:pointer;font-family:inherit;font-weight:500;"
+          onmouseover="this.style.borderColor='#0ea5e9';this.style.color='#0369a1';"
+          onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+          File diterima, sedang diproses
+        </button>
+        <button onclick="setQuickReply('Mohon kirim ulang file yang benar sesuai format yang ditentukan.')"
+          style="padding:5px 12px;border-radius:999px;border:1.5px solid #e5e7eb;background:white;font-size:12px;color:#374151;cursor:pointer;font-family:inherit;font-weight:500;"
+          onmouseover="this.style.borderColor='#f59e0b';this.style.color='#d97706';"
+          onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+          Minta kirim ulang file
+        </button>
+        <button onclick="setQuickReply('Surat sudah selesai, silakan diambil di Tata Usaha.')"
+          style="padding:5px 12px;border-radius:999px;border:1.5px solid #e5e7eb;background:white;font-size:12px;color:#374151;cursor:pointer;font-family:inherit;font-weight:500;"
+          onmouseover="this.style.borderColor='#10b981';this.style.color='#059669';"
+          onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+          Surat sudah selesai
+        </button>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:flex-end;">
+        <textarea id="chatInput" placeholder="Tulis pesan ke dosen..."
+          rows="2"
+          style="flex:1;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:12px;outline:none;font-size:13px;font-family:inherit;resize:none;line-height:1.5;box-sizing:border-box;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='#0ea5e9';"
+          onblur="this.style.borderColor='#e5e7eb';"></textarea>
+        <button id="btnSendChat"
+          style="padding:12px 18px;border:none;border-radius:12px;background:linear-gradient(135deg,#0ea5e9,#10b981);color:white;cursor:pointer;font-family:inherit;font-weight:700;font-size:13px;display:flex;align-items:center;gap:6px;flex-shrink:0;align-self:flex-end;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Kirim
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal Konfirmasi -->
+<div id="modalKonfirmasi" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:white;border-radius:22px;padding:36px 30px;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2);">
+    <div style="display:flex;justify-content:center;margin-bottom:14px;">
+      <div id="modalIconWrap" style="width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;"></div>
+    </div>
+    <h3 id="modalTitle" style="font-size:20px;font-weight:700;color:#111827;margin:0 0 8px;"></h3>
+    <p id="modalDesc" style="font-size:14px;color:#6b7280;margin:0 0 26px;line-height:1.6;"></p>
+    <div style="display:flex;gap:12px;justify-content:center;">
+      <button id="btnBatal" style="padding:11px 24px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;">Batal</button>
+      <button id="btnKonfirm" style="padding:11px 24px;border:none;border-radius:12px;cursor:pointer;font-size:14px;font-weight:700;color:white;font-family:inherit;"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Kirim Balik -->
+<div id="modalKirimBalik" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;padding:16px;box-sizing:border-box;">
+  <div style="background:white;border-radius:22px;padding:32px 28px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);max-height:90vh;overflow-y:auto;">
+
+    <!-- Header Modal -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+        </div>
+        <div>
+          <h3 style="font-size:18px;font-weight:700;color:#111827;margin:0;">Kirim Balik ke Dosen</h3>
+          <p id="subKirimBalik" style="font-size:12px;color:#6b7280;margin:2px 0 0;"></p>
+        </div>
+      </div>
+      <button id="btnCloseKirimBalik"
+        style="width:32px;height:32px;border:1px solid #e5e7eb;border-radius:8px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Info banner -->
+    <div style="background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:18px;display:flex;align-items:flex-start;gap:8px;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p style="font-size:12px;color:#9a3412;margin:0;line-height:1.6;">
+        File perbaikan (opsional) dan pesan akan dikirim ke <strong>surat masuk dosen</strong>. Status request berubah ke <strong>Menunggu</strong> agar dosen bisa kirim ulang.
+      </p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Upload File Perbaikan -->
+      <div>
+        <label style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">
+          File Perbaikan / Panduan
+          <span style="font-size:11px;font-weight:500;color:#9ca3af;text-transform:none;letter-spacing:0;">(opsional)</span>
+        </label>
+        <p style="font-size:12px;color:#6b7280;margin:0 0 8px;line-height:1.5;">
+          Lampirkan file contoh atau panduan pengisian agar dosen bisa memperbaiki dengan benar.
+        </p>
+
+        <!-- Drop zone -->
+        <div id="dropZoneKirimBalik"
+          onclick="document.getElementById('filePerbaikan').click()"
+          ondragover="event.preventDefault();this.style.borderColor='#f59e0b';this.style.background='#fffbeb';"
+          ondragleave="this.style.borderColor='#e5e7eb';this.style.background='#f9fafb';"
+          ondrop="handleDropFile(event)"
+          style="border:2px dashed #e5e7eb;border-radius:12px;padding:20px;background:#f9fafb;cursor:pointer;text-align:center;transition:all 0.2s;">
+          <div id="dropZoneIdle" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:#374151;">Klik atau seret file ke sini</div>
+              <div style="font-size:11px;color:#9ca3af;margin-top:2px;">PDF, DOC, DOCX, JPG, PNG · Maks. 10 MB</div>
+            </div>
+          </div>
+          <!-- Preview file terpilih -->
+          <div id="dropZonePreview" style="display:none;flex-direction:column;align-items:center;gap:8px;">
+            <div id="filePreviewIcon" style="width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;"></div>
+            <div>
+              <div id="filePreviewName" style="font-size:13px;font-weight:700;color:#374151;word-break:break-all;"></div>
+              <div id="filePreviewSize" style="font-size:11px;color:#9ca3af;margin-top:2px;"></div>
+            </div>
+            <button onclick="hapusFile(event)"
+              style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border:1.5px solid #fca5a5;border-radius:999px;background:#fee2e2;color:#dc2626;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              Hapus File
+            </button>
+          </div>
+        </div>
+        <input type="file" id="filePerbaikan" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+          style="display:none;" onchange="handleFileSelect(this.files[0])">
+      </div>
+
+      <!-- Pesan Tambahan -->
+      <div>
+        <label style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">
+          Pesan ke Dosen
+          <span style="font-size:11px;font-weight:500;color:#9ca3af;text-transform:none;letter-spacing:0;">(opsional)</span>
+        </label>
+        <input type="text" id="pesanTambahanKirimBalik"
+          placeholder="Contoh: Silakan hubungi kami jika ada pertanyaan..."
+          style="width:100%;padding:11px 14px;border:1.5px solid #e5e7eb;border-radius:10px;outline:none;font-size:13px;font-family:inherit;box-sizing:border-box;transition:border-color 0.2s;"
+          onfocus="this.style.borderColor='#0ea5e9';"
+          onblur="this.style.borderColor='#e5e7eb';">
+      </div>
+
+      <!-- Progress bar upload -->
+      <div id="uploadProgressWrap" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:12px;font-weight:600;color:#374151;">Mengupload file...</span>
+          <span id="uploadProgressPct" style="font-size:12px;color:#6b7280;font-weight:700;">0%</span>
+        </div>
+        <div style="background:#f3f4f6;border-radius:999px;height:6px;overflow:hidden;">
+          <div id="uploadProgressBar" style="height:100%;background:linear-gradient(90deg,#f59e0b,#d97706);border-radius:999px;width:0%;transition:width 0.3s;"></div>
+        </div>
+      </div>
+
+      <!-- Tombol aksi -->
+      <div style="display:flex;gap:10px;padding-top:4px;">
+        <button id="btnBatalKirimBalik"
+          style="flex:1;padding:12px;border:1px solid #e5e7eb;border-radius:12px;background:white;color:#374151;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit;">
+          Batal
+        </button>
+        <button id="btnKonfirmKirimBalik"
+          style="flex:2;padding:12px;border:none;border-radius:12px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+          Kirim Balik ke Dosen
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style is:global>
+@keyframes pulse-yellow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234,179,8,0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(234,179,8,0); }
+}
+@keyframes pulse-blue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.5); }
+  50%       { box-shadow: 0 0 0 5px rgba(59,130,246,0); }
+}
+.dot-pending  { animation: pulse-yellow 1.8s infinite; }
+.dot-diproses { animation: pulse-blue 1.8s infinite; }
+
+@keyframes bubbleIn {
+  from { opacity:0; transform:translateY(6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.chat-bubble { animation: bubbleIn 0.22s ease; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.badge-unread {
+  position:absolute;top:-4px;right:-4px;
+  width:16px;height:16px;border-radius:50%;
+  background:#ef4444;color:white;
+  font-size:9px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid white;
+}
+</style>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+const adminNama = currentUser.nama || "Admin";
+
+let allData = [];
+let pendingAction = null;
+let pendingKirimBalikId = null;
+
+let activeChatId = null;
+let chatMessages = [];
+let chatPollTimer = null;
+
+function getStatusInfo(statusRaw) {
+  const s = (statusRaw || "").toString().toLowerCase().trim();
+  if (s === "disetujui")    return { key: "disetujui",    label: "Disetujui" };
+  if (s === "ditolak")      return { key: "ditolak",      label: "Ditolak" };
+  if (s === "diproses")     return { key: "diproses",     label: "Sedang Diproses" };
+  if (s === "selesai")      return { key: "selesai",      label: "Sudah Selesai" };
+  if (s === "dikembalikan") return { key: "dikembalikan", label: "Dikembalikan" };
+  return { key: "pending", label: "Menunggu" };
+}
+
+function escapeHtml(str) {
+  if (!str) return "";
+  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+
+const S = {
+  pending:       { bg:"#fef9c3", color:"#854d0e", border:"#fde047", dot:"#eab308" },
+  diproses:      { bg:"#dbeafe", color:"#1d4ed8", border:"#93c5fd", dot:"#3b82f6" },
+  disetujui:     { bg:"#dcfce7", color:"#166534", border:"#86efac", dot:"#22c55e" },
+  selesai:       { bg:"#ede9fe", color:"#6d28d9", border:"#c4b5fd", dot:"#8b5cf6" },
+  ditolak:       { bg:"#fee2e2", color:"#991b1b", border:"#fca5a5", dot:"#ef4444" },
+  dikembalikan:  { bg:"#fef3c7", color:"#92400e", border:"#fcd34d", dot:"#f59e0b" },
+};
+
+function badge(key, label) {
+  const s = S[key] || S.pending;
+  return `<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;background:${s.bg};color:${s.color};border:1.5px solid ${s.border};white-space:nowrap;">
+    <span class="dot-${key}" style="width:7px;height:7px;border-radius:50%;background:${s.dot};display:inline-block;flex-shrink:0;"></span>
+    ${label}
+  </span>`;
+}
+
+async function loadRequest() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/request-surat?role_pengirim=dosen&_t=${Date.now()}`, {
+      headers: { "Authorization": `Bearer ${token}` },
+      cache: "no-store"
+    });
+    const data = await res.json();
+    allData = Array.isArray(data) ? data : [];
+
+    document.getElementById("statTotal").textContent    = allData.length;
+    document.getElementById("statPending").textContent  = allData.filter(r => ["pending","dikembalikan"].includes(getStatusInfo(r.status).key)).length;
+    document.getElementById("statApprove").textContent  = allData.filter(r => getStatusInfo(r.status).key === "disetujui").length;
+    document.getElementById("statReject").textContent   = allData.filter(r => getStatusInfo(r.status).key === "ditolak").length;
+    applyFilter();
+  } catch(e) {
+    console.error("Gagal load data:", e);
+    document.getElementById("requestBody").innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:#ef4444;">Gagal memuat data. Coba refresh halaman.</td></tr>`;
+  }
+}
+
+function applyFilter() {
+  const q  = document.getElementById("searchInput").value.toLowerCase();
+  const st = document.getElementById("filterStatus").value;
+  const filtered = allData.filter(r => {
+    const { key } = getStatusInfo(r.status);
+    if (st && key !== st) return false;
+    if (q && !(
+      (r.nama || "").toLowerCase().includes(q) ||
+      (r.judul_surat || "").toLowerCase().includes(q) ||
+      (r.deskripsi || "").toLowerCase().includes(q)
+    )) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+
+function renderTable(data) {
+  document.getElementById("jumlahTampil").textContent = `Menampilkan ${data.length} request`;
+  const tbody = document.getElementById("requestBody");
+
+  if (!data || data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af;">Tidak ada data yang sesuai</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(r => {
+    const { key, label } = getStatusInfo(r.status);
+
+    const lampiran = r.file_contoh
+      ? `<a href="${BASE_URL}/uploads/${r.file_contoh}" target="_blank"
+            style="display:inline-flex;align-items:center;gap:5px;background:#e0f2fe;color:#0369a1;padding:5px 12px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;"
+            onmouseover="this.style.background='#0ea5e9';this.style.color='white';"
+            onmouseout="this.style.background='#e0f2fe';this.style.color='#0369a1';">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            Lihat
+          </a>`
+      : `<span style="font-size:12px;color:#d1d5db;">-</span>`;
+
+    let aksiHtml = "";
+    if (key === "pending" || key === "dikembalikan") {
+      aksiHtml = `
+        <button onclick="konfirmasiAksi(${r.id_request},'diproses')"
+          style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#dbeafe;color:#1d4ed8;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#2563eb';this.style.color='white';"
+          onmouseout="this.style.background='#dbeafe';this.style.color='#1d4ed8';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-3.5-7.1"/><polyline points="21 4 21 9 16 9"/></svg>
+          Proses
+        </button>
+        <button onclick="konfirmasiAksi(${r.id_request},'disetujui')"
+          style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#dcfce7;color:#166534;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#16a34a';this.style.color='white';"
+          onmouseout="this.style.background='#dcfce7';this.style.color='#166534';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Setujui
+        </button>
+        <button onclick="konfirmasiAksi(${r.id_request},'ditolak')"
+          style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#fee2e2;color:#991b1b;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#dc2626';this.style.color='white';"
+          onmouseout="this.style.background='#fee2e2';this.style.color='#991b1b';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Tolak
+        </button>`;
+    }
+
+    if (key === "diproses") {
+      aksiHtml = `
+        <button onclick="konfirmasiAksi(${r.id_request},'selesai')"
+          style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#ede9fe;color:#6d28d9;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#7c3aed';this.style.color='white';"
+          onmouseout="this.style.background='#ede9fe';this.style.color='#6d28d9';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Selesai
+        </button>
+        <button onclick="konfirmasiAksi(${r.id_request},'disetujui')"
+          style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#dcfce7;color:#166534;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#16a34a';this.style.color='white';"
+          onmouseout="this.style.background='#dcfce7';this.style.color='#166534';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Setujui
+        </button>
+        <button onclick="konfirmasiAksi(${r.id_request},'ditolak')"
+          style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#fee2e2;color:#991b1b;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#dc2626';this.style.color='white';"
+          onmouseout="this.style.background='#fee2e2';this.style.color='#991b1b';">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Tolak
+        </button>`;
+    }
+
+    const bisaKirimBalik = r.file_contoh && !["ditolak", "dikembalikan"].includes(key);
+    const kirimBalikBtn = bisaKirimBalik
+      ? `<button onclick="bukaModalKirimBalik(${r.id_request},'${escapeHtml(r.nama)}')"
+          style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#fef3c7;color:#92400e;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+          onmouseover="this.style.background='#d97706';this.style.color='white';"
+          onmouseout="this.style.background='#fef3c7';this.style.color='#92400e';"
+          title="Kembalikan file ke dosen untuk diperbaiki">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+          Kirim Balik
+        </button>`
+      : "";
+
+    const chatBtn = `<button onclick="bukaChat(${r.id_request},'${escapeHtml(r.judul_surat)}','${escapeHtml(r.nama)}')"
+        style="position:relative;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#f3f4f6;color:#374151;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+        onmouseover="this.style.background='#6366f1';this.style.color='white';"
+        onmouseout="this.style.background='#f3f4f6';this.style.color='#374151';"
+        id="chatBtn_${r.id_request}">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Chat
+      </button>`;
+
+    const previewBtn = `<button onclick="previewRequest('${escapeHtml(r.judul_surat)}','${escapeHtml(r.deskripsi)}','${escapeHtml(r.nama)}','${r.file_contoh || ''}')"
+        style="border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;background:#f3f4f6;color:#374151;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
+        onmouseover="this.style.background='#4f46e5';this.style.color='white';"
+        onmouseout="this.style.background='#f3f4f6';this.style.color='#374151';">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        Preview
+      </button>`;
+
+    return `<tr>
+      <td style="padding:14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:700;color:#111827;white-space:nowrap;">${escapeHtml(r.nama)}</td>
+      <td style="padding:14px;font-size:14px;border-bottom:1px solid #f3f4f6;font-weight:600;color:#1e293b;">${escapeHtml(r.judul_surat)}</td>
+      <td style="padding:14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#64748b;max-width:220px;line-height:1.5;">${escapeHtml(r.deskripsi)}</td>
+      <td style="padding:14px;border-bottom:1px solid #f3f4f6;">${lampiran}</td>
+      <td style="padding:14px;font-size:13px;border-bottom:1px solid #f3f4f6;color:#6b7280;white-space:nowrap;">${new Date(r.created_at).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</td>
+      <td style="padding:14px;border-bottom:1px solid #f3f4f6;">${badge(key,label)}</td>
+      <td style="padding:14px;border-bottom:1px solid #f3f4f6;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          ${previewBtn}
+          ${aksiHtml}
+          ${kirimBalikBtn}
+          ${chatBtn}
+        </div>
+      </td>
+    </tr>`;
+  }).join("");
+}
+
+window.previewRequest = function(judul, deskripsi, nama, fileContoh) {
+  document.getElementById("previewCard").style.display = "block";
+  document.getElementById("infoBox").style.display = "none";
+  const rows = [
+    ["Nama Dosen", escapeHtml(nama)],
+    ["Judul Surat", escapeHtml(judul)],
+    ["Deskripsi", escapeHtml(deskripsi)],
+  ];
+  let html = rows.map(([lbl, val]) => `
+    <div style="display:flex;flex-direction:column;gap:4px;">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;">${lbl}</span>
+      <span style="font-size:15px;color:#1e293b;line-height:1.6;">${val}</span>
+    </div>
+  `).join('<hr style="border:none;border-top:1px solid #e2e8f0;margin:0;">');
+  if (fileContoh) {
+    html += `<hr style="border:none;border-top:1px solid #e2e8f0;margin:0;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;">Lampiran / Contoh File</span>
+        <a href="${BASE_URL}/uploads/${fileContoh}" target="_blank"
+          style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#0ea5e9,#10b981);color:white;padding:9px 16px;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;width:fit-content;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Lampiran
+        </a>
+      </div>`;
+  }
+  document.getElementById("previewContent").innerHTML = html;
+  document.getElementById("previewCard").scrollIntoView({ behavior:"smooth", block:"start" });
+};
+
+const MODAL_CONFIG = {
+  disetujui: { bg:"#dcfce7", icon:`<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>`, title:"Setujui Request?", desc:"Request surat dosen ini akan disetujui.", btnText:"Ya, Setujui", btnColor:"#16a34a" },
+  ditolak:   { bg:"#fee2e2", icon:`<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`, title:"Tolak Request?", desc:"Request surat ini akan ditolak. Tindakan ini tidak bisa dibatalkan.", btnText:"Ya, Tolak", btnColor:"#dc2626" },
+  diproses:  { bg:"#dbeafe", icon:`<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-3.5-7.1"/><polyline points="21 4 21 9 16 9"/></svg>`, title:"Proses Request?", desc:"Request surat ini akan ditandai sedang diproses.", btnText:"Ya, Proses", btnColor:"#2563eb" },
+  selesai:   { bg:"#ede9fe", icon:`<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`, title:"Selesaikan Request?", desc:"Request surat ini akan ditandai sudah selesai.", btnText:"Ya, Selesaikan", btnColor:"#7c3aed" }
+};
+
+window.konfirmasiAksi = function(id, status) {
+  pendingAction = { id, status };
+  const cfg = MODAL_CONFIG[status];
+  if (!cfg) return;
+  document.getElementById("modalIconWrap").style.background = cfg.bg;
+  document.getElementById("modalIconWrap").innerHTML = cfg.icon;
+  document.getElementById("modalTitle").textContent = cfg.title;
+  document.getElementById("modalDesc").textContent  = cfg.desc;
+  const btn = document.getElementById("btnKonfirm");
+  btn.textContent      = cfg.btnText;
+  btn.style.background = cfg.btnColor;
+  document.getElementById("modalKonfirmasi").style.display = "flex";
+};
+
+document.getElementById("btnBatal").addEventListener("click", () => {
+  pendingAction = null;
+  document.getElementById("modalKonfirmasi").style.display = "none";
+});
+
+document.getElementById("modalKonfirmasi").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalKonfirmasi")) {
+    pendingAction = null;
+    document.getElementById("modalKonfirmasi").style.display = "none";
+  }
+});
+
+const INFO_ICONS = {
+  disetujui:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.5" style="flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>`,
+  ditolak:      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#991b1b" stroke-width="2.5" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+  diproses:     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2.5" style="flex-shrink:0;"><path d="M21 12a9 9 0 1 1-3.5-7.1"/><polyline points="21 4 21 9 16 9"/></svg>`,
+  selesai:      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2.5" style="flex-shrink:0;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+  dikembalikan: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2.5" style="flex-shrink:0;"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>`,
+};
+const INFO_CONFIG = {
+  disetujui:    { text:"Request berhasil disetujui.",             bg:"#dcfce7", color:"#166534" },
+  ditolak:      { text:"Request berhasil ditolak.",               bg:"#fee2e2", color:"#991b1b" },
+  diproses:     { text:"Request ditandai sedang diproses.",       bg:"#dbeafe", color:"#1d4ed8" },
+  selesai:      { text:"Request berhasil diselesaikan.",          bg:"#ede9fe", color:"#6d28d9" },
+  dikembalikan: { text:"File berhasil dikembalikan ke dosen.",    bg:"#fef3c7", color:"#92400e" },
+};
+
+document.getElementById("btnKonfirm").addEventListener("click", async () => {
+  if (!pendingAction) return;
+  const { id, status } = pendingAction;
+  const btn = document.getElementById("btnKonfirm");
+  btn.disabled = true;
+  btn.textContent = "Menyimpan...";
+  try {
+    const res = await fetch(`${BASE_URL}/api/request-surat/${id}`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      document.getElementById("modalKonfirmasi").style.display = "none";
+      pendingAction = null;
+      const idx = allData.findIndex(r => String(r.id_request) === String(id));
+      if (idx !== -1) allData[idx] = { ...allData[idx], status };
+      applyFilter();
+      showInfoBox(status);
+      loadRequest();
+    } else {
+      alert(data.message || "Gagal update status");
+    }
+  } catch(e) {
+    alert("Server error: " + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+function showInfoBox(status) {
+  const info = document.getElementById("infoBox");
+  const cfg  = INFO_CONFIG[status];
+  if (!cfg) return;
+  const icon = INFO_ICONS[status] || "";
+  info.innerHTML        = `${icon}<span>${cfg.text}</span>`;
+  info.style.background = cfg.bg;
+  info.style.color      = cfg.color;
+  info.style.display    = "flex";
+  document.getElementById("previewCard").style.display = "block";
+  document.getElementById("previewCard").scrollIntoView({ behavior:"smooth", block:"start" });
+}
+
+let filePerbaikanTerpilih = null;
+let pendingKirimBalikNama = "";
+
+window.bukaModalKirimBalik = function(id, namaDosen) {
+  pendingKirimBalikId   = id;
+  pendingKirimBalikNama = namaDosen;
+
+  document.getElementById("pesanTambahanKirimBalik").value  = "";
+  document.getElementById("filePerbaikan").value            = "";
+  document.getElementById("subKirimBalik").textContent      = "Kepada: " + namaDosen;
+  resetDropZone();
+  document.getElementById("uploadProgressWrap").style.display = "none";
+  document.getElementById("modalKirimBalik").style.display  = "flex";
+};
+
+window.handleDropFile = function(event) {
+  event.preventDefault();
+  const dz = document.getElementById("dropZoneKirimBalik");
+  dz.style.borderColor = "#e5e7eb";
+  dz.style.background  = "#f9fafb";
+  const file = event.dataTransfer.files[0];
+  if (file) handleFileSelect(file);
+};
+
+window.handleFileSelect = function(file) {
+  if (!file) return;
+  const maxMB = 10;
+  if (file.size > maxMB * 1024 * 1024) {
+    alert(`Ukuran file maksimal ${maxMB} MB.`);
+    return;
+  }
+  filePerbaikanTerpilih = file;
+
+  const ext = file.name.split(".").pop().toLowerCase();
+  const iconMap = {
+    pdf:  { bg:"#fee2e2", color:"#dc2626", path:`<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>` },
+    doc:  { bg:"#dbeafe", color:"#2563eb", path:`<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>` },
+    docx: { bg:"#dbeafe", color:"#2563eb", path:`<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>` },
+    jpg:  { bg:"#d1fae5", color:"#059669", path:`<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>` },
+    jpeg: { bg:"#d1fae5", color:"#059669", path:`<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>` },
+    png:  { bg:"#d1fae5", color:"#059669", path:`<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>` },
+  };
+  const ico  = iconMap[ext] || { bg:"#f3f4f6", color:"#6b7280", path:`<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>` };
+  const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+
+  document.getElementById("filePreviewIcon").style.background = ico.bg;
+  document.getElementById("filePreviewIcon").innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${ico.color}" stroke-width="2">${ico.path}</svg>`;
+  document.getElementById("filePreviewName").textContent = file.name;
+  document.getElementById("filePreviewSize").textContent = `${sizeMB} MB · ${ext.toUpperCase()}`;
+
+  document.getElementById("dropZoneIdle").style.display    = "none";
+  document.getElementById("dropZonePreview").style.display = "flex";
+  document.getElementById("dropZoneKirimBalik").style.borderColor = "#f59e0b";
+  document.getElementById("dropZoneKirimBalik").style.background  = "#fffbeb";
+};
+
+window.hapusFile = function(event) {
+  event.stopPropagation();
+  filePerbaikanTerpilih = null;
+  document.getElementById("filePerbaikan").value = "";
+  resetDropZone();
+};
+
+function resetDropZone() {
+  filePerbaikanTerpilih = null;
+  document.getElementById("dropZoneIdle").style.display    = "flex";
+  document.getElementById("dropZonePreview").style.display = "none";
+  document.getElementById("dropZoneKirimBalik").style.borderColor = "#e5e7eb";
+  document.getElementById("dropZoneKirimBalik").style.background  = "#f9fafb";
+}
+
+function tutupModalKirimBalik() {
+  document.getElementById("modalKirimBalik").style.display = "none";
+  pendingKirimBalikId   = null;
+  pendingKirimBalikNama = "";
+  resetDropZone();
+}
+
+document.getElementById("btnCloseKirimBalik").addEventListener("click", tutupModalKirimBalik);
+document.getElementById("btnBatalKirimBalik").addEventListener("click", tutupModalKirimBalik);
+document.getElementById("modalKirimBalik").addEventListener("click", e => {
+  if (e.target === document.getElementById("modalKirimBalik")) tutupModalKirimBalik();
+});
+
+function uploadFileXHR(url, formData) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+
+    document.getElementById("uploadProgressWrap").style.display = "block";
+
+    xhr.upload.addEventListener("progress", e => {
+      if (e.lengthComputable) {
+        const pct = Math.round((e.loaded / e.total) * 100);
+        document.getElementById("uploadProgressBar").style.width = pct + "%";
+        document.getElementById("uploadProgressPct").textContent = pct + "%";
+      }
+    });
+    xhr.addEventListener("load", () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { resolve(JSON.parse(xhr.responseText)); }
+        catch(e) { resolve({}); }
+      } else {
+        try {
+          const d = JSON.parse(xhr.responseText);
+          reject(new Error(d.message || "Upload gagal"));
+        } catch { reject(new Error("Upload gagal, status " + xhr.status)); }
+      }
+    });
+    xhr.addEventListener("error", () => reject(new Error("Network error saat upload")));
+    xhr.send(formData);
+  });
+}
+
+document.getElementById("btnKonfirmKirimBalik").addEventListener("click", async () => {
+  const id            = pendingKirimBalikId;
+  const pesanTambahan = document.getElementById("pesanTambahanKirimBalik").value.trim();
+
+  if (!id) return;
+
+  const btn = document.getElementById("btnKonfirmKirimBalik");
+  btn.disabled = true;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 1s linear infinite;flex-shrink:0;"><path d="M21 12a9 9 0 1 1-3.5-7.1"/></svg> Mengirim...`;
+
+  try {
+    let namaFilePerbaikan = null;
+
+    // LANGKAH 1: Upload file perbaikan (jika ada)
+    if (filePerbaikanTerpilih) {
+      const fd = new FormData();
+      fd.append("file", filePerbaikanTerpilih);
+      const uploadRes = await uploadFileXHR(`${BASE_URL}/api/upload-perbaikan`, fd);
+      namaFilePerbaikan = uploadRes.filename || uploadRes.file || null;
+    }
+
+    // LANGKAH 2: Update status ke "dikembalikan"
+    const bodyStatus = { status: "dikembalikan" };
+    if (namaFilePerbaikan) bodyStatus.file_perbaikan = namaFilePerbaikan;
+
+    const resStatus = await fetch(`${BASE_URL}/api/request-surat/${id}`, {
+      method: "PUT",
+      headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify(bodyStatus)
+    });
+    if (!resStatus.ok) {
+      const d = await resStatus.json().catch(() => ({}));
+      throw new Error(d.message || "Gagal update status");
+    }
+
+    // LANGKAH 3: Panggil endpoint kirim-balik
+    const resKirimBalik = await fetch(`${BASE_URL}/api/request-surat/${id}/kirim-balik`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        file_perbaikan: namaFilePerbaikan || null,
+        pesan_tambahan: pesanTambahan || null
+      })
+    });
+    if (!resKirimBalik.ok) {
+      const d = await resKirimBalik.json().catch(() => ({}));
+      console.warn("[KirimBalik] Endpoint /kirim-balik belum ada atau gagal:", d.message);
+    }
+
+    // LANGKAH 4: Kirim notifikasi ke chat
+    let pesanChat = `[KIRIM BALIK] Admin mengembalikan file ini untuk diperbaiki.`;
+    if (namaFilePerbaikan) {
+      pesanChat += `\n\nFile perbaikan/panduan telah dilampirkan: ${namaFilePerbaikan}`;
+    }
+    if (pesanTambahan) {
+      pesanChat += `\n\n${pesanTambahan}`;
+    }
+    await kirimPesanChat(id, pesanChat);
+
+    // LANGKAH 5: Update UI
+    const idx = allData.findIndex(r => String(r.id_request) === String(id));
+    if (idx !== -1) allData[idx] = { ...allData[idx], status: "dikembalikan" };
+    applyFilter();
+
+    tutupModalKirimBalik();
+    showInfoBox("dikembalikan");
+    loadRequest();
+
+    const r = allData.find(x => String(x.id_request) === String(id));
+    if (r) bukaChat(id, r.judul_surat, r.nama);
+
+  } catch(e) {
+    alert("Gagal kirim balik: " + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg> Kirim Balik ke Dosen`;
+    document.getElementById("uploadProgressWrap").style.display = "none";
+    document.getElementById("uploadProgressBar").style.width = "0%";
+  }
+});
+
+async function fetchPesanChat(idRequest) {
+  const res = await fetch(`${BASE_URL}/api/chat-request/${idRequest}?_t=${Date.now()}`, {
+    headers: { "Authorization": `Bearer ${token}` },
+    cache: "no-store"
+  });
+  if (!res.ok) throw new Error("Gagal memuat chat");
+  return res.json();
+}
+
+async function kirimPesanChat(idRequest, isi) {
+  const res = await fetch(`${BASE_URL}/api/chat-request/${idRequest}`, {
+    method: "POST",
+    headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ pengirim: "admin", isi })
+  });
+  if (!res.ok) {
+    const d = await res.json().catch(() => ({}));
+    throw new Error(d.message || "Gagal kirim pesan");
+  }
+  return res.json();
+}
+
+function formatChatTime(isoStr) {
+  const d = new Date(isoStr);
+  return d.toLocaleTimeString("id-ID", { hour:"2-digit", minute:"2-digit" }) +
+    " · " + d.toLocaleDateString("id-ID", { day:"2-digit", month:"short" });
+}
+
+function renderChatBubbles(messages) {
+  const body = document.getElementById("chatBody");
+  if (!messages || messages.length === 0) {
+    body.innerHTML = `<div style="text-align:center;padding:30px;color:#9ca3af;font-size:13px;">
+      <div style="margin-bottom:8px;">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5" style="display:block;margin:auto;">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      Belum ada percakapan. Mulai kirim pesan ke dosen.
+    </div>`;
+    return;
+  }
+
+  let lastDate = "";
+  let html = "";
+  messages.forEach(m => {
+    const isAdmin = m.pengirim === "admin";
+    const msgDate = new Date(m.created_at).toLocaleDateString("id-ID", { weekday:"long", day:"2-digit", month:"long", year:"numeric" });
+    if (msgDate !== lastDate) {
+      html += `<div style="text-align:center;margin:6px 0;">
+        <span style="background:#e5e7eb;color:#6b7280;padding:3px 12px;border-radius:999px;font-size:11px;font-weight:600;">${msgDate}</span>
+      </div>`;
+      lastDate = msgDate;
+    }
+
+    const isSistem = m.isi && m.isi.startsWith("[KIRIM BALIK]");
+    if (isSistem) {
+      const isiTampil = m.isi.replace("[KIRIM BALIK]", "").trim();
+      html += `<div class="chat-bubble" style="text-align:center;">
+        <div style="display:inline-block;background:linear-gradient(135deg,#fef3c7,#fde68a);border:1.5px solid #fcd34d;border-radius:12px;padding:10px 16px;max-width:80%;text-align:left;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+            <span style="font-size:11px;font-weight:800;color:#92400e;text-transform:uppercase;letter-spacing:0.4px;">Notifikasi Kirim Balik</span>
+          </div>
+          <div style="font-size:12px;color:#78350f;line-height:1.5;white-space:pre-wrap;">${escapeHtml(isiTampil)}</div>
+          <div style="font-size:10px;color:#a16207;margin-top:5px;">${formatChatTime(m.created_at)}</div>
+        </div>
+      </div>`;
+      return;
+    }
+
+    html += `<div class="chat-bubble" style="display:flex;flex-direction:column;align-items:${isAdmin ? 'flex-end' : 'flex-start'};">
+      <div style="max-width:70%;display:flex;flex-direction:column;gap:3px;align-items:${isAdmin ? 'flex-end' : 'flex-start'};">
+        <span style="font-size:11px;font-weight:700;color:${isAdmin ? '#0369a1' : '#6d28d9'};padding:0 4px;">
+          ${isAdmin ? adminNama + " (Admin)" : (m.nama_pengirim || "Dosen")}
+        </span>
+        <div style="background:${isAdmin ? 'linear-gradient(135deg,#0ea5e9,#10b981)' : 'white'};
+                    color:${isAdmin ? 'white' : '#1e293b'};
+                    padding:10px 14px;border-radius:${isAdmin ? '16px 4px 16px 16px' : '4px 16px 16px 16px'};
+                    font-size:13px;line-height:1.55;word-break:break-word;
+                    box-shadow:${isAdmin ? '0 2px 8px rgba(14,165,233,0.25)' : '0 2px 8px rgba(0,0,0,0.07)'};
+                    border:${isAdmin ? 'none' : '1px solid #e5e7eb'};">
+          ${escapeHtml(m.isi)}
+        </div>
+        <span style="font-size:10px;color:#9ca3af;padding:0 4px;">${formatChatTime(m.created_at)}</span>
+      </div>
+    </div>`;
+  });
+
+  body.innerHTML = html;
+  body.scrollTop = body.scrollHeight;
+}
+
+async function refreshChat() {
+  if (!activeChatId) return;
+  try {
+    const msgs = await fetchPesanChat(activeChatId);
+    if (msgs.length !== chatMessages.length) {
+      chatMessages = msgs;
+      renderChatBubbles(chatMessages);
+    }
+  } catch(e) {
+    console.warn("Chat refresh error:", e.message);
+  }
+}
+
+window.bukaChat = async function(idRequest, judulSurat, namaDosen) {
+  activeChatId = idRequest;
+  chatMessages = [];
+
+  document.getElementById("chatTitle").textContent    = judulSurat || "Chat Request";
+  document.getElementById("chatSubtitle").textContent = "Dosen: " + (namaDosen || "-");
+  document.getElementById("chatPanel").style.display  = "block";
+  document.getElementById("chatBody").innerHTML       = `<div style="text-align:center;padding:30px;color:#9ca3af;font-size:13px;">Memuat percakapan...</div>`;
+  document.getElementById("chatInput").value          = "";
+
+  document.getElementById("chatPanel").scrollIntoView({ behavior:"smooth", block:"start" });
+
+  try {
+    chatMessages = await fetchPesanChat(idRequest);
+    renderChatBubbles(chatMessages);
+  } catch(e) {
+    document.getElementById("chatBody").innerHTML = `<div style="text-align:center;padding:30px;color:#ef4444;font-size:13px;">Gagal memuat chat: ${e.message}</div>`;
+  }
+
+  if (chatPollTimer) clearInterval(chatPollTimer);
+  chatPollTimer = setInterval(refreshChat, 4000);
+};
+
+async function sendChatMessage() {
+  const input = document.getElementById("chatInput");
+  const isi   = input.value.trim();
+  if (!isi || !activeChatId) return;
+
+  const btn = document.getElementById("btnSendChat");
+  btn.disabled = true;
+
+  try {
+    await kirimPesanChat(activeChatId, isi);
+    input.value = "";
+    chatMessages = await fetchPesanChat(activeChatId);
+    renderChatBubbles(chatMessages);
+  } catch(e) {
+    alert("Gagal kirim pesan: " + e.message);
+  } finally {
+    btn.disabled = false;
+    input.focus();
+  }
+}
+
+document.getElementById("btnSendChat").addEventListener("click", sendChatMessage);
+document.getElementById("chatInput").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+});
+
+document.getElementById("btnCloseChat").addEventListener("click", () => {
+  document.getElementById("chatPanel").style.display = "none";
+  if (chatPollTimer) { clearInterval(chatPollTimer); chatPollTimer = null; }
+  activeChatId = null;
+  chatMessages = [];
+});
+
+window.setQuickReply = function(teks) {
+  const input = document.getElementById("chatInput");
+  input.value = teks;
+  input.focus();
+};
+
+document.getElementById("btnClosePreview").addEventListener("click", () => {
+  document.getElementById("previewCard").style.display = "none";
+});
+
+["searchInput","filterStatus"].forEach(id => {
+  document.getElementById(id).addEventListener("input", applyFilter);
+  document.getElementById(id).addEventListener("change", applyFilter);
+});
+
+document.getElementById("btnReset").addEventListener("click", () => {
+  document.getElementById("searchInput").value  = "";
+  document.getElementById("filterStatus").value = "";
+  applyFilter();
+});
+
+loadRequest();
+</script>
+
+</DashboardLayout>

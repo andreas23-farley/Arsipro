@@ -1,0 +1,468 @@
+---
+// Sidebar.astro (Admin Panel)
+const currentPath = Astro.url.pathname;
+---
+
+<aside class="sidebar" id="sidebar">
+
+  <!-- LOGO -->
+  <div class="sidebar-logo">
+    <div class="logo-img-wrap">
+      <img src="/LOGO.jpg" alt="ARSIPRO"/>
+    </div>
+    <div class="logo-text">
+      <div class="logo-name">ARSIPRO</div>
+      <div class="logo-sub">Panel Admin</div>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <nav class="sidebar-nav" id="sidebarNav">
+
+    <!-- Dashboard -->
+    <a href="/admin/dashboard" class={`menu-item ${currentPath === "/admin/dashboard" ? "active" : ""}`}>
+      <span class="menu-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </span>
+      Dashboard
+    </a>
+
+    <!-- Surat Masuk -->
+    <div class="dropdown-group" id="drop-masuk">
+      <button class="menu-item dropdown-toggle" onclick="toggleDrop('drop-masuk')">
+        <span class="menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </span>
+        <span class="menu-label">Surat Masuk</span>
+        <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="submenu">
+        <a href="/admin/surat_masuk_dalam"
+          class={`submenu-item ${currentPath === "/admin/surat_masuk_dalam" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Surat Dalam Instansi
+        </a>
+        <a href="/admin/surat_masuk_luar"
+          class={`submenu-item ${currentPath === "/admin/surat_masuk_luar" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Surat Luar Instansi
+        </a>
+        <a href="/admin/surat_masuk_tabel"
+          class={`submenu-item ${currentPath === "/admin/surat_masuk_tabel" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Tabel Surat
+        </a>
+      </div>
+    </div>
+
+    <!-- Surat Keluar -->
+    <div class="dropdown-group" id="drop-keluar">
+      <button class="menu-item dropdown-toggle" onclick="toggleDrop('drop-keluar')">
+        <span class="menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </span>
+        <span class="menu-label">Surat Keluar</span>
+        <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="submenu">
+        <a href="/admin/surat-keluar"
+          class={`submenu-item ${currentPath === "/admin/surat-keluar" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Input Surat Keluar
+        </a>
+        <a href="/admin/surat-keluar-tabel"
+          class={`submenu-item ${currentPath === "/admin/surat-keluar-tabel" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Tabel Surat Keluar
+        </a>
+      </div>
+    </div>
+
+    <!-- Request Surat -->
+    <div class="dropdown-group" id="drop-request">
+      <button class="menu-item dropdown-toggle" onclick="toggleDrop('drop-request')">
+        <span class="menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 11 12 14 22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </span>
+        <span class="menu-label">Request Surat</span>
+        <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="submenu">
+        <a href="/admin/request-dosen"
+          class={`submenu-item ${currentPath === "/admin/request-dosen" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Request Dosen
+        </a>
+        <a href="/admin/request-mahasiswa"
+          class={`submenu-item ${currentPath === "/admin/request-mahasiswa" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Request Mahasiswa
+        </a>
+      </div>
+    </div>
+
+    <!-- Kirim Surat -->
+    <div class="dropdown-group" id="drop-kirim">
+      <button class="menu-item dropdown-toggle" onclick="toggleDrop('drop-kirim')">
+        <span class="menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.58 3.47 2 2 0 0 1 3.55 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.75 16.92z"/>
+          </svg>
+        </span>
+        <span class="menu-label">Kirim Surat</span>
+        <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="submenu">
+        <a href="/admin/kirim-dosen"
+          class={`submenu-item ${currentPath === "/admin/kirim-dosen" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Kirim ke Dosen
+        </a>
+        <a href="/admin/kirim-mahasiswa"
+          class={`submenu-item ${currentPath === "/admin/kirim-mahasiswa" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Kirim ke Mahasiswa
+        </a>
+      </div>
+    </div>
+
+    <!-- Arsip -->
+    <div class="dropdown-group" id="drop-arsip">
+      <button class="menu-item dropdown-toggle" onclick="toggleDrop('drop-arsip')">
+        <span class="menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="21 8 21 21 3 21 3 8"/>
+            <rect x="1" y="3" width="22" height="5"/>
+            <line x1="10" y1="12" x2="14" y2="12"/>
+          </svg>
+        </span>
+        <span class="menu-label">Arsip</span>
+        <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="submenu">
+        <a href="/admin/arsip-input"
+          class={`submenu-item ${currentPath === "/admin/arsip-input" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Input Arsip
+        </a>
+        <a href="/admin/arsip-tabel"
+          class={`submenu-item ${currentPath === "/admin/arsip-tabel" ? "sub-active" : ""}`}>
+          <span class="sub-dot"></span>Tabel Arsip
+        </a>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="nav-divider"></div>
+
+    <!-- Kategori -->
+    <a href="/admin/kategori" class={`menu-item ${currentPath === "/admin/kategori" ? "active" : ""}`}>
+      <span class="menu-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 7h16"/><path d="M4 12h10"/><path d="M4 17h16"/>
+        </svg>
+      </span>
+      Kategori
+    </a>
+
+    <!-- Pengguna -->
+    <a href="/admin/pengguna" class={`menu-item ${currentPath === "/admin/pengguna" ? "active" : ""}`}>
+      <span class="menu-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </span>
+      Kelola Pengguna
+    </a>
+
+    <!-- Trash -->
+    <div class="dropdown-group" id="drop-trash">
+      <button class="menu-item dropdown-toggle menu-item--danger" onclick="toggleDrop('drop-trash')">
+        <span class="menu-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+            <path d="M10 11v6"/><path d="M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+        </span>
+        <span class="menu-label">Trash</span>
+        <svg class="arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+      <div class="submenu">
+        <a href="/admin/trash-surat-masuk"
+          class={`submenu-item ${currentPath === "/admin/trash-surat-masuk" ? "sub-active" : ""}`}>
+          <span class="sub-dot sub-dot--red"></span>Trash Surat Masuk
+        </a>
+        <a href="/admin/trash-surat-keluar"
+          class={`submenu-item ${currentPath === "/admin/trash-surat-keluar" ? "sub-active" : ""}`}>
+          <span class="sub-dot sub-dot--red"></span>Trash Surat Keluar
+        </a>
+        <a href="/admin/trash-surat-arsip"
+          class={`submenu-item ${currentPath === "/admin/trash-surat-arsip" ? "sub-active" : ""}`}>
+          <span class="sub-dot sub-dot--red"></span>Trash Arsip
+        </a>
+      </div>
+    </div>
+
+  </nav>
+
+</aside>
+
+<style>
+
+.sidebar {
+  width: 258px;
+  height: 100vh;
+  position: fixed;
+  left: 0; top: 0;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #0c0705 0%, #180e07 40%, #1f1208 100%);
+  border-right: 1px solid rgba(251,191,36,0.08);
+  box-shadow: 4px 0 30px rgba(0,0,0,0.4);
+  z-index: 100;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(251,191,36,0.1) transparent;
+}
+.sidebar::-webkit-scrollbar { width:3px; }
+.sidebar::-webkit-scrollbar-thumb { background:rgba(251,191,36,0.12); border-radius:99px; }
+
+/* ── LOGO ── */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 18px;
+  border-bottom: 1px solid rgba(251,191,36,0.08);
+  flex-shrink: 0;
+}
+
+.logo-img-wrap {
+  position: relative;
+  width: 42px; height: 42px; flex-shrink:0;
+}
+.logo-img-wrap img {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1.5px solid rgba(251,191,36,0.2);
+}
+.logo-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg,rgba(217,119,6,0.4),transparent) border-box;
+  -webkit-mask: linear-gradient(white,white) padding-box, linear-gradient(white,white);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.logo-name { font-size:16px; font-weight:800; color:white; letter-spacing:-0.3px; }
+.logo-sub  { font-size:10px; font-weight:600; color:rgba(251,191,36,0.45); text-transform:uppercase; letter-spacing:0.8px; margin-top:1px; }
+
+/* ── NAV ── */
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 12px;
+}
+
+/* ── MENU ITEM ── */
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 3px;
+  border-radius: 10px;
+  color: rgba(255,255,255,0.5);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  text-decoration: none;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: rgba(251,191,36,0.07);
+  color: rgba(255,255,255,0.85);
+  transform: translateX(3px);
+}
+
+.menu-item.active {
+  background: linear-gradient(135deg,rgba(180,83,9,0.55),rgba(217,119,6,0.35));
+  color: #fbbf24;
+  border: 1px solid rgba(251,191,36,0.15);
+  box-shadow: 0 4px 12px rgba(180,83,9,0.2);
+}
+
+.menu-item--danger { color:rgba(252,165,165,0.5); }
+.menu-item--danger:hover { background:rgba(239,68,68,0.08); color:#fca5a5; }
+
+.menu-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.menu-item:hover .menu-icon  { background:rgba(251,191,36,0.1); }
+.menu-item.active .menu-icon { background:rgba(251,191,36,0.15); }
+.menu-item--danger:hover .menu-icon { background:rgba(239,68,68,0.12); }
+
+.menu-label { flex:1; }
+
+.arrow-icon {
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: transform 0.25s, opacity 0.2s;
+}
+.dropdown-group.open .arrow-icon { transform:rotate(180deg); opacity:0.7; }
+
+/* ── SUBMENU ── */
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-left: 14px;
+}
+.dropdown-group.open .submenu { max-height: 260px; padding-top: 4px; padding-bottom: 4px; }
+
+.submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  color: rgba(255,255,255,0.38);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.submenu-item:hover {
+  background: rgba(251,191,36,0.07);
+  color: rgba(255,255,255,0.8);
+  padding-left: 16px;
+}
+.submenu-item.sub-active {
+  color: #fbbf24;
+  background: rgba(251,191,36,0.08);
+}
+
+.sub-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.submenu-item:hover .sub-dot,
+.submenu-item.sub-active .sub-dot { background: #f59e0b; box-shadow:0 0 4px #f59e0b; }
+.sub-dot--red { background:rgba(252,165,165,0.3); }
+.submenu-item:hover .sub-dot--red { background:#f87171; box-shadow:0 0 4px #f87171; }
+
+/* ── DIVIDER ── */
+.nav-divider {
+  height: 1px;
+  background: rgba(251,191,36,0.07);
+  margin: 8px 4px;
+}
+
+/* ── LOGOUT ── */
+.sidebar-footer {
+  padding: 12px 12px 16px;
+  flex-shrink: 0;
+  border-top: 1px solid rgba(251,191,36,0.06);
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px;
+  border-radius: 11px;
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.18);
+  color: #fca5a5;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.2s;
+}
+.logout-btn:hover {
+  background: rgba(239,68,68,0.22);
+  border-color: rgba(239,68,68,0.35);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(239,68,68,0.2);
+}
+
+</style>
+
+<script is:inline>
+window.toggleDrop = function(id) {
+  const group = document.getElementById(id);
+  if (!group) return;
+  const isOpen = group.classList.contains("open");
+  // Tutup semua
+  document.querySelectorAll(".dropdown-group.open").forEach(g => g.classList.remove("open"));
+  // Buka yang diklik (kalau belum open)
+  if (!isOpen) group.classList.add("open");
+};
+
+// Auto-buka dropdown sesuai URL aktif
+(function() {
+  const path = window.location.pathname;
+  const maps = {
+    "drop-masuk":   ["/admin/surat-masuk"],
+    "drop-keluar":  ["/admin/surat-keluar"],
+    "drop-request": ["/admin/request-surat"],
+    "drop-kirim":   ["/admin/kirim-surat"],
+    "drop-arsip":   ["/admin/arsip"],
+    "drop-trash":   ["/admin/trash"],
+  };
+  for (const [id, prefixes] of Object.entries(maps)) {
+    if (prefixes.some(p => path.startsWith(p))) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("open");
+    }
+  }
+})();
+</script>

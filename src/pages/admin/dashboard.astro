@@ -1,0 +1,240 @@
+---
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout>
+
+  <!-- Title tab -->
+  <title>Dashboard Admin | ARSIPRO</title>
+<div style="display:flex;flex-direction:column;gap:24px;padding:4px 0;">
+
+  <!-- HEADER -->
+  <div>
+    <h1 style="font-size:28px;font-weight:700;background:linear-gradient(135deg,#4f46e5,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Dashboard Admin</h1>
+    <p style="color:#6b7280;font-size:14px;margin:0;">Selamat datang kembali di Sistem ARSIPRO ISB</p>
+  </div>
+
+  <!-- STAT CARDS -->
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+
+  <!-- Surat Masuk -->
+  <div style="border-radius:18px;padding:22px;color:white;background:linear-gradient(135deg,#4f46e5,#6366f1);box-shadow:0 10px 25px rgba(79,70,229,0.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+    <div style="position:absolute;bottom:-30px;right:10px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;position:relative;">
+      <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <span style="font-size:13px;font-weight:600;opacity:0.9;">Surat Masuk</span>
+    </div>
+    <div id="statSuratMasuk" style="font-size:34px;font-weight:800;position:relative;line-height:1;">-</div>
+    <div style="font-size:11px;opacity:0.7;margin-top:6px;position:relative;">Total keseluruhan</div>
+  </div>
+
+  <!-- Surat Keluar -->
+  <div style="border-radius:18px;padding:22px;color:white;background:linear-gradient(135deg,#10b981,#34d399);box-shadow:0 10px 25px rgba(16,185,129,0.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+    <div style="position:absolute;bottom:-30px;right:10px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;position:relative;">
+      <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </div>
+      <span style="font-size:13px;font-weight:600;opacity:0.9;">Surat Keluar</span>
+    </div>
+    <div id="statSuratKeluar" style="font-size:34px;font-weight:800;position:relative;line-height:1;">-</div>
+    <div style="font-size:11px;opacity:0.7;margin-top:6px;position:relative;">Total keseluruhan</div>
+  </div>
+
+  <!-- Arsip -->
+  <div style="border-radius:18px;padding:22px;color:white;background:linear-gradient(135deg,#8b5cf6,#a78bfa);box-shadow:0 10px 25px rgba(139,92,246,0.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+    <div style="position:absolute;bottom:-30px;right:10px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;position:relative;">
+      <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/>
+        </svg>
+      </div>
+      <span style="font-size:13px;font-weight:600;opacity:0.9;">Arsip</span>
+    </div>
+    <div id="statArsip" style="font-size:34px;font-weight:800;position:relative;line-height:1;">-</div>
+    <div style="font-size:11px;opacity:0.7;margin-top:6px;position:relative;">Dokumen tersimpan</div>
+  </div>
+
+  <!-- Request Surat -->
+  <div style="border-radius:18px;padding:22px;color:white;background:linear-gradient(135deg,#ef4444,#f87171);box-shadow:0 10px 25px rgba(239,68,68,0.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.1);"></div>
+    <div style="position:absolute;bottom:-30px;right:10px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;position:relative;">
+      <div style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+        </svg>
+      </div>
+      <span style="font-size:13px;font-weight:600;opacity:0.9;">Request Surat</span>
+    </div>
+    <div id="statRequest" style="font-size:34px;font-weight:800;position:relative;line-height:1;">-</div>
+    <div style="font-size:11px;opacity:0.7;margin-top:6px;position:relative;">Menunggu proses</div>
+  </div>
+
+</div>
+
+  <!-- MENU FITUR -->
+  <div>
+    <h2 style="font-size:15px;font-weight:700;color:#374151;margin:0 0 14px;padding-left:2px;">Menu Fitur</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+
+      <!-- Surat Masuk -->
+      <a href=""
+        style="background:white;padding:24px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,0.07);text-decoration:none;color:inherit;display:flex;align-items:center;gap:16px;border:1.5px solid #f3f4f6;transition:all 0.2s;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(79,70,229,0.15)';this.style.borderColor='#c7d2fe';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#4f46e5;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:3px;">Surat Masuk</div>
+          <div style="font-size:12px;color:#6b7280;line-height:1.5;">Kelola surat masuk dengan upload & kategori</div>
+        </div>
+      </a>
+
+      <!-- Surat Keluar -->
+      <a href=""
+        style="background:white;padding:24px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,0.07);text-decoration:none;color:inherit;display:flex;align-items:center;gap:16px;border:1.5px solid #f3f4f6;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(16,185,129,0.15)';this.style.borderColor='#a7f3d0';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#10b981;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:3px;">Surat Keluar</div>
+          <div style="font-size:12px;color:#6b7280;line-height:1.5;">Buat dan distribusikan surat keluar</div>
+        </div>
+      </a>
+
+      <!-- Arsip Digital -->
+      <a href=""
+        style="background:white;padding:24px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,0.07);text-decoration:none;color:inherit;display:flex;align-items:center;gap:16px;border:1.5px solid #f3f4f6;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(139,92,246,0.15)';this.style.borderColor='#ddd6fe';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#8b5cf6;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:3px;">Arsip Digital</div>
+          <div style="font-size:12px;color:#6b7280;line-height:1.5;">Simpan dokumen secara aman & terstruktur</div>
+        </div>
+      </a>
+
+      <!-- Pengguna -->
+      <a href=""
+        style="background:white;padding:24px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,0.07);text-decoration:none;color:inherit;display:flex;align-items:center;gap:16px;border:1.5px solid #f3f4f6;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(6,182,212,0.15)';this.style.borderColor='#a5f3fc';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0891b2;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:3px;">Pengguna</div>
+          <div style="font-size:12px;color:#6b7280;line-height:1.5;">Kelola akses admin & dosen</div>
+        </div>
+      </a>
+
+      <!-- Request Surat -->
+      <a href=""
+        style="background:white;padding:24px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,0.07);text-decoration:none;color:inherit;display:flex;align-items:center;gap:16px;border:1.5px solid #f3f4f6;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(239,68,68,0.15)';this.style.borderColor='#fecaca';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#fee2e2,#fecaca);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#ef4444;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:3px;">Request Surat</div>
+          <div style="font-size:12px;color:#6b7280;line-height:1.5;">Lihat dan kelola request surat dosen</div>
+        </div>
+      </a>
+
+      <!-- Trash -->
+      <a href=""
+        style="background:white;padding:24px;border-radius:18px;box-shadow:0 4px 20px rgba(0,0,0,0.07);text-decoration:none;color:inherit;display:flex;align-items:center;gap:16px;border:1.5px solid #f3f4f6;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(107,114,128,0.15)';this.style.borderColor='#e5e7eb';"
+        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#f3f4f6,#e5e7eb);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#6b7280;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:3px;">Trash</div>
+          <div style="font-size:12px;color:#6b7280;line-height:1.5;">Kelola file yang dihapus</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+<script is:inline>
+const BASE_URL = "http://100.85.49.78:3000";
+const token = localStorage.getItem("token");
+if (!token) window.location.href = "/login";
+
+// Helper: ambil jumlah dari berbagai kemungkinan struktur response
+function getCount(data) {
+  if (Array.isArray(data)) return data.length;
+  if (typeof data === "object" && data !== null) {
+    if (typeof data.total === "number") return data.total;
+    if (Array.isArray(data.data)) return data.data.length;
+    if (typeof data.count === "number") return data.count;
+  }
+  return 0;
+}
+
+async function safeFetch(url, token) {
+  try {
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch(e) {
+    return null;
+  }
+}
+
+async function loadStats() {
+  // Set loading state
+  ["statSuratMasuk","statSuratKeluar","statArsip","statRequest"].forEach(id => {
+    document.getElementById(id).textContent = "...";
+  });
+
+  const [dataSM, dataSK, dataArsip, dataReq] = await Promise.all([
+    safeFetch(`${BASE_URL}/api/surat-masuk`,   token),
+    safeFetch(`${BASE_URL}/api/surat-keluar`,  token),
+    safeFetch(`${BASE_URL}/api/arsip`,         token),
+    safeFetch(`${BASE_URL}/api/request-surat`, token),
+  ]);
+
+  document.getElementById("statSuratMasuk").textContent  = dataSM   !== null ? getCount(dataSM)   : "–";
+  document.getElementById("statSuratKeluar").textContent = dataSK   !== null ? getCount(dataSK)   : "–";
+  document.getElementById("statArsip").textContent       = dataArsip !== null ? getCount(dataArsip) : "–";
+  document.getElementById("statRequest").textContent     = dataReq  !== null ? getCount(dataReq)  : "–";
+}
+
+loadStats();
+</script>
+
+</DashboardLayout>
