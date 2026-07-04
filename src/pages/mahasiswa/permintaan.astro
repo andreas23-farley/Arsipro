@@ -442,7 +442,9 @@ async function loadRiwayat() {
       return;
     }
 
-    container.innerHTML = data.map(r => `
+    container.innerHTML = data.map(r => {
+      const idReq = r.id_request ?? r.id;   // aman: definisikan id di sini
+      return `
       <div style="background:#f8fafc;border:1.5px solid #f3f4f6;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;">
 
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
@@ -473,7 +475,7 @@ async function loadRiwayat() {
 
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:2px;">
           ${r.file_contoh ? `
-          <button onclick="window.open('${BASE_URL}/uploads/${r.file_contoh}','_blank')"
+          <button onclick="window.open('${BASE_URL}/api/download/${idReq}/contoh','_blank')"
             style="padding:7px 12px;border:1.5px solid #d1fae5;border-radius:8px;background:white;color:#059669;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
             onmouseover="this.style.background='#d1fae5';"
             onmouseout="this.style.background='white';">
@@ -484,7 +486,7 @@ async function loadRiwayat() {
           </button>` : ""}
 
           ${r.file_balasan ? `
-          <button onclick="window.open('${BASE_URL}/api/request-surat/download/${idReq}/balasan','_blank')"
+          <button onclick="window.open('${BASE_URL}/api/download/${idReq}/balasan','_blank')"
             style="padding:7px 12px;border:none;border-radius:8px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:5px;"
             onmouseover="this.style.transform='translateY(-1px)';"
             onmouseout="this.style.transform='none';">
@@ -498,7 +500,8 @@ async function loadRiwayat() {
         </div>
 
       </div>
-    `).join("");
+    `;
+    }).join("");
 
   } catch(e) { console.error(e); }
 }
