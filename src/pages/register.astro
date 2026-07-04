@@ -407,15 +407,9 @@
 </div>
 
 <script is:inline>
-/* ====================================================================
-   KONFIGURASI API — ganti hanya baris ini kalau IP/alamat backend beda
-   ==================================================================== */
-const API_BASE = "http://100.85.49.78:3000";
-// Kalau frontend dibuka dari device LAIN (bukan komputer yang sama dengan
-// backend), ganti "localhost" dengan IP lokal komputer backend, contoh:
-// const API_BASE = "http://10.183.105.115:3000";
 
-/* ---------- bintang latar ---------- */
+const API_BASE = "http://100.85.49.78:3000";
+
 const starsEl = document.getElementById("stars");
 for (let i = 0; i < 80; i++) {
   const s = document.createElement("div");
@@ -424,7 +418,6 @@ for (let i = 0; i < 80; i++) {
   starsEl.appendChild(s);
 }
 
-/* ---------- toggle password ---------- */
 document.querySelectorAll(".toggle-pw").forEach((btnEl) => {
   btnEl.addEventListener("click", () => {
     const targetId = btnEl.getAttribute("data-target");
@@ -438,7 +431,6 @@ document.querySelectorAll(".toggle-pw").forEach((btnEl) => {
   });
 });
 
-/* ---------- aturan panjang digit ---------- */
 const NIM_LEN   = 10; // Mahasiswa
 const NUPTK_LEN = 16; // Dosen
 
@@ -460,11 +452,9 @@ function updateIdHint() {
   const det = detectRole(idInput.value);
   idHint.classList.remove("ok", "warn");
 
-  // Label input dibuat netral, tidak membocorkan role
   idLabel.textContent = "NIM / NUPTK";
 
   if (det) {
-    // valid (10 atau 16 digit) — tampilkan konfirmasi netral, tanpa sebut role
     idHint.classList.add("ok");
     idHintText.textContent = "Nomor valid.";
   } else if (len === 0) {
@@ -481,7 +471,6 @@ idInput.addEventListener("input", () => {
 });
 updateIdHint();
 
-/* ---------- referensi form ---------- */
 const form    = document.getElementById("registerForm");
 const btn     = document.getElementById("btnRegister");
 const spinner = document.getElementById("spinner");
@@ -490,7 +479,6 @@ const errMsg  = document.getElementById("errorMsg");
 const errText = document.getElementById("errorText");
 const sucMsg  = document.getElementById("successMsg");
 
-/* ---------- modal ---------- */
 const roleModal    = document.getElementById("roleModal");
 const modalText    = document.getElementById("modalText");
 const modalCancel  = document.getElementById("modalCancel");
