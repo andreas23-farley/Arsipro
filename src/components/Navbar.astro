@@ -543,7 +543,7 @@ window.addEventListener("load", () => {
     document.getElementById("dropdownEmail").textContent = userData.email || "-";
   }
   if (userData.foto) {
-    const url = `http://100.85.49.78:3000/uploads/${userData.foto}`;
+    const url = `${window.__API_URL__}/uploads/${userData.foto}`;
     document.getElementById("navbarFoto").src   = url;
     document.getElementById("dropdownFoto").src = url;
   }

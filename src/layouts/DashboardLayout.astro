@@ -2,90 +2,21 @@
 import Sidebar from "../components/Sidebar.astro";
 import Navbar from "../components/Navbar.astro";
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
+const API_URL = import.meta.env.PUBLIC_API_URL;
 ---
 
+<!-- Inject API_URL ke window SEKALI untuk semua halaman dashboard -->
+<script is:inline define:vars={{ API_URL }}>
+  window.__API_URL__ = API_URL;
+</script>
+
 <div class="layout">
-
   <Sidebar />
-
   <div class="main">
-
     <Navbar />
-
     <main class="content">
       <slot />
     </main>
-
   </div>
-
 </div>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* LAYOUT */
-.layout {
-  display: flex;
-}
-
-/* SIDEBAR (WAJIB FIXED) */
-:global(.sidebar) {
-  width: 260px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
-
-/* MAIN AREA */
-.main {
-  margin-left: 260px;
-  width: calc(100% - 260px);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-/* NAVBAR */
-:global(.navbar) {
-  height: 70px;
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  background: white;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-/* CONTENT */
-.content {
-  padding: 25px;
-  background: #f1f5f9;
-  flex: 1;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  :global(.sidebar) {
-    position: relative;
-    width: 100%;
-    height: auto;
-  }
-
-  .main {
-    margin-left: 0;
-    width: 100%;
-  }
-}
-
-* {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-</style>
