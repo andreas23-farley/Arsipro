@@ -1,6 +1,7 @@
 ---
 const role = Astro.props.role || "Dosen";
 const currentPath = Astro.url.pathname;
+const API_URL = import.meta.env.PUBLIC_API_URL;
 ---
 
 <html lang="id">
@@ -327,8 +328,12 @@ const currentPath = Astro.url.pathname;
 
 </div>
 
+<script is:inline define:vars={{ API_URL }}>
+  window.__API_URL__ = API_URL;
+</script>
 <script is:inline>
 const BASE_URL = window.__API_URL__;
+
 const token = localStorage.getItem("token");
 if (!token) window.location.href = "/login";
 

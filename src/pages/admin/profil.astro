@@ -61,7 +61,7 @@ if (userData.nama) {
     document.getElementById("profileJabatan2").innerText = userData.jabatan || "-";
 
     if (userData.foto) {
-        document.getElementById("fotoProfile").src = `http://10.33.148.115:3000/uploads/${userData.foto}`;
+        document.getElementById("fotoProfile").src = `${window.__API_URL__}/uploads/${userData.foto}`;
     }
 }
 </script>
