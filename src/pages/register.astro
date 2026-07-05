@@ -412,7 +412,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 
 <script is:inline>
 
-const API_BASE = "http://100.85.49.78:3000";
+const API_BASE = window.__API_URL__;
 
 const starsEl = document.getElementById("stars");
 for (let i = 0; i < 80; i++) {
