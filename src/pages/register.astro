@@ -410,6 +410,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   </div>
 </div>
 
+<script is:inline define:vars={{ API_URL }}>
+  window.__API_URL__ = API_URL;
+</script>
+
 <script is:inline>
 
 const API_BASE = window.__API_URL__;
