@@ -325,14 +325,14 @@ async function loadRiwayat() {
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <div style="font-size:11px;color:#9ca3af;">${new Date(r.created_at).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"})}</div>
           ${r.file_contoh ? `
-          <a href="${BASE_URL}/uploads/${r.file_contoh}" target="_blank"
+          <a href="${BASE_URL}/api/download/${idReq}/contoh" target="_blank"
             style="display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#4f46e5;text-decoration:none;font-weight:600;">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
             Lihat lampiran
           </a>` : ""}
         </div>
         ${r.file_balasan ? `
-        <button onclick="window.open('${BASE_URL}/uploads/${r.file_balasan}','_blank')"
+        <button onclick="window.open('${BASE_URL}/api/download/${idReq}/balasan','_blank')"
           style="margin-top:2px;padding:8px 14px;border:none;border-radius:8px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit;display:inline-flex;align-items:center;gap:6px;width:fit-content;">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download Balasan
