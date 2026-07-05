@@ -1,6 +1,7 @@
 ---
 const role = "Dosen";
 const currentPath = Astro.url.pathname;
+const API_URL = import.meta.env.PUBLIC_API_URL;
 ---
 
 <html lang="id">
@@ -251,7 +252,9 @@ const currentPath = Astro.url.pathname;
     </button>
   </div>
 </div>
-
+<script is:inline define:vars={{ API_URL }}>
+  window.__API_URL__ = API_URL;
+</script>
 <script is:inline>
 /* ====================================================================
    KONFIGURASI API — ganti hanya baris ini kalau IP/alamat backend beda
