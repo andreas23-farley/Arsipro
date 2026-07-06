@@ -11,6 +11,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   window.__API_URL__ = API_URL;
 </script>
 
+<!-- Font untuk SEMUA halaman dashboard: load sekali di sini saja -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <div class="layout">
   <Sidebar />
   <div class="main">
@@ -24,6 +29,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 <style>
   .layout {
     min-height: 100vh;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 
   .main {
@@ -37,6 +43,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   .content {
     padding: 24px;
     overflow-x: auto;
+  }
+
+  /* Semua judul (h1-h3) di setiap halaman dashboard otomatis pakai Fraunces,
+     jadi tidak perlu diatur manual satu-satu di tiap halaman */
+  .content h1,
+  .content h2,
+  .content h3 {
+    font-family: 'Fraunces', serif;
   }
 
   /* Kalau nanti sidebar bisa di-collapse jadi lebih sempit di mobile,
