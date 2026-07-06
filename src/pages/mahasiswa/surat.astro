@@ -22,6 +22,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   </svg>
 </button>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <aside class="sidebar" id="sidebar">
   <div class="logo">
     <img src="/LOGO.jpg" class="logo-img"/>
@@ -86,14 +88,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <!-- NAVBAR -->
   <header class="navbar">
     <div>
-      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
-      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Mahasiswa</div>
+      <div class="navbar-eyebrow">DASHBOARD</div>
+      <div class="navbar-title">Panel Mahasiswa</div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">M</div>
+    <div class="navbar-user">
+      <div class="avatar" id="avatarInit">M</div>
       <div>
-        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">{role}</div>
-        <div style="font-size:11px;color:#64748b;">Mahasiswa</div>
+        <div id="namaUser" class="navbar-user-name">{role}</div>
+        <div class="navbar-user-role">Mahasiswa</div>
       </div>
     </div>
   </header>
@@ -101,29 +103,29 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <main class="content">
 
     <!-- HEADER -->
-    <div style="margin-bottom:24px;">
-      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Surat Masuk</h1>
-      <p style="color:#6b7280;font-size:14px;margin:0;">Kumpulan surat resmi dari admin kampus untuk Anda.</p>
+    <div class="page-header">
+      <h1>Surat Masuk</h1>
+      <p>Kumpulan surat resmi dari admin kampus untuk Anda.</p>
     </div>
 
     <!-- STATS + FILTER ROW -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr) auto;gap:14px;align-items:center;margin-bottom:24px;">
+    <div class="stats-filter-row">
 
-      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #4f46e5;">
-        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-mini stat-mini--indigo">
+        <div class="stat-mini-icon stat-mini-icon--indigo">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
           </svg>
         </div>
         <div>
-          <div id="statTotal" style="font-size:22px;font-weight:700;color:#111827;">0</div>
-          <div style="font-size:12px;color:#6b7280;">Total Surat</div>
+          <div id="statTotal" class="stat-mini-value">0</div>
+          <div class="stat-mini-label">Total Surat</div>
         </div>
       </div>
 
-      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #06b6d4;">
-        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-mini stat-mini--cyan">
+        <div class="stat-mini-icon stat-mini-icon--cyan">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
             <line x1="16" y1="2" x2="16" y2="6"/>
@@ -132,31 +134,28 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
           </svg>
         </div>
         <div>
-          <div id="statBulanIni" style="font-size:22px;font-weight:700;color:#111827;">0</div>
-          <div style="font-size:12px;color:#6b7280;">Bulan Ini</div>
+          <div id="statBulanIni" class="stat-mini-value">0</div>
+          <div class="stat-mini-label">Bulan Ini</div>
         </div>
       </div>
 
-      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
-        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-mini stat-mini--green">
+        <div class="stat-mini-icon stat-mini-icon--green">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
             <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
             <line x1="7" y1="7" x2="7.01" y2="7"/>
           </svg>
         </div>
         <div>
-          <div id="statKategori" style="font-size:22px;font-weight:700;color:#111827;">0</div>
-          <div style="font-size:12px;color:#6b7280;">Kategori</div>
+          <div id="statKategori" class="stat-mini-value">0</div>
+          <div class="stat-mini-label">Kategori</div>
         </div>
       </div>
 
       <!-- Filter dropdown -->
-      <div style="display:flex;flex-direction:column;gap:5px;">
-        <label style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px;">Filter</label>
-        <select id="filterKategori" onchange="filterSurat()"
-          style="padding:9px 12px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;background:white;white-space:nowrap;"
-          onfocus="this.style.borderColor='#10b981';"
-          onblur="this.style.borderColor='#e5e7eb';">
+      <div class="filter-field">
+        <label>Filter</label>
+        <select id="filterKategori" onchange="filterSurat()" class="filter-select">
           <option value="all">Semua Kategori</option>
         </select>
       </div>
@@ -164,47 +163,41 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
     </div>
 
     <!-- TOOLBAR: search + count -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px;">
-      <div style="position:relative;">
-        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </span>
-        <input type="text" id="searchInput" placeholder="Cari judul surat..."
-          style="padding:9px 12px 9px 34px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:240px;"
-          onfocus="this.style.borderColor='#10b981';"
-          onblur="this.style.borderColor='#e5e7eb';">
+        <input type="text" id="searchInput" placeholder="Cari judul surat..." class="search-input">
       </div>
-      <span id="jumlahTampil" style="font-size:12px;color:#9ca3af;">Menampilkan 0 surat</span>
+      <span id="jumlahTampil" class="toolbar-count">Menampilkan 0 surat</span>
     </div>
 
     <!-- CARD GRID -->
-    <div id="cardGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;">
+    <div id="cardGrid" class="card-grid">
       <p style="color:#9ca3af;">Loading...</p>
     </div>
 
   </main>
 
-  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+  <footer class="footer">
     © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
   </footer>
 
 </div>
 
 <!-- Modal Detail -->
-<div id="modalDetail" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;z-index:9999;padding:20px;">
-  <div style="background:white;border-radius:22px;padding:28px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);max-height:85vh;overflow-y:auto;">
+<div id="modalDetail" class="modal-backdrop">
+  <div class="modal-box">
 
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
+    <div class="modal-header">
       <div>
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:4px;">Detail Surat</div>
-        <div id="modalJudul" style="font-size:17px;font-weight:700;color:#111827;line-height:1.4;"></div>
+        <div class="modal-eyebrow">Detail Surat</div>
+        <div id="modalJudul" class="modal-title"></div>
       </div>
-      <button onclick="closeModal()"
-        style="border:none;background:#f3f4f6;color:#6b7280;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;flex-shrink:0;margin-left:12px;display:flex;align-items:center;gap:4px;"
-        onmouseover="this.style.background='#e5e7eb';"
-        onmouseout="this.style.background='#f3f4f6';">
+      <button onclick="closeModal()" class="modal-close-btn">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
@@ -212,13 +205,10 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
       </button>
     </div>
 
-    <div id="modalBody" style="display:flex;flex-direction:column;"></div>
+    <div id="modalBody" class="modal-body"></div>
 
-    <div style="margin-top:22px;padding-top:16px;border-top:1px solid #f3f4f6;">
-      <button id="modalDownloadBtn"
-        style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;"
-        onmouseover="this.style.transform='translateY(-1px)';"
-        onmouseout="this.style.transform='none';">
+    <div class="modal-footer">
+      <button id="modalDownloadBtn" class="modal-download-btn">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
@@ -324,9 +314,7 @@ function renderCards(data) {
     const tgl = new Date(s.created_at).toLocaleDateString("id-ID",{day:"2-digit",month:"short",year:"numeric"});
     const sid = s.id_surat || s.id;
     return `
-      <div style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:1.5px solid #f3f4f6;display:flex;flex-direction:column;gap:10px;transition:all 0.2s;"
-        onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 30px rgba(16,185,129,0.12)';this.style.borderColor='#a7f3d0';"
-        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';this.style.borderColor='#f3f4f6';">
+      <div class="surat-card">
 
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
           <span style="background:${ks.bg};color:${ks.color};padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;">${s.kategori || 'Umum'}</span>
@@ -347,19 +335,13 @@ function renderCards(data) {
         </div>
 
         <div style="display:flex;gap:8px;margin-top:4px;">
-          <button onclick="lihatDetail(${sid})"
-            style="flex:1;padding:9px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
-            onmouseover="this.style.borderColor='#10b981';this.style.color='#059669';"
-            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+          <button onclick="lihatDetail(${sid})" class="surat-card-btn surat-card-btn--outline">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
             </svg>
             Detail
           </button>
-          <button onclick="window.open('${BASE_URL}/uploads/${s.file_surat}','_blank')"
-            style="flex:1;padding:9px;border:none;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
-            onmouseover="this.style.transform='translateY(-1px)';"
-            onmouseout="this.style.transform='none';">
+          <button onclick="window.open('${BASE_URL}/uploads/${s.file_surat}','_blank')" class="surat-card-btn surat-card-btn--solid">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
@@ -395,11 +377,11 @@ window.lihatDetail = function(id) {
   `).join("");
 
   document.getElementById("modalDownloadBtn").onclick = () => window.open(`${BASE_URL}/uploads/${s.file_surat}`, "_blank");
-  document.getElementById("modalDetail").style.display = "flex";
+  document.getElementById("modalDetail").classList.add("modal-backdrop--open");
 };
 
 window.closeModal = function() {
-  document.getElementById("modalDetail").style.display = "none";
+  document.getElementById("modalDetail").classList.remove("modal-backdrop--open");
 };
 
 document.getElementById("modalDetail").addEventListener("click", e => {
@@ -408,6 +390,7 @@ document.getElementById("modalDetail").addEventListener("click", e => {
 
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("sidebarOverlay").classList.toggle("active");
 }
 
 loadSuratMasuk();
@@ -419,10 +402,19 @@ loadSuratMasuk();
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
 body { display:flex; background:#f1f5f9; min-height:100vh; }
+
+/* ── MOBILE TOGGLE ── */
 .menu-toggle {
   display:none; position:fixed; top:15px; left:15px; z-index:1002;
   background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
 }
+.sidebar-overlay {
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,0.5);
+  z-index:99; opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.sidebar-overlay.active { opacity:1; pointer-events:auto; }
+
+/* ── SIDEBAR ── */
 .sidebar {
   width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
   color:white; padding:20px 15px; display:flex; flex-direction:column;
@@ -447,18 +439,138 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
   padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s;
 }
 .logout a:hover { background:#7f1d1d; }
+
+/* ── MAIN / NAVBAR ── */
 .main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
 .navbar {
   background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
   box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
 }
+.navbar-eyebrow { font-size:13px; color:#64748b; font-weight:500; }
+.navbar-title { font-size:17px; font-weight:700; color:#0f172a; }
+.navbar-user { display:flex; align-items:center; gap:12px; }
+.avatar {
+  width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#10b981,#06b6d4);
+  display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:14px; flex-shrink:0;
+}
+.navbar-user-name { font-size:14px; font-weight:600; color:#0f172a; }
+.navbar-user-role { font-size:11px; color:#64748b; }
+
 .content { padding:28px; flex:1; }
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom:24px; }
+.page-header h1 {
+  font-size:26px; font-weight:700; margin:0 0 4px;
+  background:linear-gradient(135deg,#10b981,#06b6d4);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.page-header p { color:#6b7280; font-size:14px; margin:0; }
+
+/* ── STATS + FILTER ── */
+.stats-filter-row {
+  display:grid; grid-template-columns:repeat(3,1fr) auto; gap:14px; align-items:center; margin-bottom:24px;
+}
+.stat-mini {
+  background:white; border-radius:16px; padding:16px 18px; display:flex; align-items:center; gap:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.06); border-left:4px solid transparent;
+}
+.stat-mini--indigo { border-left-color:#4f46e5; }
+.stat-mini--cyan { border-left-color:#06b6d4; }
+.stat-mini--green { border-left-color:#10b981; }
+.stat-mini-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.stat-mini-icon--indigo { background:linear-gradient(135deg,#ede9fe,#ddd6fe); }
+.stat-mini-icon--cyan { background:linear-gradient(135deg,#cffafe,#a5f3fc); }
+.stat-mini-icon--green { background:linear-gradient(135deg,#d1fae5,#a7f3d0); }
+.stat-mini-value { font-size:22px; font-weight:700; color:#111827; }
+.stat-mini-label { font-size:12px; color:#6b7280; }
+
+.filter-field { display:flex; flex-direction:column; gap:5px; }
+.filter-field label { font-size:11px; font-weight:600; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px; }
+.filter-select {
+  padding:9px 12px; border-radius:10px; border:1.5px solid #e5e7eb; outline:none;
+  font-size:13px; font-family:inherit; background:white; white-space:nowrap; transition:border-color .2s;
+}
+.filter-select:focus { border-color:#10b981; }
+
+/* ── TOOLBAR ── */
+.toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px; }
+.search-wrap { position:relative; flex:1; min-width:200px; max-width:240px; }
+.search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); display:flex; }
+.search-input {
+  padding:9px 12px 9px 34px; border-radius:10px; border:1.5px solid #e5e7eb; outline:none;
+  font-size:13px; font-family:inherit; width:100%; box-sizing:border-box; transition:border-color .2s;
+}
+.search-input:focus { border-color:#10b981; }
+.toolbar-count { font-size:12px; color:#9ca3af; }
+
+/* ── CARD GRID ── */
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:18px; }
+.surat-card {
+  background:white; border-radius:18px; padding:22px; box-shadow:0 4px 20px rgba(0,0,0,0.07);
+  border:1.5px solid #f3f4f6; display:flex; flex-direction:column; gap:10px; transition:all 0.2s;
+}
+.surat-card:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(16,185,129,0.12); border-color:#a7f3d0; }
+.surat-card-btn {
+  flex:1; padding:9px; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer;
+  font-family:inherit; display:flex; align-items:center; justify-content:center; gap:5px; transition:all .2s;
+}
+.surat-card-btn--outline { border:1.5px solid #e5e7eb; background:white; color:#374151; }
+.surat-card-btn--outline:hover { border-color:#10b981; color:#059669; }
+.surat-card-btn--solid { border:none; background:linear-gradient(135deg,#10b981,#06b6d4); color:white; }
+.surat-card-btn--solid:hover { transform:translateY(-1px); }
+
+.footer { text-align:center; padding:16px; font-size:13px; color:#94a3b8; border-top:1px solid #f1f5f9; }
+
+/* ── MODAL ── */
+.modal-backdrop {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); backdrop-filter:blur(4px);
+  align-items:center; justify-content:center; z-index:9999; padding:20px;
+}
+.modal-backdrop--open { display:flex; }
+.modal-box {
+  background:white; border-radius:22px; padding:28px; max-width:500px; width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,0.2); max-height:85vh; overflow-y:auto;
+}
+.modal-header {
+  display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px;
+  padding-bottom:16px; border-bottom:1px solid #f3f4f6;
+}
+.modal-eyebrow { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:#9ca3af; margin-bottom:4px; }
+.modal-title { font-size:17px; font-weight:700; color:#111827; line-height:1.4; }
+.modal-close-btn {
+  border:none; background:#f3f4f6; color:#6b7280; border-radius:8px; padding:6px 12px; cursor:pointer;
+  font-size:13px; font-weight:600; font-family:inherit; flex-shrink:0; margin-left:12px;
+  display:flex; align-items:center; gap:4px; transition:background .2s;
+}
+.modal-close-btn:hover { background:#e5e7eb; }
+.modal-footer { margin-top:22px; padding-top:16px; border-top:1px solid #f3f4f6; }
+.modal-download-btn {
+  width:100%; padding:12px; border:none; border-radius:10px;
+  background:linear-gradient(135deg,#10b981,#06b6d4); color:white; font-size:14px; font-weight:700;
+  cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; transition:transform .2s;
+}
+.modal-download-btn:hover { transform:translateY(-1px); }
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px) {
+  .stats-filter-row { grid-template-columns:repeat(2,1fr); }
+  .filter-field { grid-column:1/-1; }
+}
+
 @media (max-width:768px) {
   .menu-toggle { display:block; }
+  .sidebar-overlay { display:block; }
   .sidebar { left:-260px; }
   .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
   .main { margin-left:0; width:100%; }
-  .navbar { padding-left:60px; }
-  .content { padding:20px 16px; }
+  .navbar { padding:14px 16px 14px 60px; }
+  .content { padding:18px 14px; }
+  .page-header h1 { font-size:21px; }
+  .stats-filter-row { grid-template-columns:1fr; }
+  .filter-field { grid-column:auto; }
+  .search-wrap { max-width:none; width:100%; }
+  .card-grid { grid-template-columns:1fr; }
+  .modal-box { padding:20px; }
 }
 </style>
