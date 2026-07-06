@@ -114,7 +114,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
     </div>
 
     <!-- STATS -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;">
+    <div class="stat-grid">
 
       <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #4f46e5;">
         <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -160,7 +160,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
     </div>
 
     <!-- TOOLBAR -->
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+    <div class="toolbar">
 
       <div style="display:flex;gap:8px;flex-wrap:wrap;" id="tabKategori">
         <button onclick="filterSurat('all')" id="tab-all" class="tab-btn"
@@ -169,14 +169,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
         </button>
       </div>
 
-      <div style="position:relative;">
+      <div class="search-wrap">
         <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);display:flex;align-items:center;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2">
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
         </span>
         <input type="text" id="searchInput" placeholder="Cari judul surat..."
-          style="padding:9px 12px 9px 36px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:13px;font-family:inherit;width:220px;"
+          class="search-input"
           onfocus="this.style.borderColor='#4f46e5';"
           onblur="this.style.borderColor='#e5e7eb';">
       </div>
@@ -184,7 +184,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
     </div>
 
     <!-- CARD GRID -->
-    <div id="cardGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;">
+    <div id="cardGrid" class="card-grid">
       <p style="color:#9ca3af;">Loading...</p>
     </div>
 
@@ -460,6 +460,32 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
 }
 .content { padding:28px; flex:1; }
 .tab-btn { transition: all 0.2s; }
+
+/* ===== GRID & TOOLBAR RESPONSIF ===== */
+.stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:22px; }
+.card-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
+
+.toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px; }
+.search-wrap { position:relative; }
+.search-input {
+  padding:9px 12px 9px 36px; border-radius:10px; border:1.5px solid #e5e7eb;
+  outline:none; font-size:13px; font-family:inherit; width:220px;
+}
+
+/* Tablet: stats 3 -> 2 kolom */
+@media (max-width:1024px) {
+  .stat-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+/* HP: stats 1 kolom, kartu ikut menyusut biar gak overflow, search full-width */
+@media (max-width:640px) {
+  .stat-grid { grid-template-columns:1fr; }
+  .card-grid { grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
+  .toolbar { flex-direction:column; align-items:stretch; }
+  .search-wrap { width:100%; }
+  .search-input { width:100%; box-sizing:border-box; }
+}
+
 @media (max-width:768px) {
   .menu-toggle { display:block; }
   .sidebar { left:-260px; }
