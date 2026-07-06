@@ -21,6 +21,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   </svg>
 </button>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <aside class="sidebar" id="sidebar">
   <div class="logo">
     <img src="/LOGO.jpg" class="logo-img"/>
@@ -85,14 +87,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <!-- NAVBAR -->
   <header class="navbar">
     <div>
-      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
-      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Mahasiswa</div>
+      <div class="navbar-eyebrow">DASHBOARD</div>
+      <div class="navbar-title">Panel Mahasiswa</div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">M</div>
+    <div class="navbar-user">
+      <div class="avatar" id="avatarInit">M</div>
       <div>
-        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">Mahasiswa</div>
-        <div style="font-size:11px;color:#64748b;">Mahasiswa</div>
+        <div id="namaUser" class="navbar-user-name">Mahasiswa</div>
+        <div class="navbar-user-role">Mahasiswa</div>
       </div>
     </div>
   </header>
@@ -100,13 +102,12 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <main class="content">
 
     <!-- HEADER -->
-    <div style="margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;">
+    <div class="page-header">
       <div>
-        <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Profil Saya</h1>
-        <p style="color:#6b7280;font-size:14px;margin:0;">Informasi akun dan data mahasiswa Anda.</p>
+        <h1>Profil Saya</h1>
+        <p>Informasi akun dan data mahasiswa Anda.</p>
       </div>
-      <button id="btnEditProfil" onclick="openEditModal()"
-        style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(16,185,129,0.25);">
+      <button id="btnEditProfil" onclick="openEditModal()" class="btn-edit-profil">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
           <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -115,56 +116,52 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
       </button>
     </div>
 
-    <div style="display:grid;grid-template-columns:320px 1fr;gap:22px;align-items:start;">
+    <div class="profile-grid">
 
       <!-- PROFIL CARD KIRI -->
-      <div style="background:white;border-radius:22px;padding:32px 24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div class="profile-card">
 
-        <div style="position:relative;margin-bottom:18px;">
-          <div id="avatarCircle"
-            style="width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:white;border:4px solid #f3f4f6;">
-            M
-          </div>
-          <img id="fotoProfile" src="" alt=""
-            style="display:none;width:110px;height:110px;border-radius:50%;object-fit:cover;border:4px solid #f3f4f6;position:absolute;top:0;left:0;">
-          <div style="position:absolute;bottom:4px;right:4px;width:22px;height:22px;border-radius:50%;background:#10b981;border:3px solid white;"></div>
+        <div class="profile-avatar-wrap">
+          <div id="avatarCircle" class="profile-avatar-circle">M</div>
+          <img id="fotoProfile" src="" alt="" class="profile-avatar-img">
+          <div class="profile-avatar-badge"></div>
         </div>
 
-        <div style="font-size:20px;font-weight:800;color:#111827;margin-bottom:4px;" id="profileNama">—</div>
-        <div style="font-size:13px;color:#6b7280;margin-bottom:4px;" id="profileProdi">Mahasiswa</div>
-        <div style="font-size:13px;color:#9ca3af;">Institut Shanti Bhuana</div>
+        <div class="profile-name" id="profileNama">—</div>
+        <div class="profile-prodi" id="profileProdi">Mahasiswa</div>
+        <div class="profile-institusi">Institut Shanti Bhuana</div>
 
-        <div style="width:100%;height:1px;background:#f3f4f6;margin:20px 0;"></div>
+        <div class="profile-divider"></div>
 
-        <div style="display:inline-flex;align-items:center;gap:6px;background:#dcfce7;color:#166534;padding:6px 16px;border-radius:999px;font-size:13px;font-weight:700;">
-          <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+        <div class="profile-status-badge">
+          <span class="status-dot"></span>
           Aktif
         </div>
 
-        <div style="margin-top:20px;width:100%;display:flex;flex-direction:column;gap:10px;">
+        <div class="profile-mini-list">
 
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border-radius:12px;">
-            <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <div class="profile-mini-item">
+            <div class="profile-mini-icon profile-mini-icon--green">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
               </svg>
             </div>
-            <div style="text-align:left;">
-              <div style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Role</div>
-              <div id="profileRole" style="font-size:13px;font-weight:700;color:#111827;text-transform:capitalize;">Mahasiswa</div>
+            <div class="profile-mini-text">
+              <div class="profile-mini-label">Role</div>
+              <div id="profileRole" class="profile-mini-value">Mahasiswa</div>
             </div>
           </div>
 
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border-radius:12px;">
-            <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <div class="profile-mini-item">
+            <div class="profile-mini-icon profile-mini-icon--cyan">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                 <polyline points="22,6 12,13 2,6"/>
               </svg>
             </div>
-            <div style="text-align:left;overflow:hidden;">
-              <div style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Email</div>
-              <div id="profileEmail" style="font-size:13px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">—</div>
+            <div class="profile-mini-text profile-mini-text--truncate">
+              <div class="profile-mini-label">Email</div>
+              <div id="profileEmail" class="profile-mini-value profile-mini-value--truncate">—</div>
             </div>
           </div>
 
@@ -173,55 +170,55 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
       </div>
 
       <!-- KANAN -->
-      <div style="display:flex;flex-direction:column;gap:18px;">
+      <div class="profile-right-col">
 
         <!-- Info Detail -->
-        <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+        <div class="panel-card">
 
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
-            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <div class="panel-header">
+            <div class="panel-header-icon panel-header-icon--green">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>
               </svg>
             </div>
             <div>
-              <div style="font-size:15px;font-weight:700;color:#111827;">Informasi Akun</div>
-              <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Data profil Anda di sistem Arsipro</div>
+              <div class="panel-title">Informasi Akun</div>
+              <div class="panel-sub">Data profil Anda di sistem Arsipro</div>
             </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="info-grid">
 
-            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Nama Lengkap</div>
-              <div id="detail_nama" style="font-size:15px;font-weight:700;color:#111827;">—</div>
+            <div class="info-item">
+              <div class="info-label">Nama Lengkap</div>
+              <div id="detail_nama" class="info-value">—</div>
             </div>
 
-            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Email</div>
-              <div id="detail_email" style="font-size:15px;font-weight:700;color:#111827;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">—</div>
+            <div class="info-item">
+              <div class="info-label">Email</div>
+              <div id="detail_email" class="info-value info-value--truncate">—</div>
             </div>
 
-            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Program Studi</div>
-              <div id="detail_jabatan" style="font-size:15px;font-weight:700;color:#111827;">—</div>
+            <div class="info-item">
+              <div class="info-label">Program Studi</div>
+              <div id="detail_jabatan" class="info-value">—</div>
             </div>
 
-            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">NIM</div>
-              <div id="detail_nomor_id" style="font-size:15px;font-weight:700;color:#111827;">—</div>
+            <div class="info-item">
+              <div class="info-label">NIM</div>
+              <div id="detail_nomor_id" class="info-value">—</div>
             </div>
 
-            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Institusi</div>
-              <div style="font-size:15px;font-weight:700;color:#111827;">Institut Shanti Bhuana</div>
+            <div class="info-item">
+              <div class="info-label">Institusi</div>
+              <div class="info-value">Institut Shanti Bhuana</div>
             </div>
 
-            <div style="background:#f8fafc;border-radius:14px;padding:16px 18px;">
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#9ca3af;margin-bottom:6px;">Status Akun</div>
-              <div style="display:inline-flex;align-items:center;gap:6px;background:#dcfce7;color:#166534;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700;">
-                <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+            <div class="info-item">
+              <div class="info-label">Status Akun</div>
+              <div class="info-status-badge">
+                <span class="status-dot"></span>
                 Aktif
               </div>
             </div>
@@ -231,54 +228,45 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
         </div>
 
         <!-- Akses Cepat -->
-        <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+        <div class="panel-card">
 
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f3f4f6;">
-            <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#06b6d4,#4f46e5);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <div class="panel-header">
+            <div class="panel-header-icon panel-header-icon--indigo">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
                 <polyline points="9 11 12 14 22 4"/>
                 <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
               </svg>
             </div>
             <div>
-              <div style="font-size:15px;font-weight:700;color:#111827;">Akses Cepat</div>
-              <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Navigasi ke fitur utama</div>
+              <div class="panel-title">Akses Cepat</div>
+              <div class="panel-sub">Navigasi ke fitur utama</div>
             </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+          <div class="quick-grid">
 
-            <a href="/mahasiswa/surat"
-              style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-              onmouseover="this.style.borderColor='#a7f3d0';this.style.background='#f0fdf4';this.style.transform='translateY(-2px)';"
-              onmouseout="this.style.borderColor='#f3f4f6';this.style.background='#f8fafc';this.style.transform='none';">
-              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;">
+            <a href="/mahasiswa/surat" class="quick-item quick-item--green">
+              <div class="quick-item-icon quick-item-icon--green">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                   <polyline points="22,6 12,13 2,6"/>
                 </svg>
               </div>
-              <span style="font-size:12px;font-weight:600;color:#374151;">Surat Masuk</span>
+              <span>Surat Masuk</span>
             </a>
 
-            <a href="/mahasiswa/permintaan"
-              style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-              onmouseover="this.style.borderColor='#a5f3fc';this.style.background='#f0f9ff';this.style.transform='translateY(-2px)';"
-              onmouseout="this.style.borderColor='#f3f4f6';this.style.background='#f8fafc';this.style.transform='none';">
-              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;">
+            <a href="/mahasiswa/permintaan" class="quick-item quick-item--cyan">
+              <div class="quick-item-icon quick-item-icon--cyan">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
                   <line x1="22" y1="2" x2="11" y2="13"/>
                   <polygon points="22 2 15 22 11 13 2 9 22 2"/>
                 </svg>
               </div>
-              <span style="font-size:12px;font-weight:600;color:#374151;">Request Surat</span>
+              <span>Request Surat</span>
             </a>
 
-            <a href="/mahasiswa/template"
-              style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-              onmouseover="this.style.borderColor='#c7d2fe';this.style.background='#f5f3ff';this.style.transform='translateY(-2px)';"
-              onmouseout="this.style.borderColor='#f3f4f6';this.style.background='#f8fafc';this.style.transform='none';">
-              <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;">
+            <a href="/mahasiswa/template" class="quick-item quick-item--indigo">
+              <div class="quick-item-icon quick-item-icon--indigo">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
@@ -286,7 +274,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
                   <line x1="16" y1="17" x2="8" y2="17"/>
                 </svg>
               </div>
-              <span style="font-size:12px;font-weight:600;color:#374151;">Template</span>
+              <span>Template</span>
             </a>
 
           </div>
@@ -294,15 +282,12 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
         </div>
 
         <!-- Logout Card -->
-        <div style="background:white;border-radius:18px;padding:20px 24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <div class="panel-card logout-card">
           <div>
-            <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:2px;">Keluar dari Akun</div>
-            <div style="font-size:12px;color:#9ca3af;">Anda akan diarahkan kembali ke halaman login</div>
+            <div class="logout-card-title">Keluar dari Akun</div>
+            <div class="logout-card-sub">Anda akan diarahkan kembali ke halaman login</div>
           </div>
-          <a href="/login" onclick="localStorage.clear()"
-            style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;background:#fee2e2;color:#dc2626;font-size:13px;font-weight:700;text-decoration:none;transition:all 0.2s;"
-            onmouseover="this.style.background='#dc2626';this.style.color='white';"
-            onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+          <a href="/login" onclick="localStorage.clear()" class="logout-card-btn">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
               <polyline points="16 17 21 12 16 7"/>
@@ -318,7 +303,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 
   </main>
 
-  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+  <footer class="footer">
     © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
   </footer>
 
@@ -438,6 +423,7 @@ renderProfil();
 
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("sidebarOverlay").classList.toggle("active");
 }
 
 // ===== EDIT PROFIL MODAL =====
@@ -557,10 +543,19 @@ async function submitEditProfil() {
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
 body { display:flex; background:#f1f5f9; min-height:100vh; }
+
+/* ── MOBILE TOGGLE ── */
 .menu-toggle {
   display:none; position:fixed; top:15px; left:15px; z-index:1002;
   background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
 }
+.sidebar-overlay {
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,0.5);
+  z-index:99; opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.sidebar-overlay.active { opacity:1; pointer-events:auto; }
+
+/* ── SIDEBAR ── */
 .sidebar {
   width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
   color:white; padding:20px 15px; display:flex; flex-direction:column;
@@ -585,23 +580,122 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
   padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s;
 }
 .logout a:hover { background:#7f1d1d; }
+
+/* ── MAIN / NAVBAR ── */
 .main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
 .navbar {
   background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
   box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
 }
+.navbar-eyebrow { font-size:13px; color:#64748b; font-weight:500; }
+.navbar-title { font-size:17px; font-weight:700; color:#0f172a; }
+.navbar-user { display:flex; align-items:center; gap:12px; }
+.avatar {
+  width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#10b981,#06b6d4);
+  display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:14px; flex-shrink:0;
+}
+.navbar-user-name { font-size:14px; font-weight:600; color:#0f172a; }
+.navbar-user-role { font-size:11px; color:#64748b; }
+
 .content { padding:28px; flex:1; }
-@media (max-width:900px) {
-  .content > div:last-of-type { grid-template-columns: 1fr !important; }
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom:28px; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; }
+.page-header h1 {
+  font-size:26px; font-weight:700; margin:0 0 4px;
+  background:linear-gradient(135deg,#10b981,#06b6d4);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
 }
-@media (max-width:768px) {
-  .menu-toggle { display:block; }
-  .sidebar { left:-260px; }
-  .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
-  .main { margin-left:0; width:100%; }
-  .navbar { padding-left:60px; }
-  .content { padding:20px 16px; }
+.page-header p { color:#6b7280; font-size:14px; margin:0; }
+.btn-edit-profil {
+  display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:10px; border:none;
+  background:linear-gradient(135deg,#10b981,#06b6d4); color:white; font-size:13px; font-weight:700;
+  cursor:pointer; box-shadow:0 4px 12px rgba(16,185,129,0.25);
 }
+
+/* ── PROFILE GRID ── */
+.profile-grid { display:grid; grid-template-columns:320px 1fr; gap:22px; align-items:start; }
+
+.profile-card {
+  background:white; border-radius:22px; padding:32px 24px; box-shadow:0 8px 25px rgba(0,0,0,0.07);
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+}
+.profile-avatar-wrap { position:relative; margin-bottom:18px; }
+.profile-avatar-circle {
+  width:110px; height:110px; border-radius:50%; background:linear-gradient(135deg,#10b981,#06b6d4);
+  display:flex; align-items:center; justify-content:center; font-size:40px; font-weight:800; color:white; border:4px solid #f3f4f6;
+}
+.profile-avatar-img {
+  display:none; width:110px; height:110px; border-radius:50%; object-fit:cover; border:4px solid #f3f4f6;
+  position:absolute; top:0; left:0;
+}
+.profile-avatar-badge { position:absolute; bottom:4px; right:4px; width:22px; height:22px; border-radius:50%; background:#10b981; border:3px solid white; }
+.profile-name { font-size:20px; font-weight:800; color:#111827; margin-bottom:4px; }
+.profile-prodi { font-size:13px; color:#6b7280; margin-bottom:4px; }
+.profile-institusi { font-size:13px; color:#9ca3af; }
+.profile-divider { width:100%; height:1px; background:#f3f4f6; margin:20px 0; }
+.profile-status-badge, .info-status-badge {
+  display:inline-flex; align-items:center; gap:6px; background:#dcfce7; color:#166534;
+  padding:6px 16px; border-radius:999px; font-size:13px; font-weight:700;
+}
+.info-status-badge { padding:4px 12px; }
+.status-dot { width:8px; height:8px; border-radius:50%; background:#22c55e; display:inline-block; }
+.info-status-badge .status-dot { width:6px; height:6px; }
+
+.profile-mini-list { margin-top:20px; width:100%; display:flex; flex-direction:column; gap:10px; }
+.profile-mini-item { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f8fafc; border-radius:12px; }
+.profile-mini-icon { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.profile-mini-icon--green { background:linear-gradient(135deg,#d1fae5,#a7f3d0); }
+.profile-mini-icon--cyan { background:linear-gradient(135deg,#cffafe,#a5f3fc); }
+.profile-mini-text { text-align:left; }
+.profile-mini-text--truncate { overflow:hidden; }
+.profile-mini-label { font-size:11px; color:#9ca3af; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; }
+.profile-mini-value { font-size:13px; font-weight:700; color:#111827; text-transform:capitalize; }
+.profile-mini-value--truncate { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-transform:none; }
+
+/* ── RIGHT COLUMN ── */
+.profile-right-col { display:flex; flex-direction:column; gap:18px; }
+.panel-card { background:white; border-radius:18px; padding:24px; box-shadow:0 8px 25px rgba(0,0,0,0.07); }
+.panel-header { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid #f3f4f6; }
+.panel-header-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.panel-header-icon--green { background:linear-gradient(135deg,#10b981,#06b6d4); }
+.panel-header-icon--indigo { background:linear-gradient(135deg,#06b6d4,#4f46e5); }
+.panel-title { font-size:15px; font-weight:700; color:#111827; }
+.panel-sub { font-size:12px; color:#9ca3af; margin-top:1px; }
+
+.info-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.info-item { background:#f8fafc; border-radius:14px; padding:16px 18px; }
+.info-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.6px; color:#9ca3af; margin-bottom:6px; }
+.info-value { font-size:15px; font-weight:700; color:#111827; }
+.info-value--truncate { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+.quick-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.quick-item {
+  display:flex; flex-direction:column; align-items:center; gap:8px; padding:16px 12px;
+  background:#f8fafc; border-radius:14px; text-decoration:none; border:1.5px solid #f3f4f6; transition:all 0.2s;
+}
+.quick-item:hover { transform:translateY(-2px); }
+.quick-item span { font-size:12px; font-weight:600; color:#374151; }
+.quick-item-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; }
+.quick-item-icon--green { background:linear-gradient(135deg,#d1fae5,#a7f3d0); }
+.quick-item--green:hover { border-color:#a7f3d0; background:#f0fdf4; }
+.quick-item-icon--cyan { background:linear-gradient(135deg,#cffafe,#a5f3fc); }
+.quick-item--cyan:hover { border-color:#a5f3fc; background:#f0f9ff; }
+.quick-item-icon--indigo { background:linear-gradient(135deg,#ede9fe,#ddd6fe); }
+.quick-item--indigo:hover { border-color:#c7d2fe; background:#f5f3ff; }
+
+.logout-card { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:20px 24px; }
+.logout-card-title { font-size:14px; font-weight:700; color:#111827; margin-bottom:2px; }
+.logout-card-sub { font-size:12px; color:#9ca3af; }
+.logout-card-btn {
+  display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:10px;
+  background:#fee2e2; color:#dc2626; font-size:13px; font-weight:700; text-decoration:none; transition:all 0.2s;
+}
+.logout-card-btn:hover { background:#dc2626; color:white; }
+
+.footer { text-align:center; padding:16px; font-size:13px; color:#94a3b8; border-top:1px solid #f1f5f9; }
+
+/* ── EDIT PROFIL MODAL ── */
 .modal-overlay {
   display:none; position:fixed; inset:0; background:rgba(15,23,42,0.55);
   z-index:2000; align-items:center; justify-content:center; padding:20px;
@@ -655,4 +749,30 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
 }
 .btn-save:hover { opacity:0.9; }
 .btn-save:disabled { opacity:0.6; cursor:not-allowed; }
+
+/* ── RESPONSIVE ── */
+@media (max-width:900px) {
+  .profile-grid { grid-template-columns:1fr; }
+}
+
+@media (max-width:768px) {
+  .menu-toggle { display:block; }
+  .sidebar-overlay { display:block; }
+  .sidebar { left:-260px; }
+  .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
+  .main { margin-left:0; width:100%; }
+  .navbar { padding:14px 16px 14px 60px; }
+  .content { padding:18px 14px; }
+  .page-header h1 { font-size:21px; }
+  .info-grid { grid-template-columns:1fr; }
+  .quick-grid { grid-template-columns:repeat(2,1fr); }
+  .panel-card { padding:18px; }
+  .profile-card { padding:24px 18px; }
+}
+
+@media (max-width:400px) {
+  .quick-grid { grid-template-columns:1fr; }
+  .logout-card { flex-direction:column; align-items:flex-start; }
+  .logout-card-btn { width:100%; justify-content:center; }
+}
 </style>
