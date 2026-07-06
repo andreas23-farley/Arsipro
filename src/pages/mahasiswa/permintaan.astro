@@ -22,6 +22,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   </svg>
 </button>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <aside class="sidebar" id="sidebar">
   <div class="logo">
     <img src="/LOGO.jpg" class="logo-img"/>
@@ -86,14 +88,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <!-- NAVBAR -->
   <header class="navbar">
     <div>
-      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
-      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Mahasiswa</div>
+      <div class="navbar-eyebrow">DASHBOARD</div>
+      <div class="navbar-title">Panel Mahasiswa</div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">M</div>
+    <div class="navbar-user">
+      <div class="avatar" id="avatarInit">M</div>
       <div>
-        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">{role}</div>
-        <div style="font-size:11px;color:#64748b;">Mahasiswa</div>
+        <div id="namaUser" class="navbar-user-name">{role}</div>
+        <div class="navbar-user-role">Mahasiswa</div>
       </div>
     </div>
   </header>
@@ -101,16 +103,16 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <main class="content">
 
     <!-- HEADER -->
-    <div style="margin-bottom:24px;">
-      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Request Surat ke Admin</h1>
-      <p style="color:#6b7280;font-size:14px;margin:0;">Ajukan permintaan surat dan pantau status pengajuanmu.</p>
+    <div class="page-header">
+      <h1>Request Surat ke Admin</h1>
+      <p>Ajukan permintaan surat dan pantau status pengajuanmu.</p>
     </div>
 
     <!-- STATS -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;">
+    <div class="stats-row">
 
-      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #10b981;">
-        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-mini stat-mini--green">
+        <div class="stat-mini-icon stat-mini-icon--green">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
@@ -119,13 +121,13 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
           </svg>
         </div>
         <div>
-          <div id="statTotal" style="font-size:22px;font-weight:700;color:#111827;">0</div>
-          <div style="font-size:12px;color:#6b7280;">Total Request</div>
+          <div id="statTotal" class="stat-mini-value">0</div>
+          <div class="stat-mini-label">Total Request</div>
         </div>
       </div>
 
-      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #f59e0b;">
-        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-mini stat-mini--amber">
+        <div class="stat-mini-icon stat-mini-icon--amber">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
             <circle cx="12" cy="12" r="10"/>
             <line x1="12" y1="8" x2="12" y2="12"/>
@@ -133,118 +135,101 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
           </svg>
         </div>
         <div>
-          <div id="statPending" style="font-size:22px;font-weight:700;color:#111827;">0</div>
-          <div style="font-size:12px;color:#6b7280;">Menunggu</div>
+          <div id="statPending" class="stat-mini-value">0</div>
+          <div class="stat-mini-label">Menunggu</div>
         </div>
       </div>
 
-      <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #06b6d4;">
-        <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-mini stat-mini--cyan">
+        <div class="stat-mini-icon stat-mini-icon--cyan">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
         </div>
         <div>
-          <div id="statDisetujui" style="font-size:22px;font-weight:700;color:#111827;">0</div>
-          <div style="font-size:12px;color:#6b7280;">Disetujui</div>
+          <div id="statDisetujui" class="stat-mini-value">0</div>
+          <div class="stat-mini-label">Disetujui</div>
         </div>
       </div>
 
     </div>
 
     <!-- 2 KOLOM: form | riwayat -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;">
+    <div class="two-col">
 
       <!-- FORM -->
-      <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+      <div class="panel-card">
 
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
-          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <div class="panel-header">
+          <div class="panel-header-icon panel-header-icon--green">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
               <line x1="22" y1="2" x2="11" y2="13"/>
               <polygon points="22 2 15 22 11 13 2 9 22 2"/>
             </svg>
           </div>
           <div>
-            <div style="font-size:15px;font-weight:700;color:#111827;">Ajukan Request Surat</div>
-            <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Isi form berikut dengan lengkap</div>
+            <div class="panel-title">Ajukan Request Surat</div>
+            <div class="panel-sub">Isi form berikut dengan lengkap</div>
           </div>
         </div>
 
         <!-- Alert -->
-        <div id="alertSuccess" style="display:none;padding:12px 16px;border-radius:10px;background:#dcfce7;color:#166534;font-size:13px;font-weight:600;margin-bottom:16px;align-items:center;gap:8px;">
+        <div id="alertSuccess" class="alert alert--success">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           Request berhasil dikirim!
         </div>
-        <div id="alertError" style="display:none;padding:12px 16px;border-radius:10px;background:#fee2e2;color:#991b1b;font-size:13px;font-weight:600;margin-bottom:16px;align-items:center;gap:8px;">
+        <div id="alertError" class="alert alert--error">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#991b1b" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <span id="alertErrorMsg">Gagal mengirim request. Coba lagi.</span>
         </div>
 
         <!-- Nama (readonly) -->
-        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
-          <label style="font-size:12px;font-weight:600;color:#374151;">Nama Mahasiswa</label>
-          <input type="text" id="namaMahasiswa" readonly
-            style="padding:10px 14px;border-radius:10px;border:1.5px solid #f3f4f6;background:#f9fafb;outline:none;font-size:14px;font-family:inherit;color:#6b7280;width:100%;box-sizing:border-box;">
+        <div class="field">
+          <label>Nama Mahasiswa</label>
+          <input type="text" id="namaMahasiswa" readonly class="input input--readonly">
         </div>
 
         <!-- Judul -->
-        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
-          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;">
-            <span style="color:#ef4444;">*</span> Judul Surat
-          </label>
-          <input type="text" id="judul_surat" placeholder="Contoh: Surat Keterangan Aktif Kuliah"
-            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
-            onfocus="this.style.borderColor='#10b981';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.1)';"
-            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        <div class="field">
+          <label><span class="req">*</span> Judul Surat</label>
+          <input type="text" id="judul_surat" placeholder="Contoh: Surat Keterangan Aktif Kuliah" class="input">
         </div>
 
         <!-- Tanggal -->
-        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
-          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;">
-            <span style="color:#ef4444;">*</span> Tanggal Request
-          </label>
-          <input type="date" id="tanggal_request"
-            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;width:100%;box-sizing:border-box;"
-            onfocus="this.style.borderColor='#10b981';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.1)';"
-            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';">
+        <div class="field">
+          <label><span class="req">*</span> Tanggal Request</label>
+          <input type="date" id="tanggal_request" class="input">
         </div>
 
         <!-- Deskripsi -->
-        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;">
-          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:4px;">
-            <span style="color:#ef4444;">*</span> Deskripsi / Keperluan
-          </label>
-          <textarea id="deskripsi" rows="4" placeholder="Tuliskan kebutuhan surat anda secara singkat..."
-            style="padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;outline:none;font-size:14px;font-family:inherit;resize:vertical;width:100%;box-sizing:border-box;line-height:1.6;"
-            onfocus="this.style.borderColor='#10b981';this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.1)';"
-            onblur="this.style.borderColor='#e5e7eb';this.style.boxShadow='none';"></textarea>
+        <div class="field">
+          <label><span class="req">*</span> Deskripsi / Keperluan</label>
+          <textarea id="deskripsi" rows="4" placeholder="Tuliskan kebutuhan surat anda secara singkat..." class="input textarea"></textarea>
         </div>
 
         <!-- FILE UPLOAD -->
-        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:20px;">
-          <label style="font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;">
+        <div class="field" style="margin-bottom:20px;">
+          <label class="file-label">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.41 17.41a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
             </svg>
             File Contoh / Lampiran
-            <span style="font-size:11px;font-weight:400;color:#9ca3af;">(opsional)</span>
+            <span class="file-label-opt">(opsional)</span>
           </label>
 
           <!-- Drop zone -->
-          <div id="dropZone"
-            style="border:2px dashed #d1d5db;border-radius:12px;padding:20px 16px;text-align:center;cursor:pointer;transition:all .2s;background:#fafafa;position:relative;"
+          <div id="dropZone" class="drop-zone"
             onclick="document.getElementById('fileInput').click()"
-            ondragover="event.preventDefault();this.style.borderColor='#10b981';this.style.background='#f0fdf4';"
-            ondragleave="this.style.borderColor='#d1d5db';this.style.background='#fafafa';"
+            ondragover="event.preventDefault();this.classList.add('drop-zone--active');"
+            ondragleave="this.classList.remove('drop-zone--active');"
             ondrop="handleDrop(event)">
 
             <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
               style="display:none;" onchange="handleFileSelect(this)">
 
             <div id="dropContent">
-              <div style="display:flex;justify-content:center;margin-bottom:8px;">
-                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;">
+              <div class="drop-icon-wrap">
+                <div class="drop-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                     <polyline points="17 8 12 3 7 8"/>
@@ -252,43 +237,37 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
                   </svg>
                 </div>
               </div>
-              <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:4px;">Klik atau drag & drop file di sini</div>
-              <div style="font-size:11px;color:#9ca3af;">PDF, DOC, DOCX, JPG, PNG — Maks. 5 MB</div>
+              <div class="drop-title">Klik atau drag &amp; drop file di sini</div>
+              <div class="drop-sub">PDF, DOC, DOCX, JPG, PNG — Maks. 5 MB</div>
             </div>
 
             <!-- Preview file terpilih -->
-            <div id="filePreview" style="display:none;align-items:center;gap:12px;padding:10px 14px;background:#f0fdf4;border-radius:10px;border:1.5px solid #bbf7d0;text-align:left;">
-              <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <div id="filePreview" class="file-preview">
+              <div class="file-preview-icon">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
                 </svg>
               </div>
-              <div style="flex:1;min-width:0;">
-                <div id="fileName" style="font-size:13px;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
-                <div id="fileSize" style="font-size:11px;color:#6b7280;margin-top:2px;"></div>
+              <div class="file-preview-text">
+                <div id="fileName" class="file-preview-name"></div>
+                <div id="fileSize" class="file-preview-size"></div>
               </div>
-              <button onclick="event.stopPropagation();clearFile()"
-                style="border:none;background:#fee2e2;color:#dc2626;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:11px;font-weight:700;font-family:inherit;flex-shrink:0;display:flex;align-items:center;gap:4px;"
-                onmouseover="this.style.background='#dc2626';this.style.color='white';"
-                onmouseout="this.style.background='#fee2e2';this.style.color='#dc2626';">
+              <button onclick="event.stopPropagation();clearFile()" class="file-remove-btn">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 Hapus
               </button>
             </div>
 
           </div>
-          <div style="font-size:11px;color:#9ca3af;display:flex;align-items:center;gap:4px;">
+          <div class="file-hint">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             Lampirkan contoh surat atau dokumen pendukung sebagai referensi untuk admin.
           </div>
         </div>
 
         <!-- Kirim -->
-        <button id="btnKirim"
-          style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;"
-          onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 4px 15px rgba(16,185,129,0.35)';"
-          onmouseout="this.style.transform='none';this.style.boxShadow='none';">
+        <button id="btnKirim" class="submit-btn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
             <line x1="22" y1="2" x2="11" y2="13"/>
             <polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -299,22 +278,22 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
       </div>
 
       <!-- RIWAYAT -->
-      <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+      <div class="panel-card">
 
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
-          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <div class="panel-header">
+          <div class="panel-header-icon panel-header-icon--warm">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
             </svg>
           </div>
           <div>
-            <div style="font-size:15px;font-weight:700;color:#111827;">Riwayat Request</div>
-            <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Status pengajuan surat Anda</div>
+            <div class="panel-title">Riwayat Request</div>
+            <div class="panel-sub">Status pengajuan surat Anda</div>
           </div>
         </div>
 
-        <div id="riwayatRequest" style="display:flex;flex-direction:column;gap:10px;">
+        <div id="riwayatRequest" class="riwayat-list">
           <p style="color:#9ca3af;font-size:13px;">Loading...</p>
         </div>
 
@@ -324,7 +303,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 
   </main>
 
-  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+  <footer class="footer">
     © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
   </footer>
 
@@ -373,9 +352,7 @@ function applyFile(file) {
   document.getElementById("filePreview").style.display  = "flex";
   document.getElementById("fileName").textContent = file.name;
   document.getElementById("fileSize").textContent = formatBytes(file.size);
-  const dz = document.getElementById("dropZone");
-  dz.style.borderColor = "#10b981";
-  dz.style.background  = "#f0fdf4";
+  document.getElementById("dropZone").classList.add("drop-zone--active");
 }
 
 window.handleFileSelect = function(input) {
@@ -384,9 +361,7 @@ window.handleFileSelect = function(input) {
 
 window.handleDrop = function(e) {
   e.preventDefault();
-  const dz = document.getElementById("dropZone");
-  dz.style.borderColor = "#d1d5db";
-  dz.style.background  = "#fafafa";
+  document.getElementById("dropZone").classList.remove("drop-zone--active");
   if (e.dataTransfer.files && e.dataTransfer.files[0]) applyFile(e.dataTransfer.files[0]);
 };
 
@@ -395,9 +370,7 @@ window.clearFile = function() {
   document.getElementById("fileInput").value          = "";
   document.getElementById("filePreview").style.display = "none";
   document.getElementById("dropContent").style.display = "block";
-  const dz = document.getElementById("dropZone");
-  dz.style.borderColor = "#d1d5db";
-  dz.style.background  = "#fafafa";
+  document.getElementById("dropZone").classList.remove("drop-zone--active");
 };
 
 // ── STATUS BADGE ──
@@ -579,6 +552,7 @@ function showAlert(ok, msg) {
 
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("sidebarOverlay").classList.toggle("active");
 }
 
 loadRiwayat();
@@ -591,11 +565,18 @@ loadRiwayat();
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
 body { display:flex; background:#f1f5f9; min-height:100vh; }
 
+/* ── MOBILE TOGGLE ── */
 .menu-toggle {
   display:none; position:fixed; top:15px; left:15px; z-index:1002;
   background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
 }
+.sidebar-overlay {
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,0.5);
+  z-index:99; opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.sidebar-overlay.active { opacity:1; pointer-events:auto; }
 
+/* ── SIDEBAR ── */
 .sidebar {
   width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
   color:white; padding:20px 15px; display:flex; flex-direction:column;
@@ -621,26 +602,136 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
 }
 .logout a:hover { background:#7f1d1d; }
 
+/* ── MAIN / NAVBAR ── */
 .main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
 .navbar {
   background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
   box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
 }
+.navbar-eyebrow { font-size:13px; color:#64748b; font-weight:500; }
+.navbar-title { font-size:17px; font-weight:700; color:#0f172a; }
+.navbar-user { display:flex; align-items:center; gap:12px; }
+.avatar {
+  width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#10b981,#06b6d4);
+  display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:14px; flex-shrink:0;
+}
+.navbar-user-name { font-size:14px; font-weight:600; color:#0f172a; }
+.navbar-user-role { font-size:11px; color:#64748b; }
+
 .content { padding:28px; flex:1; }
 
-#dropZone:hover { border-color:#10b981; background:#f0fdf4; }
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom:24px; }
+.page-header h1 {
+  font-size:26px; font-weight:700; margin:0 0 4px;
+  background:linear-gradient(135deg,#10b981,#06b6d4);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.page-header p { color:#6b7280; font-size:14px; margin:0; }
+
+/* ── STAT MINI ── */
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px; }
+.stat-mini {
+  background:white; border-radius:16px; padding:16px 18px; display:flex; align-items:center; gap:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.06); border-left:4px solid transparent;
+}
+.stat-mini--green { border-left-color:#10b981; }
+.stat-mini--amber { border-left-color:#f59e0b; }
+.stat-mini--cyan { border-left-color:#06b6d4; }
+.stat-mini-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.stat-mini-icon--green { background:linear-gradient(135deg,#d1fae5,#a7f3d0); }
+.stat-mini-icon--amber { background:linear-gradient(135deg,#fef9c3,#fde68a); }
+.stat-mini-icon--cyan { background:linear-gradient(135deg,#cffafe,#a5f3fc); }
+.stat-mini-value { font-size:22px; font-weight:700; color:#111827; }
+.stat-mini-label { font-size:12px; color:#6b7280; }
+
+/* ── TWO COLUMN LAYOUT ── */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; }
+.panel-card { background:white; border-radius:18px; padding:24px; box-shadow:0 8px 25px rgba(0,0,0,0.07); }
+.panel-header { display:flex; align-items:center; gap:12px; margin-bottom:22px; padding-bottom:16px; border-bottom:1px solid #f3f4f6; }
+.panel-header-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.panel-header-icon--green { background:linear-gradient(135deg,#10b981,#06b6d4); }
+.panel-header-icon--warm { background:linear-gradient(135deg,#f59e0b,#ef4444); }
+.panel-title { font-size:15px; font-weight:700; color:#111827; }
+.panel-sub { font-size:12px; color:#9ca3af; margin-top:1px; }
+
+/* ── ALERTS ── */
+.alert { display:none; padding:12px 16px; border-radius:10px; font-size:13px; font-weight:600; margin-bottom:16px; align-items:center; gap:8px; }
+.alert--success { background:#dcfce7; color:#166534; }
+.alert--error { background:#fee2e2; color:#991b1b; }
+
+/* ── FORM FIELDS ── */
+.field { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+.field label { font-size:12px; font-weight:600; color:#374151; display:flex; align-items:center; gap:4px; }
+.req { color:#ef4444; }
+.input {
+  padding:10px 14px; border-radius:10px; border:1.5px solid #e5e7eb; outline:none;
+  font-size:14px; font-family:inherit; width:100%; box-sizing:border-box; transition:border-color .2s, box-shadow .2s;
+}
+.input:focus { border-color:#10b981; box-shadow:0 0 0 3px rgba(16,185,129,0.1); }
+.input--readonly { background:#f9fafb; border-color:#f3f4f6; color:#6b7280; }
+.textarea { resize:vertical; line-height:1.6; }
+
+/* ── FILE UPLOAD ── */
+.file-label { display:flex; align-items:center; gap:5px; }
+.file-label-opt { font-size:11px; font-weight:400; color:#9ca3af; }
+.drop-zone {
+  border:2px dashed #d1d5db; border-radius:12px; padding:20px 16px; text-align:center;
+  cursor:pointer; transition:all .2s; background:#fafafa; position:relative;
+}
+.drop-zone:hover, .drop-zone--active { border-color:#10b981; background:#f0fdf4; }
+.drop-icon-wrap { display:flex; justify-content:center; margin-bottom:8px; }
+.drop-icon { width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,#d1fae5,#a7f3d0); display:flex; align-items:center; justify-content:center; }
+.drop-title { font-size:13px; font-weight:600; color:#374151; margin-bottom:4px; }
+.drop-sub { font-size:11px; color:#9ca3af; }
+.file-preview {
+  display:none; align-items:center; gap:12px; padding:10px 14px; background:#f0fdf4;
+  border-radius:10px; border:1.5px solid #bbf7d0; text-align:left;
+}
+.file-preview-icon { width:36px; height:36px; border-radius:8px; background:linear-gradient(135deg,#10b981,#06b6d4); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.file-preview-text { flex:1; min-width:0; }
+.file-preview-name { font-size:13px; font-weight:600; color:#111827; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.file-preview-size { font-size:11px; color:#6b7280; margin-top:2px; }
+.file-remove-btn {
+  border:none; background:#fee2e2; color:#dc2626; border-radius:6px; padding:4px 8px; cursor:pointer;
+  font-size:11px; font-weight:700; font-family:inherit; flex-shrink:0; display:flex; align-items:center; gap:4px; transition:all .2s;
+}
+.file-remove-btn:hover { background:#dc2626; color:white; }
+.file-hint { font-size:11px; color:#9ca3af; display:flex; align-items:center; gap:4px; margin-top:6px; }
+
+/* ── SUBMIT BUTTON ── */
+.submit-btn {
+  width:100%; padding:12px; border:none; border-radius:10px;
+  background:linear-gradient(135deg,#10b981,#06b6d4); color:white; font-size:14px; font-weight:700;
+  cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; transition:all .2s;
+}
+.submit-btn:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(16,185,129,0.35); }
+
+.riwayat-list { display:flex; flex-direction:column; gap:10px; }
+
+.footer { text-align:center; padding:16px; font-size:13px; color:#94a3b8; border-top:1px solid #f1f5f9; }
 
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 
+/* ── RESPONSIVE ── */
 @media (max-width:1024px) {
-  .content > div:last-of-type { grid-template-columns: 1fr !important; }
+  .two-col { grid-template-columns: 1fr; }
 }
+
 @media (max-width:768px) {
   .menu-toggle { display:block; }
+  .sidebar-overlay { display:block; }
   .sidebar { left:-260px; }
   .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
   .main { margin-left:0; width:100%; }
-  .navbar { padding-left:60px; }
-  .content { padding:20px 16p x; }
+  .navbar { padding:14px 16px 14px 60px; }
+  .content { padding:18px 14px; }
+  .page-header h1 { font-size:21px; }
+  .stats-row { grid-template-columns:1fr; }
+  .panel-card { padding:18px; }
+}
+
+@media (max-width:400px) {
+  .navbar-title { font-size:15px; }
 }
 </style>
