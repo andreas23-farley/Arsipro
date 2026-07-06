@@ -85,7 +85,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
     </div>
 
     <!-- STATS -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px;">
+    <div class="stat-grid">
       <div style="background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border-left:4px solid #6366f1;">
         <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
@@ -115,7 +115,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;">
+    <div class="form-grid">
 
       <!-- FORM -->
       <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
@@ -603,7 +603,22 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
 .navbar { background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50; }
 .content { padding:28px; flex:1; }
 @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
-@media (max-width:1024px) { .content > div:last-of-type { grid-template-columns: 1fr !important; } }
+
+/* ===== GRID RESPONSIF ===== */
+.stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px; }
+.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; }
+
+/* Tablet: stats 3 -> 2 kolom, form 2 -> 1 kolom (numpuk) */
+@media (max-width:1024px) {
+  .stat-grid { grid-template-columns:repeat(2,1fr); }
+  .form-grid { grid-template-columns:1fr; }
+}
+
+/* HP: semua jadi 1 kolom */
+@media (max-width:640px) {
+  .stat-grid { grid-template-columns:1fr; }
+}
+
 @media (max-width:768px) {
   .menu-toggle { display:block; }
   .sidebar { left:-260px; }
