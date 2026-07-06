@@ -20,3 +20,30 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
     </main>
   </div>
 </div>
+
+<style>
+  .layout {
+    min-height: 100vh;
+  }
+
+  .main {
+    margin-left: 258px; /* HARUS sama dengan width .sidebar di Sidebar.astro */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 0; /* cegah tabel/konten lebar bikin overflow horizontal aneh */
+  }
+
+  .content {
+    padding: 24px;
+    overflow-x: auto;
+  }
+
+  /* Kalau nanti sidebar bisa di-collapse jadi lebih sempit di mobile,
+     tambahkan media query di sini supaya margin-left ikut menyesuaikan */
+  @media (max-width: 900px) {
+    .main {
+      margin-left: 0;
+    }
+  }
+</style>
