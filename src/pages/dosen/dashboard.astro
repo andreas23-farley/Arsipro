@@ -142,7 +142,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
     </div>
 
     <!-- STAT CARDS -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+    <div class="stat-grid">
 
       <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-left:4px solid #4f46e5;display:flex;align-items:center;gap:14px;transition:all 0.2s;"
         onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(79,70,229,0.15)';"
@@ -208,7 +208,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div class="menu-grid">
 
         <!-- Surat Masuk -->
         <a href="/dosen/surat"
@@ -414,6 +414,24 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
   box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
 }
 .content { padding:28px; flex:1; }
+
+/* GRID RESPONSIF */
+.stat-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px;
+}
+.menu-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+}
+
+/* Tablet: 3 -> 2 kolom */
+@media (max-width:1024px) {
+  .stat-grid, .menu-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+/* HP: 2 -> 1 kolom */
+@media (max-width:640px) {
+  .stat-grid, .menu-grid { grid-template-columns:1fr; }
+}
 
 @media (max-width:768px) {
   .menu-toggle { display:block; }
