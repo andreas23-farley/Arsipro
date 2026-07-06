@@ -114,7 +114,7 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- TEMPLATE CARDS -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:28px;">
+    <div class="tmpl-grid">
 
       <!-- Surat Tugas -->
       <div class="tmpl-card" onclick="showTemplate('tugas')" id="card-tugas"
@@ -260,7 +260,7 @@ const currentPath = Astro.url.pathname;
             <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Preview teks template</div>
           </div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           <a id="downloadBtn" href="#" download
             style="padding:9px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;text-decoration:none;"
             onmouseover="this.style.transform='translateY(-1px)';"
@@ -285,8 +285,8 @@ const currentPath = Astro.url.pathname;
       </div>
 
       <!-- Kertas surat -->
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:32px 36px;font-family:'Times New Roman',serif;">
-        <div id="previewContent" style="white-space:pre-line;line-height:1.9;font-size:14px;color:#1e293b;"></div>
+      <div class="surat-paper">
+        <div id="previewContent" style="white-space:pre;line-height:1.9;font-size:14px;color:#1e293b;"></div>
       </div>
 
     </div>
@@ -554,6 +554,25 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
 }
 .content { padding:28px; flex:1; }
 .tmpl-card:hover { transform:translateY(-4px) !important; box-shadow:0 12px 30px rgba(0,0,0,0.12) !important; }
+
+/* ===== GRID + KERTAS SURAT RESPONSIF ===== */
+.tmpl-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; margin-bottom:28px;
+}
+.surat-paper {
+  background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px;
+  padding:32px 36px; font-family:'Times New Roman',serif;
+  overflow-x:auto;               /* biar teks preformatted bisa di-scroll, bukan bikin halaman geser */
+  -webkit-overflow-scrolling:touch;
+}
+
+/* HP kecil: kartu menyusut, kertas surat padding & font lebih kecil */
+@media (max-width:640px) {
+  .tmpl-grid { grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); }
+  .surat-paper { padding:18px 16px; }
+  .surat-paper #previewContent { font-size:12px; }
+}
+
 @media (max-width:768px) {
   .menu-toggle { display:block; }
   .sidebar { left:-260px; }
