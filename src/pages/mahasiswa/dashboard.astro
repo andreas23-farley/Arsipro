@@ -22,6 +22,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   </svg>
 </button>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <aside class="sidebar" id="sidebar">
   <div class="logo">
     <img src="/LOGO.jpg" class="logo-img" alt="Logo"/>
@@ -86,14 +88,14 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <!-- NAVBAR -->
   <header class="navbar">
     <div>
-      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
-      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Mahasiswa</div>
+      <div class="navbar-eyebrow">DASHBOARD</div>
+      <div class="navbar-title">Panel Mahasiswa</div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">M</div>
-      <div>
-        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">Mahasiswa</div>
-        <div style="font-size:11px;color:#64748b;">Mahasiswa</div>
+    <div class="navbar-user">
+      <div class="avatar" id="avatarInit">M</div>
+      <div class="navbar-user-text">
+        <div id="namaUser" class="navbar-user-name">Mahasiswa</div>
+        <div class="navbar-user-role">Mahasiswa</div>
       </div>
     </div>
   </header>
@@ -101,144 +103,126 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
   <main class="content">
 
     <!-- WELCOME BANNER -->
-    <div style="background:linear-gradient(135deg,#10b981,#06b6d4);border-radius:20px;padding:28px 32px;margin-bottom:24px;position:relative;overflow:hidden;">
-      <div style="position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.08);"></div>
-      <div style="position:absolute;bottom:-40px;right:60px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+    <div class="welcome-banner">
+      <div class="welcome-blob welcome-blob--1"></div>
+      <div class="welcome-blob welcome-blob--2"></div>
 
-      <div style="position:relative;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <div class="welcome-inner">
         <div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.75);font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+          <div class="welcome-eyebrow">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="2">
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
               <polyline points="9 22 9 12 15 12 15 22"/>
             </svg>
             Dashboard Mahasiswa
           </div>
-          <h2 style="font-size:22px;font-weight:800;color:white;margin-bottom:6px;">Selamat Datang, <span id="welcomeName">Mahasiswa</span></h2>
-          <p style="font-size:13px;color:rgba(255,255,255,0.8);">Deum Amare Et Amatum Facere — Salam Amare</p>
+          <h2 class="welcome-title">Selamat Datang, <span id="welcomeName">Mahasiswa</span></h2>
+          <p class="welcome-sub">Deum Amare Et Amatum Facere — Salam Amare</p>
         </div>
-        <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.15);padding:12px 16px;border-radius:14px;backdrop-filter:blur(6px);">
-          <div style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;">
+        <div class="welcome-account">
+          <div class="welcome-account-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
           </div>
           <div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.7);">Akun Aktif</div>
-            <div id="welcomeName2" style="font-size:14px;font-weight:700;color:white;">Mahasiswa</div>
+            <div class="welcome-account-label">Akun Aktif</div>
+            <div id="welcomeName2" class="welcome-account-name">Mahasiswa</div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- STAT CARDS -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;">
+    <div class="stat-grid">
 
-      <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-left:4px solid #4f46e5;display:flex;align-items:center;gap:14px;transition:all 0.2s;"
-        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(79,70,229,0.15)';"
-        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';">
-        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-card stat-card--indigo">
+        <div class="stat-card-icon stat-card-icon--indigo">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
           </svg>
         </div>
         <div>
-          <div id="statSuratMasuk" style="font-size:28px;font-weight:800;color:#111827;line-height:1;">0</div>
-          <div style="font-size:13px;color:#6b7280;margin-top:2px;">Surat Masuk</div>
+          <div id="statSuratMasuk" class="stat-card-value">0</div>
+          <div class="stat-card-label">Surat Masuk</div>
         </div>
       </div>
 
-      <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-left:4px solid #06b6d4;display:flex;align-items:center;gap:14px;transition:all 0.2s;"
-        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(6,182,212,0.15)';"
-        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';">
-        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-card stat-card--cyan">
+        <div class="stat-card-icon stat-card-icon--cyan">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
             <line x1="22" y1="2" x2="11" y2="13"/>
             <polygon points="22 2 15 22 11 13 2 9 22 2"/>
           </svg>
         </div>
         <div>
-          <div id="statRequest" style="font-size:28px;font-weight:800;color:#111827;line-height:1;">0</div>
-          <div style="font-size:13px;color:#6b7280;margin-top:2px;">Request Surat</div>
+          <div id="statRequest" class="stat-card-value">0</div>
+          <div class="stat-card-label">Request Surat</div>
         </div>
       </div>
 
-      <div style="background:white;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-left:4px solid #10b981;display:flex;align-items:center;gap:14px;transition:all 0.2s;"
-        onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(16,185,129,0.15)';"
-        onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.07)';">
-        <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="stat-card stat-card--green">
+        <div class="stat-card-icon stat-card-icon--green">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
         </div>
         <div>
-          <div id="statDisetujui" style="font-size:28px;font-weight:800;color:#111827;line-height:1;">0</div>
-          <div style="font-size:13px;color:#6b7280;margin-top:2px;">Request Disetujui</div>
+          <div id="statDisetujui" class="stat-card-value">0</div>
+          <div class="stat-card-label">Request Disetujui</div>
         </div>
       </div>
 
     </div>
 
     <!-- MENU FITUR -->
-    <div style="background:white;border-radius:18px;padding:24px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+    <div class="menu-panel">
 
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;">
-        <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="menu-panel-header">
+        <div class="menu-panel-icon">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
             <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
             <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
           </svg>
         </div>
         <div>
-          <div style="font-size:15px;font-weight:700;color:#111827;">Menu Fitur</div>
-          <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Akses cepat ke semua fitur</div>
+          <div class="menu-panel-title">Menu Fitur</div>
+          <div class="menu-panel-sub">Akses cepat ke semua fitur</div>
         </div>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div class="menu-grid">
 
-        <!-- Surat Masuk -->
-        <a href="/mahasiswa/surat"
-          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#c7d2fe';this.style.boxShadow='0 8px 20px rgba(79,70,229,0.12)';"
-          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
-          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <a href="/mahasiswa/surat" class="menu-item menu-item--indigo">
+          <div class="menu-item-icon menu-item-icon--indigo">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
               <polyline points="22,6 12,13 2,6"/>
             </svg>
           </div>
           <div>
-            <div style="font-size:14px;font-weight:700;color:#111827;">Surat Masuk</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Lihat surat dari admin</div>
+            <div class="menu-item-title">Surat Masuk</div>
+            <div class="menu-item-desc">Lihat surat dari admin</div>
           </div>
         </a>
 
-        <!-- Request Surat -->
-        <a href="/mahasiswa/permintaan"
-          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#a5f3fc';this.style.boxShadow='0 8px 20px rgba(6,182,212,0.12)';"
-          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
-          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#cffafe,#a5f3fc);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <a href="/mahasiswa/permintaan" class="menu-item menu-item--cyan">
+          <div class="menu-item-icon menu-item-icon--cyan">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="2">
               <line x1="22" y1="2" x2="11" y2="13"/>
               <polygon points="22 2 15 22 11 13 2 9 22 2"/>
             </svg>
           </div>
           <div>
-            <div style="font-size:14px;font-weight:700;color:#111827;">Request Surat</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Ajukan surat ke admin</div>
+            <div class="menu-item-title">Request Surat</div>
+            <div class="menu-item-desc">Ajukan surat ke admin</div>
           </div>
         </a>
 
-        <!-- Template Surat -->
-        <a href="/mahasiswa/template"
-          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#a7f3d0';this.style.boxShadow='0 8px 20px rgba(16,185,129,0.12)';"
-          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
-          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <a href="/mahasiswa/template" class="menu-item menu-item--green">
+          <div class="menu-item-icon menu-item-icon--green">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -247,51 +231,39 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
             </svg>
           </div>
           <div>
-            <div style="font-size:14px;font-weight:700;color:#111827;">Template Surat</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Unduh template resmi</div>
+            <div class="menu-item-title">Template Surat</div>
+            <div class="menu-item-desc">Unduh template resmi</div>
           </div>
         </a>
 
-        <!-- Profil -->
-        <a href="/mahasiswa/profil"
-          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#fde68a';this.style.boxShadow='0 8px 20px rgba(245,158,11,0.12)';"
-          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
-          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <a href="/mahasiswa/profil" class="menu-item menu-item--amber">
+          <div class="menu-item-icon menu-item-icon--amber">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
           </div>
           <div>
-            <div style="font-size:14px;font-weight:700;color:#111827;">Profil Saya</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Lihat data akun</div>
+            <div class="menu-item-title">Profil Saya</div>
+            <div class="menu-item-desc">Lihat data akun</div>
           </div>
         </a>
 
-        <!-- Status Request -->
-        <a href="/mahasiswa/permintaan"
-          style="display:flex;align-items:center;gap:14px;padding:18px;background:#f8fafc;border-radius:14px;text-decoration:none;border:1.5px solid #f3f4f6;transition:all 0.2s;"
-          onmouseover="this.style.transform='translateY(-3px)';this.style.borderColor='#fbcfe8';this.style.boxShadow='0 8px 20px rgba(236,72,153,0.12)';"
-          onmouseout="this.style.transform='none';this.style.borderColor='#f3f4f6';this.style.boxShadow='none';">
-          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fce7f3,#fbcfe8);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <a href="/mahasiswa/permintaan" class="menu-item menu-item--pink">
+          <div class="menu-item-icon menu-item-icon--pink">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <polyline points="12 6 12 12 16 14"/>
             </svg>
           </div>
           <div>
-            <div style="font-size:14px;font-weight:700;color:#111827;">Status Request</div>
-            <div style="font-size:12px;color:#6b7280;margin-top:2px;">Cek status pengajuan</div>
+            <div class="menu-item-title">Status Request</div>
+            <div class="menu-item-desc">Cek status pengajuan</div>
           </div>
         </a>
 
-        <!-- Logout -->
-        <a href="/login" onclick="localStorage.clear()"
-          style="display:flex;align-items:center;gap:14px;padding:18px;background:#fff5f5;border-radius:14px;text-decoration:none;border:1.5px solid #fee2e2;transition:all 0.2s;"
-          onmouseover="this.style.background='#fee2e2';this.style.transform='translateY(-3px)';"
-          onmouseout="this.style.background='#fff5f5';this.style.transform='none';">
-          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#fee2e2,#fecaca);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <a href="/login" onclick="localStorage.clear()" class="menu-item menu-item--danger">
+          <div class="menu-item-icon menu-item-icon--danger">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
               <polyline points="16 17 21 12 16 7"/>
@@ -299,8 +271,8 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
             </svg>
           </div>
           <div>
-            <div style="font-size:14px;font-weight:700;color:#dc2626;">Logout</div>
-            <div style="font-size:12px;color:#f87171;margin-top:2px;">Keluar dari akun</div>
+            <div class="menu-item-title menu-item-title--danger">Logout</div>
+            <div class="menu-item-desc menu-item-desc--danger">Keluar dari akun</div>
           </div>
         </a>
 
@@ -310,7 +282,7 @@ const API_URL = import.meta.env.PUBLIC_API_URL;
 
   </main>
 
-  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+  <footer class="footer">
     © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
   </footer>
 
@@ -355,6 +327,7 @@ async function loadStats() {
 
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("sidebarOverlay").classList.toggle("active");
 }
 
 loadStats();
@@ -367,11 +340,18 @@ loadStats();
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
 body { display:flex; background:#f1f5f9; min-height:100vh; }
 
+/* ── MOBILE TOGGLE ── */
 .menu-toggle {
   display:none; position:fixed; top:15px; left:15px; z-index:1002;
   background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
 }
+.sidebar-overlay {
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,0.5);
+  z-index:99; opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.sidebar-overlay.active { opacity:1; pointer-events:auto; }
 
+/* ── SIDEBAR ── */
 .sidebar {
   width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
   color:white; padding:20px 15px; display:flex; flex-direction:column;
@@ -397,19 +377,134 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
 }
 .logout a:hover { background:#7f1d1d; }
 
+/* ── MAIN ── */
 .main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
 .navbar {
   background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
   box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
 }
+.navbar-eyebrow { font-size:13px; color:#64748b; font-weight:500; }
+.navbar-title { font-size:17px; font-weight:700; color:#0f172a; }
+.navbar-user { display:flex; align-items:center; gap:12px; }
+.avatar {
+  width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#10b981,#06b6d4);
+  display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:14px; flex-shrink:0;
+}
+.navbar-user-name { font-size:14px; font-weight:600; color:#0f172a; }
+.navbar-user-role { font-size:11px; color:#64748b; }
+
 .content { padding:28px; flex:1; }
+
+/* ── WELCOME BANNER ── */
+.welcome-banner {
+  background:linear-gradient(135deg,#10b981,#06b6d4); border-radius:20px;
+  padding:28px 32px; margin-bottom:24px; position:relative; overflow:hidden;
+}
+.welcome-blob { position:absolute; border-radius:50%; background:rgba(255,255,255,0.08); }
+.welcome-blob--1 { top:-30px; right:-30px; width:140px; height:140px; }
+.welcome-blob--2 { bottom:-40px; right:60px; width:100px; height:100px; background:rgba(255,255,255,0.05); }
+.welcome-inner { position:relative; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+.welcome-eyebrow { font-size:13px; color:rgba(255,255,255,0.75); font-weight:500; margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+.welcome-title { font-size:22px; font-weight:800; color:white; margin-bottom:6px; }
+.welcome-sub { font-size:13px; color:rgba(255,255,255,0.8); }
+.welcome-account {
+  display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.15);
+  padding:12px 16px; border-radius:14px; backdrop-filter:blur(6px);
+}
+.welcome-account-icon {
+  width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.25);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.welcome-account-label { font-size:12px; color:rgba(255,255,255,0.7); }
+.welcome-account-name { font-size:14px; font-weight:700; color:white; }
+
+/* ── STAT CARDS ── */
+.stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:24px; }
+.stat-card {
+  background:white; border-radius:18px; padding:20px; box-shadow:0 4px 20px rgba(0,0,0,0.07);
+  border-left:4px solid transparent; display:flex; align-items:center; gap:14px; transition:all 0.2s;
+}
+.stat-card:hover { transform:translateY(-3px); }
+.stat-card--indigo { border-left-color:#4f46e5; }
+.stat-card--indigo:hover { box-shadow:0 8px 25px rgba(79,70,229,0.15); }
+.stat-card--cyan { border-left-color:#06b6d4; }
+.stat-card--cyan:hover { box-shadow:0 8px 25px rgba(6,182,212,0.15); }
+.stat-card--green { border-left-color:#10b981; }
+.stat-card--green:hover { box-shadow:0 8px 25px rgba(16,185,129,0.15); }
+.stat-card-icon {
+  width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.stat-card-icon--indigo { background:linear-gradient(135deg,#ede9fe,#ddd6fe); }
+.stat-card-icon--cyan { background:linear-gradient(135deg,#cffafe,#a5f3fc); }
+.stat-card-icon--green { background:linear-gradient(135deg,#d1fae5,#a7f3d0); }
+.stat-card-value { font-size:28px; font-weight:800; color:#111827; line-height:1; }
+.stat-card-label { font-size:13px; color:#6b7280; margin-top:2px; }
+
+/* ── MENU FITUR ── */
+.menu-panel { background:white; border-radius:18px; padding:24px; box-shadow:0 8px 25px rgba(0,0,0,0.07); }
+.menu-panel-header {
+  display:flex; align-items:center; gap:12px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid #f3f4f6;
+}
+.menu-panel-icon {
+  width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,#10b981,#06b6d4);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.menu-panel-title { font-size:15px; font-weight:700; color:#111827; }
+.menu-panel-sub { font-size:12px; color:#9ca3af; margin-top:1px; }
+
+.menu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.menu-item {
+  display:flex; align-items:center; gap:14px; padding:18px; background:#f8fafc;
+  border-radius:14px; text-decoration:none; border:1.5px solid #f3f4f6; transition:all 0.2s;
+}
+.menu-item:hover { transform:translateY(-3px); }
+.menu-item-icon { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.menu-item-title { font-size:14px; font-weight:700; color:#111827; }
+.menu-item-desc { font-size:12px; color:#6b7280; margin-top:2px; }
+
+.menu-item--indigo:hover { border-color:#c7d2fe; box-shadow:0 8px 20px rgba(79,70,229,0.12); }
+.menu-item-icon--indigo { background:linear-gradient(135deg,#ede9fe,#ddd6fe); }
+.menu-item--cyan:hover { border-color:#a5f3fc; box-shadow:0 8px 20px rgba(6,182,212,0.12); }
+.menu-item-icon--cyan { background:linear-gradient(135deg,#cffafe,#a5f3fc); }
+.menu-item--green:hover { border-color:#a7f3d0; box-shadow:0 8px 20px rgba(16,185,129,0.12); }
+.menu-item-icon--green { background:linear-gradient(135deg,#d1fae5,#a7f3d0); }
+.menu-item--amber:hover { border-color:#fde68a; box-shadow:0 8px 20px rgba(245,158,11,0.12); }
+.menu-item-icon--amber { background:linear-gradient(135deg,#fef9c3,#fde68a); }
+.menu-item--pink:hover { border-color:#fbcfe8; box-shadow:0 8px 20px rgba(236,72,153,0.12); }
+.menu-item-icon--pink { background:linear-gradient(135deg,#fce7f3,#fbcfe8); }
+
+.menu-item--danger { background:#fff5f5; border-color:#fee2e2; }
+.menu-item--danger:hover { background:#fee2e2; }
+.menu-item-icon--danger { background:linear-gradient(135deg,#fee2e2,#fecaca); }
+.menu-item-title--danger { color:#dc2626; }
+.menu-item-desc--danger { color:#f87171; }
+
+.footer { text-align:center; padding:16px; font-size:13px; color:#94a3b8; border-top:1px solid #f1f5f9; }
+
+/* ── RESPONSIVE ── */
+@media (max-width:1024px) {
+  .stat-grid { grid-template-columns:repeat(2,1fr); }
+  .menu-grid { grid-template-columns:repeat(2,1fr); }
+}
 
 @media (max-width:768px) {
   .menu-toggle { display:block; }
+  .sidebar-overlay { display:block; }
   .sidebar { left:-260px; }
   .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
   .main { margin-left:0; width:100%; }
-  .navbar { padding-left:60px; }
-  .content { padding:20px 16px; }
+  .navbar { padding:14px 16px 14px 60px; }
+  .content { padding:18px 14px; }
+  .welcome-banner { padding:22px 20px; }
+  .welcome-title { font-size:19px; }
+  .welcome-inner { align-items:flex-start; }
+  .welcome-account { width:100%; }
+}
+
+@media (max-width:560px) {
+  .stat-grid { grid-template-columns:1fr; }
+  .menu-grid { grid-template-columns:1fr; }
+  .navbar-title { font-size:15px; }
+  .welcome-title { font-size:17px; }
 }
 </style>
