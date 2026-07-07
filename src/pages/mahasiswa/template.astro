@@ -21,6 +21,8 @@ const currentPath = Astro.url.pathname;
   </svg>
 </button>
 
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <aside class="sidebar" id="sidebar">
   <div class="logo">
     <img src="/LOGO.jpg" class="logo-img"/>
@@ -85,14 +87,14 @@ const currentPath = Astro.url.pathname;
   <!-- NAVBAR -->
   <header class="navbar">
     <div>
-      <div style="font-size:13px;color:#64748b;font-weight:500;">DASHBOARD</div>
-      <div style="font-size:17px;font-weight:700;color:#0f172a;">Panel Mahasiswa</div>
+      <div class="navbar-eyebrow">DASHBOARD</div>
+      <div class="navbar-title">Panel Mahasiswa</div>
     </div>
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px;" id="avatarInit">M</div>
+    <div class="navbar-user">
+      <div class="avatar" id="avatarInit">M</div>
       <div>
-        <div id="namaUser" style="font-size:14px;font-weight:600;color:#0f172a;">{role}</div>
-        <div style="font-size:11px;color:#64748b;">Mahasiswa</div>
+        <div id="namaUser" class="navbar-user-name">{role}</div>
+        <div class="navbar-user-role">Mahasiswa</div>
       </div>
     </div>
   </header>
@@ -100,40 +102,32 @@ const currentPath = Astro.url.pathname;
   <main class="content">
 
     <!-- HEADER -->
-    <div style="margin-bottom:24px;">
-      <h1 style="font-size:26px;font-weight:700;background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0 0 4px;">Template Surat</h1>
-      <p style="color:#6b7280;font-size:14px;margin:0;">Pilih template surat akademik, lihat preview, lalu unduh file Word (.docx).</p>
+    <div class="page-header">
+      <h1>Template Surat</h1>
+      <p>Pilih template surat akademik, lihat preview, lalu unduh file Word (.docx).</p>
     </div>
 
     <!-- TEMPLATE CARDS -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;margin-bottom:28px;">
+    <div class="tmpl-grid">
 
       <!-- Pengantar Magang -->
-      <div class="tmpl-card" onclick="showTemplate('magang')" id="card-magang"
-        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
-        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="tmpl-card" onclick="showTemplate('magang')" id="card-magang">
+        <div class="tmpl-icon" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2">
             <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
             <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
           </svg>
         </div>
         <div>
-          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Pengantar Magang</div>
-          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat pengantar untuk mahasiswa yang akan melaksanakan magang atau PKL.</div>
+          <div class="tmpl-title">Pengantar Magang</div>
+          <div class="tmpl-desc">Template surat pengantar untuk mahasiswa yang akan melaksanakan magang atau PKL.</div>
         </div>
-        <div style="display:flex;gap:8px;margin-top:auto;">
-          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('magang')"
-            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
-            onmouseover="this.style.borderColor='#10b981';this.style.color='#059669';"
-            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+        <div class="tmpl-actions">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('magang')">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             Preview
           </button>
-          <a href="/templates/template-surat-pengantar-magang.docx" download
-            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
-            onclick="event.stopPropagation();"
-            onmouseover="this.style.transform='translateY(-1px)';"
-            onmouseout="this.style.transform='none';">
+          <a href="/templates/template-surat-pengantar-magang.docx" download class="btn-dl" style="background:linear-gradient(135deg,#10b981,#06b6d4);" onclick="event.stopPropagation();">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Unduh .docx
           </a>
@@ -141,31 +135,23 @@ const currentPath = Astro.url.pathname;
       </div>
 
       <!-- Pengantar Skripsi -->
-      <div class="tmpl-card" onclick="showTemplate('skripsi')" id="card-skripsi"
-        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
-        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="tmpl-card" onclick="showTemplate('skripsi')" id="card-skripsi">
+        <div class="tmpl-icon" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
         </div>
         <div>
-          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Pengantar Skripsi</div>
-          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat pengantar penelitian atau pengajuan skripsi mahasiswa.</div>
+          <div class="tmpl-title">Pengantar Skripsi</div>
+          <div class="tmpl-desc">Template surat pengantar penelitian atau pengajuan skripsi mahasiswa.</div>
         </div>
-        <div style="display:flex;gap:8px;margin-top:auto;">
-          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('skripsi')"
-            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
-            onmouseover="this.style.borderColor='#4f46e5';this.style.color='#4f46e5';"
-            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+        <div class="tmpl-actions">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('skripsi')">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             Preview
           </button>
-          <a href="/templates/template-surat-pengantar-skripsi.docx" download
-            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
-            onclick="event.stopPropagation();"
-            onmouseover="this.style.transform='translateY(-1px)';"
-            onmouseout="this.style.transform='none';">
+          <a href="/templates/template-surat-pengantar-skripsi.docx" download class="btn-dl" style="background:linear-gradient(135deg,#4f46e5,#06b6d4);" onclick="event.stopPropagation();">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Unduh .docx
           </a>
@@ -173,31 +159,23 @@ const currentPath = Astro.url.pathname;
       </div>
 
       <!-- Mahasiswa Aktif -->
-      <div class="tmpl-card" onclick="showTemplate('aktif')" id="card-aktif"
-        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
-        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#e0f2fe,#bae6fd);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="tmpl-card" onclick="showTemplate('aktif')" id="card-aktif">
+        <div class="tmpl-icon" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2">
             <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
             <path d="M6 12v5c3 3 9 3 12 0v-5"/>
           </svg>
         </div>
         <div>
-          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Mahasiswa Aktif</div>
-          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat keterangan mahasiswa masih aktif kuliah di kampus.</div>
+          <div class="tmpl-title">Mahasiswa Aktif</div>
+          <div class="tmpl-desc">Template surat keterangan mahasiswa masih aktif kuliah di kampus.</div>
         </div>
-        <div style="display:flex;gap:8px;margin-top:auto;">
-          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('aktif')"
-            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
-            onmouseover="this.style.borderColor='#0369a1';this.style.color='#0369a1';"
-            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+        <div class="tmpl-actions">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('aktif')">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             Preview
           </button>
-          <a href="/templates/template-surat-keterangan-aktif.docx" download
-            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#0369a1,#06b6d4);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
-            onclick="event.stopPropagation();"
-            onmouseover="this.style.transform='translateY(-1px)';"
-            onmouseout="this.style.transform='none';">
+          <a href="/templates/template-surat-keterangan-aktif.docx" download class="btn-dl" style="background:linear-gradient(135deg,#0369a1,#06b6d4);" onclick="event.stopPropagation();">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Unduh .docx
           </a>
@@ -205,31 +183,23 @@ const currentPath = Astro.url.pathname;
       </div>
 
       <!-- Beasiswa -->
-      <div class="tmpl-card" onclick="showTemplate('beasiswa')" id="card-beasiswa"
-        style="background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border:2px solid #f3f4f6;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;gap:12px;">
-        <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#fef9c3,#fde68a);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <div class="tmpl-card" onclick="showTemplate('beasiswa')" id="card-beasiswa">
+        <div class="tmpl-icon" style="background:linear-gradient(135deg,#fef9c3,#fde68a);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2">
             <circle cx="12" cy="8" r="6"/>
             <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/>
           </svg>
         </div>
         <div>
-          <div style="font-size:15px;font-weight:700;color:#111827;margin-bottom:5px;">Pengajuan Beasiswa</div>
-          <div style="font-size:13px;color:#6b7280;line-height:1.5;">Template surat permohonan beasiswa untuk kebutuhan pendidikan mahasiswa.</div>
+          <div class="tmpl-title">Pengajuan Beasiswa</div>
+          <div class="tmpl-desc">Template surat permohonan beasiswa untuk kebutuhan pendidikan mahasiswa.</div>
         </div>
-        <div style="display:flex;gap:8px;margin-top:auto;">
-          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('beasiswa')"
-            style="flex:1;padding:8px;border:1.5px solid #e5e7eb;border-radius:9px;background:white;color:#374151;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;"
-            onmouseover="this.style.borderColor='#d97706';this.style.color='#d97706';"
-            onmouseout="this.style.borderColor='#e5e7eb';this.style.color='#374151';">
+        <div class="tmpl-actions">
+          <button class="btn-prev" onclick="event.stopPropagation();showTemplate('beasiswa')">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             Preview
           </button>
-          <a href="/templates/template-surat-pengajuan-beasiswa.docx" download
-            style="flex:1;padding:8px;border:none;border-radius:9px;background:linear-gradient(135deg,#d97706,#f59e0b);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;"
-            onclick="event.stopPropagation();"
-            onmouseover="this.style.transform='translateY(-1px)';"
-            onmouseout="this.style.transform='none';">
+          <a href="/templates/template-surat-pengajuan-beasiswa.docx" download class="btn-dl" style="background:linear-gradient(135deg,#d97706,#f59e0b);" onclick="event.stopPropagation();">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Unduh .docx
           </a>
@@ -239,21 +209,18 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- PREVIEW PANEL -->
-    <div id="previewPanel" style="display:none;background:white;border-radius:18px;padding:28px;box-shadow:0 8px 25px rgba(0,0,0,0.07);">
+    <div id="previewPanel" class="preview-panel">
 
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #f3f4f6;flex-wrap:wrap;gap:12px;">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div id="previewIcon" style="width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"></div>
+      <div class="preview-header">
+        <div class="preview-header-left">
+          <div id="previewIcon" class="preview-icon"></div>
           <div>
-            <div id="previewTitle" style="font-size:15px;font-weight:700;color:#111827;"></div>
-            <div style="font-size:12px;color:#9ca3af;margin-top:1px;">Preview teks template</div>
+            <div id="previewTitle" class="preview-title"></div>
+            <div class="preview-sub">Preview teks template</div>
           </div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <a id="downloadBtn" href="#" download
-            style="padding:9px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,#10b981,#06b6d4);color:white;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;text-decoration:none;"
-            onmouseover="this.style.transform='translateY(-1px)';"
-            onmouseout="this.style.transform='none';">
+        <div class="preview-header-actions">
+          <a id="downloadBtn" href="#" download class="preview-download-btn">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
@@ -261,10 +228,7 @@ const currentPath = Astro.url.pathname;
             </svg>
             Unduh File .docx
           </a>
-          <button onclick="document.getElementById('previewPanel').style.display='none'"
-            style="padding:9px 14px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;color:#6b7280;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;"
-            onmouseover="this.style.background='#f9fafb';"
-            onmouseout="this.style.background='white';">
+          <button onclick="document.getElementById('previewPanel').classList.remove('preview-panel--open')" class="preview-close-btn">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
@@ -273,14 +237,14 @@ const currentPath = Astro.url.pathname;
         </div>
       </div>
 
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:32px 36px;font-family:'Times New Roman',serif;">
-        <div id="previewContent" style="white-space:pre-line;line-height:1.9;font-size:14px;color:#1e293b;"></div>
+      <div class="preview-doc">
+        <div id="previewContent" class="preview-doc-content"></div>
       </div>
 
     </div>
 
     <!-- EMPTY HINT -->
-    <div id="emptyHint" style="background:white;border-radius:18px;padding:48px 28px;box-shadow:0 8px 25px rgba(0,0,0,0.07);text-align:center;">
+    <div id="emptyHint" class="empty-hint">
       <div style="display:flex;justify-content:center;margin-bottom:16px;">
         <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.2">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -296,7 +260,7 @@ const currentPath = Astro.url.pathname;
 
   </main>
 
-  <footer style="text-align:center;padding:16px;font-size:13px;color:#94a3b8;border-top:1px solid #f1f5f9;">
+  <footer class="footer">
     © 2026 ARSIPRO — Sistem Manajemen Arsip Surat
   </footer>
 
@@ -510,13 +474,14 @@ window.showTemplate = function(type) {
   document.getElementById("previewIcon").style.background = t.iconBg;
   document.getElementById("previewIcon").innerHTML = t.iconPath;
 
-  document.getElementById("emptyHint").style.display   = "none";
-  document.getElementById("previewPanel").style.display = "block";
+  document.getElementById("emptyHint").style.display = "none";
+  document.getElementById("previewPanel").classList.add("preview-panel--open");
   document.getElementById("previewPanel").scrollIntoView({ behavior:"smooth", block:"start" });
 };
 
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("active");
+  document.getElementById("sidebarOverlay").classList.toggle("active");
 }
 </script>
 
@@ -526,10 +491,19 @@ function toggleSidebar() {
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
 body { display:flex; background:#f1f5f9; min-height:100vh; }
+
+/* ── MOBILE TOGGLE ── */
 .menu-toggle {
   display:none; position:fixed; top:15px; left:15px; z-index:1002;
   background:#1e293b; color:white; border:none; padding:10px 12px; border-radius:8px; cursor:pointer;
 }
+.sidebar-overlay {
+  display:none; position:fixed; inset:0; background:rgba(15,23,42,0.5);
+  z-index:99; opacity:0; pointer-events:none; transition:opacity .2s;
+}
+.sidebar-overlay.active { opacity:1; pointer-events:auto; }
+
+/* ── SIDEBAR ── */
 .sidebar {
   width:250px; height:100vh; background:linear-gradient(180deg,#0f172a,#1e293b);
   color:white; padding:20px 15px; display:flex; flex-direction:column;
@@ -554,19 +528,100 @@ body { display:flex; background:#f1f5f9; min-height:100vh; }
   padding:11px 13px; border-radius:10px; color:#fca5a5; text-decoration:none; font-size:14px; font-weight:500; transition:.2s;
 }
 .logout a:hover { background:#7f1d1d; }
+
+/* ── MAIN / NAVBAR ── */
 .main { margin-left:250px; width:calc(100% - 250px); display:flex; flex-direction:column; min-height:100vh; }
 .navbar {
   background:white; padding:16px 28px; display:flex; justify-content:space-between; align-items:center;
   box-shadow:0 2px 10px rgba(0,0,0,.06); position:sticky; top:0; z-index:50;
 }
+.navbar-eyebrow { font-size:13px; color:#64748b; font-weight:500; }
+.navbar-title { font-size:17px; font-weight:700; color:#0f172a; }
+.navbar-user { display:flex; align-items:center; gap:12px; }
+.avatar {
+  width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#10b981,#06b6d4);
+  display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:14px; flex-shrink:0;
+}
+.navbar-user-name { font-size:14px; font-weight:600; color:#0f172a; }
+.navbar-user-role { font-size:11px; color:#64748b; }
+
 .content { padding:28px; flex:1; }
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom:24px; }
+.page-header h1 {
+  font-size:26px; font-weight:700; margin:0 0 4px;
+  background:linear-gradient(135deg,#10b981,#06b6d4);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.page-header p { color:#6b7280; font-size:14px; margin:0; }
+
+/* ── TEMPLATE CARDS ── */
+.tmpl-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; margin-bottom:28px; }
+.tmpl-card {
+  background:white; border-radius:18px; padding:22px; box-shadow:0 4px 20px rgba(0,0,0,0.07);
+  border:2px solid #f3f4f6; cursor:pointer; transition:all 0.2s; display:flex; flex-direction:column; gap:12px;
+}
 .tmpl-card:hover { transform:translateY(-4px) !important; box-shadow:0 12px 30px rgba(0,0,0,0.12) !important; }
+.tmpl-icon { width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.tmpl-title { font-size:15px; font-weight:700; color:#111827; margin-bottom:5px; }
+.tmpl-desc { font-size:13px; color:#6b7280; line-height:1.5; }
+.tmpl-actions { display:flex; gap:8px; margin-top:auto; }
+.btn-prev, .btn-dl {
+  flex:1; padding:8px; border-radius:9px; font-size:12px; font-weight:700; cursor:pointer;
+  font-family:inherit; display:flex; align-items:center; justify-content:center; gap:5px; transition:all .2s; text-decoration:none;
+}
+.btn-prev { border:1.5px solid #e5e7eb; background:white; color:#374151; }
+.tmpl-card:hover .btn-prev { border-color:#10b981; color:#059669; }
+.btn-dl { border:none; color:white; }
+.btn-dl:hover { transform:translateY(-1px); }
+
+/* ── PREVIEW PANEL ── */
+.preview-panel { display:none; background:white; border-radius:18px; padding:28px; box-shadow:0 8px 25px rgba(0,0,0,0.07); }
+.preview-panel--open { display:block; }
+.preview-header {
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;
+  padding-bottom:16px; border-bottom:1px solid #f3f4f6; flex-wrap:wrap; gap:12px;
+}
+.preview-header-left { display:flex; align-items:center; gap:12px; }
+.preview-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.preview-title { font-size:15px; font-weight:700; color:#111827; }
+.preview-sub { font-size:12px; color:#9ca3af; margin-top:1px; }
+.preview-header-actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.preview-download-btn {
+  padding:9px 18px; border:none; border-radius:10px; background:linear-gradient(135deg,#10b981,#06b6d4);
+  color:white; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit;
+  display:inline-flex; align-items:center; gap:6px; text-decoration:none; transition:transform .2s;
+}
+.preview-download-btn:hover { transform:translateY(-1px); }
+.preview-close-btn {
+  padding:9px 14px; border:1.5px solid #e5e7eb; border-radius:10px; background:white; color:#6b7280;
+  font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; display:flex; align-items:center; gap:5px; transition:background .2s;
+}
+.preview-close-btn:hover { background:#f9fafb; }
+.preview-doc { background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:32px 36px; font-family:'Times New Roman',serif; }
+.preview-doc-content { white-space:pre-line; line-height:1.9; font-size:14px; color:#1e293b; }
+
+.empty-hint { background:white; border-radius:18px; padding:48px 28px; box-shadow:0 8px 25px rgba(0,0,0,0.07); text-align:center; }
+
+.footer { text-align:center; padding:16px; font-size:13px; color:#94a3b8; border-top:1px solid #f1f5f9; }
+
+/* ── RESPONSIVE ── */
 @media (max-width:768px) {
   .menu-toggle { display:block; }
+  .sidebar-overlay { display:block; }
   .sidebar { left:-260px; }
   .sidebar.active { left:0; box-shadow:4px 0 20px rgba(0,0,0,0.3); }
   .main { margin-left:0; width:100%; }
-  .navbar { padding-left:60px; }
-  .content { padding:20px 16px; }
+  .navbar { padding:14px 16px 14px 60px; }
+  .content { padding:18px 14px; }
+  .page-header h1 { font-size:21px; }
+  .tmpl-grid { grid-template-columns:1fr; }
+  .preview-panel { padding:18px; }
+  .preview-doc { padding:18px 16px; }
+  .preview-doc-content { font-size:12.5px; }
+  .preview-header-actions { width:100%; }
+  .preview-download-btn, .preview-close-btn { flex:1; justify-content:center; }
+  .empty-hint { padding:36px 20px; }
 }
 </style>
